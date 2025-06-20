@@ -1,0 +1,17 @@
+{
+  "name": "com.hiplay.jframework",
+  "displayName": "JFramework",
+  "version": "1.0.0",
+  "unity": "2021.3",
+  "description": "Description of your package",
+  "keywords": [ "keyword1", "keyword2" ],
+  "category": "framework",
+  "dependencies": {
+    "com.unity.somepackage": "1.0.0"
+  },
+  "author": {
+    "name": "Jichunwei",
+    "email": "49595272@qq.com",
+    "url": "https://hiplay.ren"
+  }
+}
