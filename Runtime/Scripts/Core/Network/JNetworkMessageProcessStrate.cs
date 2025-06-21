@@ -7,8 +7,13 @@ namespace JFramework
     /// <summary>
     /// 网络消息处理策略基类
     /// </summary>
-    public abstract class JNetworkMessageProcessStrate : INetworkMessageProcessStrate
+    public class JNetworkMessageProcessStrate : INetworkMessageProcessStrate
     {
+
+        ISerializerStrate strate;
+        JDataProcesserManager outProcesser;
+        JDataProcesserManager comingProcesser;
+
         /// <summary>
         /// 处理出去的消息
         /// </summary>
@@ -54,18 +59,26 @@ namespace JFramework
         /// 获取序列化工具，子类实现
         /// </summary>
         /// <returns></returns>
-        public abstract ISerializerStrate GetSerializerStrate();
+        public ISerializerStrate GetSerializerStrate() =>strate;
 
         /// <summary>
         /// 数据出去前的处理工具
         /// </summary>
         /// <returns></returns>
-        public virtual JDataProcesserManager GetDataOutProcesser() => null;
+        public virtual JDataProcesserManager GetDataOutProcesser() => outProcesser;
 
         /// <summary>
         /// 数据进来时候的处理工具
         /// </summary>
         /// <returns></returns>
-        public virtual JDataProcesserManager GetDataComingProcesser() => null;
+        public virtual JDataProcesserManager GetDataComingProcesser() => comingProcesser;
+
+
+        public JNetworkMessageProcessStrate(ISerializerStrate strate , JDataProcesserManager outProcesser, JDataProcesserManager comingProcesser)
+        {
+            this.strate = strate;
+            this.outProcesser = outProcesser;
+            this.comingProcesser = comingProcesser; 
+        }
     }
 }
