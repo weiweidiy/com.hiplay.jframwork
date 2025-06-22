@@ -10,7 +10,7 @@ namespace JFramework
 
         private readonly JDataProcesserManager outProcesser;
         private readonly JDataProcesserManager comingProcesser;
-        private readonly INetMessageSerializerStrate serializer;
+        private readonly INetMessageSerializerStrate serializerStrate;
         private readonly IMessageTypeResolver typeResolver;
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace JFramework
         /// 获取序列化工具，子类实现
         /// </summary>
         /// <returns></returns>
-        public INetMessageSerializerStrate GetSerializer() => serializer;
+        public INetMessageSerializerStrate GetSerializer() => serializerStrate;
 
         /// <summary>
         /// 数据出去前的处理工具
@@ -60,47 +60,13 @@ namespace JFramework
         /// <returns></returns>
         public virtual JDataProcesserManager GetDataComingProcesser() => comingProcesser;
 
-        ///// <summary>
-        ///// 序列化（应该可以扩展，比如json，或者protobuf等）
-        ///// </summary>
-        ///// <param name="obj"></param>
-        ///// <returns></returns>
-        //public byte[] Serlialize(IUnique obj)
-        //{
-        //    var json = serializer.ToJson(obj);
-        //    return Encoding.UTF8.GetBytes(json);
-        //}
-
-        ///// <summary>
-        ///// 反序列化成对象（应该可以扩展，比如自定义json，protobuf等
-        ///// </summary>
-        ///// <param name="data"></param>
-        ///// <returns></returns>
-        ///// <exception cref="Exception"></exception>
-        //public IUnique Deserialize(byte[] data)
-        //{
-        //    //处理接收的数据=>反序列化等()
-        //    string msg;
-        //    try
-        //    {
-        //        msg = Encoding.UTF8.GetString(data);
-        //    }
-        //    catch (DecoderFallbackException)
-        //    {
-        //        throw new Exception("Invalid UTF-8 data received.");
-        //    }
-
-        //    //to do: 要序列化成指定的类型
-        //    return serializer.ToObject<IUnique>(msg);
-        //}
-
-
 
         public JNetworkMessageProcessStrate(INetMessageSerializerStrate serializer, IMessageTypeResolver typeResolver, JDataProcesserManager outProcesser, JDataProcesserManager comingProcesser)
         {
-            this.serializer = serializer;
+            this.serializerStrate = serializer;
             this.outProcesser = outProcesser;
             this.comingProcesser = comingProcesser;
+            this.typeResolver = typeResolver;
         }
     }
 }
