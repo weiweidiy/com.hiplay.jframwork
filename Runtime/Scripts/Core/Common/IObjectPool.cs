@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace JFramework.Common.Interface
+namespace JFramework
 {
     public interface IObjectPool
     {

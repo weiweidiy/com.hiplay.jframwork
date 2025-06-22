@@ -6,7 +6,7 @@ using System.Threading;
 //using System.Reactive.Subjects;
 using System.Threading.Tasks;
 
-namespace JFramework.Common
+namespace JFramework
 {
 
     public class JTaskCompletionSourceManager<T> : IJTaskCompletionSourceManager<T>

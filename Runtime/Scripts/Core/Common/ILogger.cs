@@ -1,8 +1,8 @@
-﻿namespace JFramework.Common.Interface
+﻿namespace JFramework
 {
     public interface ILogger
     {
-        void Log(object message);  
+        void Log(object message);
         void LogError(object message);
     }
 }

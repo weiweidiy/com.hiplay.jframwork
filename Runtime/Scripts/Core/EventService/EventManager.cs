@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using JFramework.Common.Interface;
 
 namespace JFramework
 {

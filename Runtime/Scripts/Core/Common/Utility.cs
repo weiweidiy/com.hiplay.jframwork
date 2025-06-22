@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace JFramework.Common
+namespace JFramework
 {
     public class Utility
     {
@@ -28,7 +28,7 @@ namespace JFramework.Common
         public void BinarySort<T>(T[] arr, IComparer<T> comparer)
         {
             T temp;
-            int  j, mid;
+            int j, mid;
             for (int i = 0; i < arr.Length; i++)
             {
                 temp = arr[i];
@@ -41,7 +41,7 @@ namespace JFramework.Common
                     mid = (right - left) / 2 + left;
 
                     //if (temp > arr[mid])
-                    if(comparer.Compare(temp, arr[mid]) > 0)    
+                    if (comparer.Compare(temp, arr[mid]) > 0)
                     {
                         left = mid + 1;
                     }
@@ -120,7 +120,7 @@ namespace JFramework.Common
                 if (comparer.Compare(sortedList[mid], target) == 0)
                     return mid; // 如果找到，返回其索引
                 //if (sortedList[mid] < target)
-                if(comparer.Compare(sortedList[mid] , target) < 0)
+                if (comparer.Compare(sortedList[mid], target) < 0)
                     left = mid + 1; // 如果目标大于中间值，则在右半部分继续查找
                 else
                     right = mid - 1; // 如果目标小于中间值，则在左半部分继续查找
@@ -207,7 +207,7 @@ namespace JFramework.Common
 
             // 判断是否命中
             return randomNumber >= 0 && randomNumber <= hitValue;
-           
+
         }
 
 

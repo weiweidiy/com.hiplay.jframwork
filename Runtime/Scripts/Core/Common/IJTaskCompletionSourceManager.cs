@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace JFramework.Common
+namespace JFramework
 {
     public interface IJTaskCompletionSourceManager<T>
     {
