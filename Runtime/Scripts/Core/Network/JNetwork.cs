@@ -22,7 +22,7 @@ namespace JFramework
         /// </summary>
         public event Action onOpen;
         public event Action<SocketStatusCodes, string> onClose;
-        public event Action<IUnique> onMessage;
+        public event Action<IJNetMessage> onMessage;
         public event Action<string> onError;
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace JFramework
         /// <param name="timeout"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public async Task<TResponse> SendMessage<TResponse>(IUnique pMsg, TimeSpan? timeout = null) where TResponse : class, IUnique
+        public async Task<TResponse> SendMessage<TResponse>(IJNetMessage pMsg, TimeSpan? timeout = null) where TResponse : class, IJNetMessage
         {
             var socket = GetSocket();
 

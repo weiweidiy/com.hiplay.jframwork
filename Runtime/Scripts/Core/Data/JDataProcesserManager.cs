@@ -3,7 +3,7 @@ using System.Text;
 using JFramework.Common.Interface;
 using System.Linq;
 
-namespace JFramework.Common
+namespace JFramework
 {
     public class JDataProcesserManager
     {

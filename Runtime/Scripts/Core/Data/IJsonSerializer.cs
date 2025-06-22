@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace JFramework.Common.Interface
+namespace JFramework
 {
-    public interface ISerializer
+    public interface IJsonSerializer
     {
         string ToJson(object obj);
 

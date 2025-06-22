@@ -1,7 +1,9 @@
 ﻿namespace JFramework
 {
-    public abstract class JNetMessage : IUnique
+    public class JNetMessage : IJNetMessage
     {
-        public abstract string Uid { get; }
+        public virtual string Uid { get; set; }
+
+        public virtual int TypeId { get; set; }
     }
 }

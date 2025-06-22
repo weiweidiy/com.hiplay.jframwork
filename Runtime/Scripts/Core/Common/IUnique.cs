@@ -7,5 +7,13 @@
     {
         string Uid { get; }
     }
+
+    /// <summary>
+    /// 拥有typeId
+    /// </summary>
+    public interface ITypeId
+    {
+        int TypeId { get; }
+    }
 }
 

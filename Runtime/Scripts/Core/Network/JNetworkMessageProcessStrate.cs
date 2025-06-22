@@ -1,6 +1,4 @@
-﻿using System.Text;
-using System;
-using JFramework.Common;
+﻿using System;
 
 namespace JFramework
 {
@@ -10,19 +8,20 @@ namespace JFramework
     public class JNetworkMessageProcessStrate : INetworkMessageProcessStrate
     {
 
-        ISerializerStrate strate;
-        JDataProcesserManager outProcesser;
-        JDataProcesserManager comingProcesser;
+        private readonly JDataProcesserManager outProcesser;
+        private readonly JDataProcesserManager comingProcesser;
+        private readonly INetMessageSerializerStrate serializer;
+        private readonly IMessageTypeResolver typeResolver;
 
         /// <summary>
         /// 处理出去的消息
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        public byte[] ProcessOutMessage(IUnique message)
+        public byte[] ProcessOutMessage(IJNetMessage message)
         {
             //转json->byte[]
-            var byteMsg = GetSerializerStrate().Serlialize(message);
+            var byteMsg = GetSerializer().Serialize(message);
 
             //数据处理（比如加密，编码等）
             return GetDataOutProcesser() != null ? GetDataOutProcesser().GetResult(byteMsg) : byteMsg;
@@ -34,24 +33,12 @@ namespace JFramework
         /// <param name="data"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public IUnique ProcessComingMessage(byte[] data)
+        public IJNetMessage ProcessComingMessage(byte[] data)
         {
             //数据加工           
             data = GetDataComingProcesser() != null ? GetDataComingProcesser().GetResult(data) : data;
 
-            //处理接收的数据=>反序列化等
-            string msg;
-            try
-            {
-                msg = Encoding.UTF8.GetString(data);
-            }
-            catch (DecoderFallbackException)
-            {
-                throw new Exception("Invalid UTF-8 data received.");
-            }
-
-
-            return GetSerializerStrate().Deserialize(data);
+            return GetSerializer().Deserialize(data, typeResolver);
 
         }
 
@@ -59,7 +46,7 @@ namespace JFramework
         /// 获取序列化工具，子类实现
         /// </summary>
         /// <returns></returns>
-        public ISerializerStrate GetSerializerStrate() =>strate;
+        public INetMessageSerializerStrate GetSerializer() => serializer;
 
         /// <summary>
         /// 数据出去前的处理工具
@@ -73,12 +60,47 @@ namespace JFramework
         /// <returns></returns>
         public virtual JDataProcesserManager GetDataComingProcesser() => comingProcesser;
 
+        ///// <summary>
+        ///// 序列化（应该可以扩展，比如json，或者protobuf等）
+        ///// </summary>
+        ///// <param name="obj"></param>
+        ///// <returns></returns>
+        //public byte[] Serlialize(IUnique obj)
+        //{
+        //    var json = serializer.ToJson(obj);
+        //    return Encoding.UTF8.GetBytes(json);
+        //}
 
-        public JNetworkMessageProcessStrate(ISerializerStrate strate , JDataProcesserManager outProcesser, JDataProcesserManager comingProcesser)
+        ///// <summary>
+        ///// 反序列化成对象（应该可以扩展，比如自定义json，protobuf等
+        ///// </summary>
+        ///// <param name="data"></param>
+        ///// <returns></returns>
+        ///// <exception cref="Exception"></exception>
+        //public IUnique Deserialize(byte[] data)
+        //{
+        //    //处理接收的数据=>反序列化等()
+        //    string msg;
+        //    try
+        //    {
+        //        msg = Encoding.UTF8.GetString(data);
+        //    }
+        //    catch (DecoderFallbackException)
+        //    {
+        //        throw new Exception("Invalid UTF-8 data received.");
+        //    }
+
+        //    //to do: 要序列化成指定的类型
+        //    return serializer.ToObject<IUnique>(msg);
+        //}
+
+
+
+        public JNetworkMessageProcessStrate(INetMessageSerializerStrate serializer, IMessageTypeResolver typeResolver, JDataProcesserManager outProcesser, JDataProcesserManager comingProcesser)
         {
-            this.strate = strate;
+            this.serializer = serializer;
             this.outProcesser = outProcesser;
-            this.comingProcesser = comingProcesser; 
+            this.comingProcesser = comingProcesser;
         }
     }
 }

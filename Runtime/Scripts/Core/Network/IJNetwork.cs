@@ -17,7 +17,7 @@ namespace JFramework
     {
         event Action onOpen;
         event Action<SocketStatusCodes, string> onClose;
-        event Action<IUnique> onMessage;
+        event Action<IJNetMessage> onMessage;
         //event Action<byte[]> onBinary;
         event Action<string> onError;
 
@@ -25,7 +25,7 @@ namespace JFramework
 
         void Disconnect();
 
-        Task<TResponse> SendMessage<TResponse>(IUnique pMsg, TimeSpan? timeout = null) where TResponse : class, IUnique;
+        Task<TResponse> SendMessage<TResponse>(IJNetMessage pMsg, TimeSpan? timeout = null) where TResponse : class, IJNetMessage;
 
         bool IsConnecting();
     }
