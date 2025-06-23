@@ -10,17 +10,14 @@ namespace JFramework.Common
     public abstract class Reader : IReader
     {
         public abstract byte[] Read(string location);
-        public abstract Task<byte[]> ReadAsync(string location);
+        public abstract Task<T> ReadAsync<T>(string location, IConverter<T> converter);
 
         /// <summary>
         /// 数据加工处理器
         /// </summary>
         private JDataProcesserManager _processer;
 
-        /// <summary>
-        /// 无参构造器
-        /// </summary>
-        public Reader() : this(null) { }
+
 
         /// <summary>
         /// 构造器
@@ -29,6 +26,7 @@ namespace JFramework.Common
         public Reader(JDataProcesserManager processer)
         {
             _processer = processer;
+
         }
 
         /// <summary>

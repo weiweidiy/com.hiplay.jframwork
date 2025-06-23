@@ -1,5 +1,4 @@
-﻿using JFramework.Common.Interface;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace JFramework.Configuration
 {

@@ -4,10 +4,10 @@ using System.Security.Cryptography;
 using System.Text;
 using JFramework.Common.Interface;
 
-namespace JFramework.Common
+namespace JFramework
 {
 
-    public class RijndaelEncrypter : IEncrypter , IProcesser
+    public class RijndaelEncrypter : IEncrypter, IProcesser
     {
         /// <summary>
         /// 加密密码：32位字符串
@@ -31,7 +31,7 @@ namespace JFramework.Common
         public byte[] Encrypt(byte[] toEncryptArray)
         {
             //密匙
-            byte[] keyArray = UTF8Encoding.UTF8.GetBytes(_pKey);
+            byte[] keyArray = Encoding.UTF8.GetBytes(_pKey);
 
             RijndaelManaged rDel = new RijndaelManaged();
             rDel.Key = keyArray;

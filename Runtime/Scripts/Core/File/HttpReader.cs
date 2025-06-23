@@ -17,9 +17,9 @@ namespace JFramework.Common
         /// </summary>
         IHttpRequest _webRequest;
 
-        public HttpReader(IHttpRequest webRequest) : this(webRequest, null) { }
+        public HttpReader(IHttpRequest webRequest) : this(webRequest,  null) { }
 
-        public HttpReader(IHttpRequest webRequest , JDataProcesserManager processer) : base(processer)
+        public HttpReader(IHttpRequest webRequest,  JDataProcesserManager processer) : base( processer)
         {
             _webRequest = webRequest;
         }
@@ -46,15 +46,16 @@ namespace JFramework.Common
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public override async Task<byte[]> ReadAsync(string url)
+        public override async Task<T> ReadAsync<T>(string url, IConverter<T> converter)
         {
             try
             {
-                return await _webRequest.GetAsync(url);
-            }catch(Exception e)
+                return converter.Convert(await _webRequest.GetAsync(url));
+            }
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                return null;
+                return default(T);
             }
         }
 

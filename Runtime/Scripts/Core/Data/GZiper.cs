@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Text;
-using JFramework.Common.Interface;
 
-namespace JFramework.Common
+namespace JFramework
 {
-    public class GZiper : ICompress , IProcesser
+    public class GZiper : ICompress, IProcesser
     {
         /// <summary>
         /// 压缩字节

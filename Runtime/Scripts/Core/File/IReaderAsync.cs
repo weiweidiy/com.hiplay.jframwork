@@ -7,6 +7,6 @@ namespace JFramework.Common.Interface
 {
     public interface IReaderAsync
     {
-        Task<byte[]> ReadAsync(string location);
+        Task<T> ReadAsync<T>(string location, IConverter<T> converter);
     }
 }
