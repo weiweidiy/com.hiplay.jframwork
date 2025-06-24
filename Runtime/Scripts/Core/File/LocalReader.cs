@@ -22,7 +22,7 @@ namespace JFramework.Common
         /// 构造函数
         /// </summary>
         /// <param name="processer"></param>
-        public LocalReader(JDataProcesserManager processer) : base(processer) { }
+        public LocalReader(JDataProcesserManager processer) : base( processer) { }
 
         /// <summary>
         /// 同步读取路径文件
@@ -57,7 +57,7 @@ namespace JFramework.Common
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        public override async Task<byte[]> ReadAsync(string filePath)
+        public override async Task<T> ReadAsync<T>(string filePath, IConverter<T> converter)
         {
             try
             {
@@ -70,12 +70,12 @@ namespace JFramework.Common
                     //数据加工
                     bytes = GetProcessResult(bytes);
 
-                    return bytes;
+                    return converter.Convert(bytes);
                 }
             }catch(Exception e)
             {
                 Console.WriteLine(e.Message);
-                return null;
+                return default(T);
             }
 
         }

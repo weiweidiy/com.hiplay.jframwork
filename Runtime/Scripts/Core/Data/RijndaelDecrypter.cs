@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
-using JFramework.Common.Interface;
 
-namespace JFramework.Common
+namespace JFramework
 {
-    public class RijndaelDecrypter : IDecrypter , IProcesser
+    public class RijndaelDecrypter : IDecrypter, IProcesser
     {
         /// <summary>
         /// 32位密钥
@@ -30,7 +29,7 @@ namespace JFramework.Common
         public byte[] Decrypt(byte[] bytes)
         {
             //密钥
-            byte[] keyArray = UTF8Encoding.UTF8.GetBytes(_pKey);
+            byte[] keyArray = Encoding.UTF8.GetBytes(_pKey);
 
             RijndaelManaged rDel = new RijndaelManaged();
             rDel.Key = keyArray;

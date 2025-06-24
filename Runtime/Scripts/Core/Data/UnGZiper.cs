@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Text;
-using JFramework.Common.Interface;
 
-namespace JFramework.Common
+namespace JFramework
 {
-    public class UnGZiper : IUnCompress , IProcesser
+    public class UnGZiper : IUnCompress, IProcesser
     {
         public byte[] Process(byte[] bytes)
         {

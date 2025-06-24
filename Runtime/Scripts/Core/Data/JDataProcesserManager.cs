@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using JFramework.Common.Interface;
 using System.Linq;
 
 namespace JFramework

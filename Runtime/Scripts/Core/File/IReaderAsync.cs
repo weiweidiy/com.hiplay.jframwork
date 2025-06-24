@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JFramework.Common.Interface
+namespace JFramework
 {
     public interface IReaderAsync
     {
-        Task<byte[]> ReadAsync(string location);
+        Task<T> ReadAsync<T>(string location, IConverter<T> converter);
     }
 }

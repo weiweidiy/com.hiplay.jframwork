@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using JFramework.Common.Interface;
 using JFramework.Common;
+using System.ComponentModel;
 
 namespace JFramework.Configuration
 {
@@ -60,6 +61,11 @@ namespace JFramework.Configuration
         /// 默认的写入器
         /// </summary>
         private IWriter _defaultWriter;
+
+        /// <summary>
+        /// 数据转换器
+        /// </summary>
+        private JBytesconverter _converter = new JBytesconverter();
 
         /// <summary>
         /// 配置对象列表
@@ -252,7 +258,7 @@ namespace JFramework.Configuration
                 throw new Exception("the targetParaser is null, you should call SetDefaultContentParaser method to set a default paraser. ");
 
             //加载配置文件
-            var task = targetReader.ReadAsync(filePath);
+            var task = targetReader.ReadAsync<byte[]>(filePath, _converter);
             byte[] bytes = await task;
 
             //如果为空，直接跳过

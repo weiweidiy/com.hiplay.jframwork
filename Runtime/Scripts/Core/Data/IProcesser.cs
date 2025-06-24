@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace JFramework.Common.Interface
+namespace JFramework
 {
     /// <summary>
     /// 数据加工器

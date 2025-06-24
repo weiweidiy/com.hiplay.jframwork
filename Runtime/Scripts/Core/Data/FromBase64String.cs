@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using JFramework.Common.Interface;
 
-namespace JFramework.Common
+namespace JFramework
 {
     public class FromBase64String : IProcesser
     {
