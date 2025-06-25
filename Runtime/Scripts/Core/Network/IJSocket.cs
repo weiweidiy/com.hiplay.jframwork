@@ -1,5 +1,4 @@
-﻿using JFramework.Common.Interface;
-using System;
+﻿using System;
 
 namespace JFramework
 {

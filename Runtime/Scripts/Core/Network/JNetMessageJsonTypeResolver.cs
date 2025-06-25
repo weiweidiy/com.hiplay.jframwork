@@ -5,15 +5,17 @@ using System.Text;
 namespace JFramework
 {
    /// <summary>
-   ///
+   /// 用json格式解析数据的方式获取数据类型
    /// </summary>
     public class JNetMessageJsonTypeResolver : IMessageTypeResolver
     {
         private readonly Dictionary<int, Type> messageTypes = new Dictionary<int, Type>();
 
-        IJsonSerializer serializer;
+        ISerializer serializer;
 
-        public JNetMessageJsonTypeResolver(IJsonSerializer serializer) { this.serializer = serializer; }
+        IDeserializer deserializer;
+
+        public JNetMessageJsonTypeResolver(ISerializer serializer, IDeserializer deserializer) { this.serializer = serializer; this.deserializer = deserializer; }
         public JNetMessageJsonTypeResolver RegisterMessageType(int messageId, Type messageType)
         {
             messageTypes[messageId] = messageType;
@@ -24,7 +26,16 @@ namespace JFramework
         {
             // 假设前4字节是消息ID
             //var messageId = BitConverter.ToInt32(data, 0);
+            var messageId = GetMessageTypeId(data);
+            if (messageTypes.TryGetValue(messageId, out var type))
+            {
+                return type;
+            }
+            throw new InvalidOperationException($"Unknown message ID: {messageId}");
+        }
 
+        public virtual int GetMessageTypeId(byte[] data)
+        {
             string json;
             try
             {
@@ -36,14 +47,9 @@ namespace JFramework
             }
 
             //to do: 这句有问题
-            var obj = serializer.ToObject<JNetMessage>(json);
+            var obj = deserializer.ToObject<JNetMessage>(json);
             var messageId = obj.TypeId;
-
-            if (messageTypes.TryGetValue(messageId, out var type))
-            {
-                return type;
-            }
-            throw new InvalidOperationException($"Unknown message ID: {messageId}");
+            return messageId;
         }
     }
 }

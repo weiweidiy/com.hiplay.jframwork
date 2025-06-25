@@ -8,17 +8,12 @@ using System.Threading.Tasks;
 
 namespace JFramework.Game
 {
-    public class JConfigManager
+    public class JConfigManager : IJConfigManager, IDisposable
     {
         private readonly Dictionary<Type, object> _tables = new Dictionary<Type, object>();
         private readonly IConfigLoader loader;
         private readonly Dictionary<Type, Dictionary<string, IUnique>> _uidMaps = new Dictionary<Type, Dictionary<string, IUnique>>();
         private readonly Dictionary<Type, TableInfo> _registrations = new Dictionary<Type, TableInfo>();
-
-        /// <summary>
-        /// 反序列化
-        /// </summary>
-        //IDeserializer deserializer;
 
         public class TableInfo
         {
@@ -31,7 +26,6 @@ namespace JFramework.Game
         public JConfigManager(IConfigLoader loader)
         {
             this.loader = loader;
-            //this.deserializer = serializer;
         }
 
 
@@ -51,7 +45,7 @@ namespace JFramework.Game
                 TableType = typeof(TTable),
                 ItemType = typeof(TItem),
                 Deserializer = deserializer
-                
+
             };
 
             // 预初始化UID映射
@@ -61,9 +55,35 @@ namespace JFramework.Game
         /// <summary>
         /// 预加载所有注册的配置表
         /// </summary>
-        public async Task PreloadAllAsync()
+        public async Task PreloadAllAsync(IProgress<LoadProgress> progress = null)
         {
-            var loadTasks = _registrations.Values.Select((tableInfo)=> LoadTableAsync(tableInfo, tableInfo.Deserializer));
+            var tables = _registrations.Values.ToArray();
+            int totalCount = tables.Length;
+            int completed = 0;
+
+            var loadTasks = tables.Select(async tableInfo =>
+            {
+                try
+                {
+                    await LoadTableAsync(tableInfo, tableInfo.Deserializer);
+
+                    // 更新进度
+                    completed++;
+                    progress?.Report(new LoadProgress
+                    {
+                        Current = completed,
+                        Total = totalCount,
+                        CurrentTable = tableInfo.ItemType.Name,
+                        IsDone = completed == totalCount
+                    });
+                }
+                catch (Exception ex)
+                {
+                    // 可以在这里添加错误处理
+                    throw;
+                }
+            });
+
             await Task.WhenAll(loadTasks);
         }
 
@@ -78,7 +98,7 @@ namespace JFramework.Game
             // 2. 加载原始数据
             var data = await loader.LoadBytesAsync(tableInfo.Path);
 
-             var itemList = deserializer.ToObject(data, tableInfo.ItemType.MakeArrayType());
+            var itemList = deserializer.ToObject(data, tableInfo.ItemType.MakeArrayType());
             //to do: 序列化成
 
             // 3. 通过反射调用Initialize方法
@@ -169,5 +189,64 @@ namespace JFramework.Game
                 throw new InvalidOperationException("Predicate evaluation failed", ex);
             }
         }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// 释放资源
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // 释放托管资源
+                foreach (var table in _tables.Values.OfType<IDisposable>())
+                {
+                    table.Dispose();
+                }
+
+                _tables.Clear();
+                _uidMaps.Clear();
+                _registrations.Clear();
+
+                if (loader is IDisposable disposableLoader)
+                {
+                    disposableLoader.Dispose();
+                }
+            }
+
+            // 这里可以释放非托管资源（如果有）
+            // 当前示例中没有非托管资源需要释放
+        }
+
+        // 可选：添加终结器以防忘记调用Dispose
+        ~JConfigManager()
+        {
+            Dispose(false);
+        }
+    }
+
+
+    public struct LoadProgress
+    {
+        /// <summary>当前已加载表数量</summary>
+        public int Current { get; set; }
+
+        /// <summary>总表数量</summary>
+        public int Total { get; set; }
+
+        /// <summary>当前正在加载的表名</summary>
+        public string CurrentTable { get; set; }
+
+        /// <summary>是否全部加载完成</summary>
+        public bool IsDone { get; set; }
+
+        /// <summary>计算加载进度百分比</summary>
+        public float Progress => Total > 0 ? (float)Current / Total : 0f;
     }
 }

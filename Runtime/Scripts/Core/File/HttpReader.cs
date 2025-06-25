@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JFramework.Common
+namespace JFramework
 {
     /// <summary>
     /// 远程Http加载配置 to do: 添加httpRequest类 负责实际的请求
@@ -17,12 +17,18 @@ namespace JFramework.Common
         /// </summary>
         IHttpRequest _webRequest;
 
-        public HttpReader(IHttpRequest webRequest) : this(webRequest,  null) { }
+        public HttpReader(IHttpRequest webRequest) : this(webRequest, null) { }
 
-        public HttpReader(IHttpRequest webRequest,  JDataProcesserManager processer) : base( processer)
+        public HttpReader(IHttpRequest webRequest, JDataProcesserManager processer) : base(processer)
         {
             _webRequest = webRequest;
         }
+
+        public override Task<bool> ExistsAsync(string location)
+        {
+            throw new NotImplementedException();
+        }
+
 
         /// <summary>
         /// 同步请求
@@ -46,16 +52,16 @@ namespace JFramework.Common
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public override async Task<T> ReadAsync<T>(string url, IConverter<T> converter)
+        public override async Task<T> ReadAsync<T>(string url, IDeserializer converter)
         {
             try
             {
-                return converter.Convert(await _webRequest.GetAsync(url));
+                return converter.ToObject<T>(await _webRequest.GetAsync(url));
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                return default(T);
+                return default;
             }
         }
 

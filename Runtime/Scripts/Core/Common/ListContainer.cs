@@ -11,7 +11,7 @@ namespace JFramework
     /// 基础常用容器，基于list的容器
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class BaseContainer<T> : IContainer<T> where T :  IUpdateable
+    public class ListContainer<T> : IListContainer<T> where T :  IUpdateable
     {
         public event Action<ICollection<T>> onItemAdded;
         public event Action<T> onItemRemoved;

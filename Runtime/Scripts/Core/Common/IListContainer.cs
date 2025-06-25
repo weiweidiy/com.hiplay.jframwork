@@ -10,7 +10,7 @@ namespace JFramework
     /// 管理容器接口
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IContainer<T> where T :  IUpdateable
+    public interface IListContainer<T> where T : IUpdateable
     {
         event Action<ICollection<T>> onItemAdded;
 

@@ -1,18 +1,15 @@
 ﻿using System.Net.WebSockets;
 using System;
 using System.Threading.Tasks;
-using JFramework.Common.Interface;
 
-namespace JFramework.Common.Interface
+
+namespace JFramework
 {
     public enum SocketStatusCodes
     {
         NormalClosure
     }
-}
 
-namespace JFramework
-{
     public interface IJNetwork
     {
         event Action onOpen;

@@ -7,7 +7,7 @@ namespace JFramework
     /// 可更新帧的容器，避免在update过程中，插入删除单位
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class UpdateableContainer<T> : BaseContainer<T> where T : IUnique, IUpdateable//, IUpdate<T>
+    public class UpdateableContainer<T> : ListContainer<T> where T : IUnique, IUpdateable//, IUpdate<T>
     {
         /// <summary>
         /// 等待添加的action

@@ -1,12 +1,11 @@
-﻿using JFramework.Common.Interface;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 
-namespace JFramework.Common
+namespace JFramework
 {
     /// <summary>
     /// 本地文件加载器
@@ -22,7 +21,12 @@ namespace JFramework.Common
         /// 构造函数
         /// </summary>
         /// <param name="processer"></param>
-        public LocalReader(JDataProcesserManager processer) : base( processer) { }
+        public LocalReader(JDataProcesserManager processer) : base(processer) { }
+
+        public override Task<bool> ExistsAsync(string location)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// 同步读取路径文件
@@ -57,7 +61,7 @@ namespace JFramework.Common
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        public override async Task<T> ReadAsync<T>(string filePath, IConverter<T> converter)
+        public override async Task<T> ReadAsync<T>(string filePath, IDeserializer converter)
         {
             try
             {
@@ -70,12 +74,13 @@ namespace JFramework.Common
                     //数据加工
                     bytes = GetProcessResult(bytes);
 
-                    return converter.Convert(bytes);
+                    return converter.ToObject<T>(bytes);
                 }
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                return default(T);
+                return default;
             }
 
         }

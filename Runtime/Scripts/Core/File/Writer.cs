@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using JFramework.Common.Interface;
 
-namespace JFramework.Common
+namespace JFramework
 {
     public abstract class Writer : IWriter
     {

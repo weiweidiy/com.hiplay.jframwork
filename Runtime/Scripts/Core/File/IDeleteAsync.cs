@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JFramework.Common.Interface
+namespace JFramework
 {
     public interface IDeleteAsync
     {
-        Task DeleteAsync(string location);
+        Task<bool> DeleteAsync(string location);
+
+        Task ClearAsync();
     }
 }

@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace JFramework.Common.Interface
+namespace JFramework
 {
-    public interface IDelete
+
+    public interface IDelete : IDeleteSync, IDeleteAsync
     {
-        void Delete(string location);
+        
     }
 }

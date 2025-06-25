@@ -4,9 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using JFramework.Common.Interface;
 
-namespace JFramework.Common
+namespace JFramework
 {
     public class LocalWriter : Writer
     {
@@ -72,7 +71,7 @@ namespace JFramework.Common
         /// </summary>
         /// <param name="toPath"></param>
         /// <param name="buffer"></param>
-        public override async Task WriteAsync(string toPath, string buffer , Encoding encoding = null)
+        public override async Task WriteAsync(string toPath, string buffer, Encoding encoding = null)
         {
             encoding = encoding ?? Encoding.UTF8;
 

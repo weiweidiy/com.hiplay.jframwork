@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JFramework.Common.Interface
+namespace JFramework
 {
     public interface IWriterAsync
     {
@@ -19,6 +19,6 @@ namespace JFramework.Common.Interface
         /// </summary>
         /// <param name="toPath"></param>
         /// <param name="buffer"></param>
-        Task WriteAsync(string toPath, string buffer , Encoding encoding = null);
+        Task WriteAsync(string toPath, string buffer, Encoding encoding = null);
     }
 }

@@ -7,6 +7,7 @@ namespace JFramework
 {
     public interface IReaderAsync
     {
-        Task<T> ReadAsync<T>(string location, IConverter<T> converter);
+        Task<T> ReadAsync<T>(string location, IDeserializer converter);
+        Task<bool> ExistsAsync(string location);
     }
 }

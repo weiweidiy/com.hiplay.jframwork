@@ -2,14 +2,16 @@
 
 namespace JFramework
 {
-    public interface IJsonSerializer : IDeserializer
+    public interface ISerializer
     {
-        string ToJson(object obj);
+        string Serialize(object obj);
     }
 
     public interface IDeserializer
     {
         T ToObject<T>(string str);
+
+        T ToObject<T>(byte[] bytes);
 
         object ToObject(string str, Type type);
 

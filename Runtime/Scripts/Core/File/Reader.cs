@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using JFramework.Common.Interface;
 using System.Linq;
 
-namespace JFramework.Common
+namespace JFramework
 {
     public abstract class Reader : IReader
     {
         public abstract byte[] Read(string location);
-        public abstract Task<T> ReadAsync<T>(string location, IConverter<T> converter);
+        public abstract Task<T> ReadAsync<T>(string location, IDeserializer converter);
+        public abstract Task<bool> ExistsAsync(string location);
+
 
         /// <summary>
         /// 数据加工处理器
@@ -42,5 +43,7 @@ namespace JFramework.Common
 
             return result;
         }
+
+
     }
 }

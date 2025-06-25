@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using JFramework.Common.Interface;
 
-namespace JFramework.Common
+namespace JFramework
 {
-    public class HttpDeleter : IDelete, IDeleteAsync
+    public class HttpDeleter : IDelete
     {
 
         private IHttpRequest _webRequest;
@@ -16,22 +15,28 @@ namespace JFramework.Common
             _webRequest = request;
         }
 
+        public Task ClearAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public void Delete(string location)
         {
             _webRequest.Delete(location);
         }
 
-        public async Task DeleteAsync(string location)
+        public async Task<bool> DeleteAsync(string location)
         {
             try
             {
                 await _webRequest.DeleteAsync(location);
+                return true;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw e;
             }
-            
+
         }
 
     }

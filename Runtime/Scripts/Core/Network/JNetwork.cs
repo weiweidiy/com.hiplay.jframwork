@@ -10,10 +10,13 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using JFramework.Common.Interface;
 
 namespace JFramework
 {
+    public interface ISocketFactory
+    {
+        IJSocket Create();
+    }
     public class JNetwork : IJNetwork
     {
         /// <summary>
@@ -28,6 +31,12 @@ namespace JFramework
         /// socket对象
         /// </summary>
         IJSocket socket = null;
+        public IJSocket Socket { get => socket; set => socket = value; }
+
+        /// <summary>
+        /// socket工厂
+        /// </summary>
+        ISocketFactory socketFactory = null;
 
         /// <summary>
         /// 任务管理器
@@ -216,7 +225,7 @@ namespace JFramework
         /// <returns></returns>
         void InitSocket(string url, TaskCompletionSource<bool> tcs)
         {
-            var socket = GetSocket();
+            socket = CreateSocket();
             socket.Init(url);
 
             //监听事件
@@ -234,6 +243,12 @@ namespace JFramework
         public IJSocket GetSocket() => socket;
 
         /// <summary>
+        /// 创建socket
+        /// </summary>
+        /// <returns></returns>
+        public IJSocket CreateSocket() => socketFactory.Create();
+
+        /// <summary>
         /// 获取任务管理器
         /// </summary>
         /// <returns></returns>
@@ -246,9 +261,9 @@ namespace JFramework
         public INetworkMessageProcessStrate GetNetworkMessageProcessStrate() => messageProcessStrate;
 
 
-        public JNetwork(IJSocket socket, IJTaskCompletionSourceManager<IUnique> taskManager, INetworkMessageProcessStrate messageProcessStrate)
+        public JNetwork(ISocketFactory socketFactory, IJTaskCompletionSourceManager<IUnique> taskManager, INetworkMessageProcessStrate messageProcessStrate)
         {
-            this.socket = socket;
+            this.socketFactory = socketFactory;
             this.taskManager = taskManager;
             this.messageProcessStrate = messageProcessStrate;
         }
