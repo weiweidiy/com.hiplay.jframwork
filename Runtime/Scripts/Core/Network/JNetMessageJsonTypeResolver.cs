@@ -14,7 +14,7 @@ namespace JFramework
         IDeserializer deserializer;
 
         public JNetMessageJsonTypeResolver(IDeserializer deserializer) { this.deserializer = deserializer; }
-        public JNetMessageJsonTypeResolver RegisterMessageType(int messageId, Type messageType)
+        public IMessageTypeResolver RegisterMessageType(int messageId, Type messageType)
         {
             messageTypes[messageId] = messageType;
             return this;

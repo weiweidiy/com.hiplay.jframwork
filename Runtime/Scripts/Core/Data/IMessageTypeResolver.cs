@@ -13,5 +13,13 @@ namespace JFramework
         /// <param name="data">消息数据</param>
         /// <returns>消息类型</returns>
         Type ResolveMessageType(byte[] data);
+
+        /// <summary>
+        /// 注册消息
+        /// </summary>
+        /// <param name="messageId"></param>
+        /// <param name="messageType"></param>
+        /// <returns></returns>
+        IMessageTypeResolver RegisterMessageType(int messageId, Type messageType);
     }
 }
