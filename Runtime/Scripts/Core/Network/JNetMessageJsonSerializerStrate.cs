@@ -8,18 +8,15 @@ namespace JFramework
     /// </summary>
     public class JNetMessageJsonSerializerStrate : INetMessageSerializerStrate
     {
-        ISerializer serializer;
-
-        IDeserializer deserializer;
-        public JNetMessageJsonSerializerStrate(ISerializer serializer, IDeserializer deserializer)
+        IDataConverter dataConverter;
+        public JNetMessageJsonSerializerStrate(IDataConverter dataConverter)
         {
-            this.serializer = serializer;
-            this.deserializer = deserializer;
+            this.dataConverter = dataConverter;
         }
 
         public byte[] Serialize(IJNetMessage obj)
         {
-            return Encoding.UTF8.GetBytes(serializer.Serialize(obj));
+            return Encoding.UTF8.GetBytes(dataConverter.Serialize(obj));
         }
 
         public IJNetMessage Deserialize(byte[] data, IMessageTypeResolver typeResolver)
@@ -36,7 +33,7 @@ namespace JFramework
             }
 
             var messageType = typeResolver.ResolveMessageType(data);
-            return (IJNetMessage)deserializer.ToObject(json, messageType);
+            return (IJNetMessage)dataConverter.ToObject(json, messageType);
         }
     }
 }

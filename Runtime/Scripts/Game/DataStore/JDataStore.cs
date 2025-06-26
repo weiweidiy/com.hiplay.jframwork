@@ -7,7 +7,7 @@ namespace JFramework
 {
 
     /// <summary>
-    /// 存档工具（可以理解为保存一张张数据表)
+    /// 存档工具（可以理解为保存一张张数据表，可以作为数据库存取接口使用)
     /// </summary>
     public class JDataStore : IGameDataStore, IDisposable
     {

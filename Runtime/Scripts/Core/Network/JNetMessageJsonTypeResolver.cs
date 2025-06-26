@@ -11,11 +11,9 @@ namespace JFramework
     {
         private readonly Dictionary<int, Type> messageTypes = new Dictionary<int, Type>();
 
-        ISerializer serializer;
-
         IDeserializer deserializer;
 
-        public JNetMessageJsonTypeResolver(ISerializer serializer, IDeserializer deserializer) { this.serializer = serializer; this.deserializer = deserializer; }
+        public JNetMessageJsonTypeResolver(IDeserializer deserializer) { this.deserializer = deserializer; }
         public JNetMessageJsonTypeResolver RegisterMessageType(int messageId, Type messageType)
         {
             messageTypes[messageId] = messageType;
