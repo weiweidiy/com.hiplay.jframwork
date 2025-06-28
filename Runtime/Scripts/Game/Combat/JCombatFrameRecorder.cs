@@ -1,0 +1,43 @@
+﻿namespace JFrame.Game
+{
+    public class JCombatFrameRecorder : IJCombatFrameRecorder
+    {
+        int curFrame;
+        int maxFrame;
+        public JCombatFrameRecorder(int maxFrame)
+        {
+            this.maxFrame = maxFrame;
+        }
+
+        /// <summary>
+        /// 当前帧
+        /// </summary>
+        /// <returns></returns>
+        public int GetCurFrame() => curFrame;
+
+        public int GetMaxFrame() => maxFrame;
+
+        /// <summary>
+        /// 是否是最大帧
+        /// </summary>
+        /// <returns></returns>
+        public bool IsMaxFrame()
+        {
+            return GetCurFrame() == GetMaxFrame();
+        }
+
+        /// <summary>
+        /// 下一帧
+        /// </summary>
+        /// <returns></returns>
+        public int NextFrame()
+        {
+            if (IsMaxFrame())
+                return GetMaxFrame();
+
+            return ++curFrame;
+        }
+
+        public void ResetFrame() => curFrame = 0;
+    }
+}
