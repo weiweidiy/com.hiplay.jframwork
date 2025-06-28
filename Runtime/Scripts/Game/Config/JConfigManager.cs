@@ -98,7 +98,16 @@ namespace JFramework.Game
             // 2. 加载原始数据
             var data = await loader.LoadBytesAsync(tableInfo.Path);
 
-            var itemList = deserializer.ToObject(data, tableInfo.ItemType.MakeArrayType());
+            object itemList = null;
+            try
+            {
+                itemList = deserializer.ToObject(data, tableInfo.ItemType.MakeArrayType());
+            }
+            catch(Exception e)
+            {
+                throw new Exception($"反序列化表{tableInfo.TableType.ToString()} 失败");
+            }
+           
             //to do: 序列化成
 
             // 3. 通过反射调用Initialize方法
