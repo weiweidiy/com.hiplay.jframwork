@@ -4,16 +4,36 @@ using System.Text;
 
 namespace JFramework
 {
-   /// <summary>
-   /// 用json格式解析数据的方式获取数据类型
-   /// </summary>
+    /// <summary>
+    /// 用json格式解析数据的方式获取数据类型
+    /// </summary>
     public class JNetMessageJsonTypeResolver : IMessageTypeResolver
     {
         private readonly Dictionary<int, Type> messageTypes = new Dictionary<int, Type>();
 
         IDeserializer deserializer;
 
-        public JNetMessageJsonTypeResolver(IDeserializer deserializer) { this.deserializer = deserializer; }
+        public JNetMessageJsonTypeResolver(IDeserializer deserializer) : this(deserializer, null) { }
+        public JNetMessageJsonTypeResolver(IDeserializer deserializer, INetMessageRegister register)
+        {
+            this.deserializer = deserializer;
+
+            if (register != null)
+            {
+                var dic = register.GetAllTables();
+                foreach (var table in dic)
+                {
+                    RegisterMessageType(table.Key, table.Value);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 注册
+        /// </summary>
+        /// <param name="messageId"></param>
+        /// <param name="messageType"></param>
+        /// <returns></returns>
         public IMessageTypeResolver RegisterMessageType(int messageId, Type messageType)
         {
             messageTypes[messageId] = messageType;
