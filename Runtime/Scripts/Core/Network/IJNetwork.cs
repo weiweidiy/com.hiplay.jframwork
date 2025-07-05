@@ -18,6 +18,8 @@ namespace JFramework
         //event Action<byte[]> onBinary;
         event Action<string> onError;
 
+        IJSocket Socket { get; }
+
         Task Connect(string url);
 
         void Disconnect();
