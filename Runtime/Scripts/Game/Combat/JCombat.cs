@@ -6,10 +6,6 @@ namespace JFrame.Game
 
     public abstract class JCombat : IJCombat
     {
-       // IJCombatDataSource dataSource;
-
-        //IJCombatFrameRecorder frameRecorder;
-
         protected IJCombatQuery jCombatQuery;
 
         IJCombatEventRecorder eventRecorder;
@@ -17,17 +13,12 @@ namespace JFrame.Game
         IJCombatResult jCombatResult;//
 
 
-
-        public JCombat(/*IJCombatFrameRecorder frameRecorder,*/ IJCombatQuery jCombatQuery, IJCombatEventRecorder eventRecorder, IJCombatResult jCombatResult)
+        public JCombat(IJCombatQuery jCombatQuery, IJCombatEventRecorder eventRecorder, IJCombatResult jCombatResult)
         {
-            //his.frameRecorder = frameRecorder ?? throw new ArgumentNullException("frameRecorder is null");
             this.jCombatQuery = jCombatQuery ?? throw new ArgumentNullException("jCombatJudger is null");
             this.eventRecorder = eventRecorder ?? throw new ArgumentNullException("eventRecorder is null");
             this.jCombatResult = jCombatResult ?? throw new ArgumentNullException("jCombatResult is null");
-
         }
-
-
 
         /// <summary>
         /// 计算战斗结果并返回
@@ -58,15 +49,36 @@ namespace JFrame.Game
             return r;
         }
 
-        protected virtual void Start()
-        {
-        }
+
 
         protected abstract void Update();
 
-        //protected abstract void Update(IJCombatFrameRecorder frameRecorder);
+        protected virtual void Start()
+        {
+            var units = jCombatQuery.GetUnits();
+            if(units != null)
+            {
+                foreach (var unit in units)
+                {
+                    unit.Start(jCombatQuery);
+                }
+            }
 
-        protected virtual void Stop() { }
+        }
+
+
+        protected virtual void Stop()
+        {
+            var units = jCombatQuery.GetUnits();
+            if (units != null)
+            {
+                foreach (var unit in units)
+                {
+                    unit.Stop();
+                }
+            }
+
+        }
 
 
     }

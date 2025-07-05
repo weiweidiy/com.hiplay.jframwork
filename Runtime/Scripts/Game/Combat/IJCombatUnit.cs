@@ -1,7 +1,17 @@
-﻿namespace JFrame.Game
+﻿using JFramework;
+
+namespace JFrame.Game
 {
-    public interface IJCombatUnit
+
+    /// <summary>
+    /// 可战斗单位接口
+    /// </summary>
+    public interface IJCombatUnit : IUnique 
     {
+        void Start(IJCombatQuery query);
+
+        void Stop();
+
         /// <summary>
         /// 是否已死亡
         /// </summary>
@@ -9,27 +19,18 @@
         bool IsDead();
 
         /// <summary>
-        /// 是否可行动
+        /// 获取属性对象
         /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="uid"></param>
         /// <returns></returns>
-        bool CanAction();
-
-
+        IUnique GetAttribute(string uid);
 
         /// <summary>
-        /// 开始行动
+        /// 收到伤害
         /// </summary>
-        /// <param name="jCombatQuery"></param>
-        void Action(IJCombatQuery jCombatQuery);
+        /// <param name="damageData"></param>
+        int OnDamage(IJCombatDamageData damageData);
 
-    }
-
-    public interface IJTurnBasedCombatUnit : IJCombatUnit
-    {
-        /// <summary>
-        /// 获取行动点，用于排序
-        /// </summary>
-        /// <returns></returns>
-        int GetActionPoint();
     }
 }

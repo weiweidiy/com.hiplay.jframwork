@@ -26,7 +26,7 @@ namespace JFrame.Game
 
         List<IJCombatUnit> GetUnits(Func<IJCombatUnit, bool> func);
 
-        List<IJCombatUnit> GetUnits(IJCombatTeam team);
+        List<IJCombatUnit> GetUnits(string teamUid);
         #endregion
 
         #region 查询帧

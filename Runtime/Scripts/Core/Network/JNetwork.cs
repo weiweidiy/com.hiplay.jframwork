@@ -91,7 +91,7 @@ namespace JFramework
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -144,7 +144,7 @@ namespace JFramework
             catch (Exception ex)
             {
                 GetTaskManager().SetException(pMsg.Uid, ex);
-                throw ex;
+                throw ;
             }
             finally
             {

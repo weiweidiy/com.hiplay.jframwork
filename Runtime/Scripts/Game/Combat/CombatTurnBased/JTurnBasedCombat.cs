@@ -3,7 +3,6 @@ using System.Linq;
 
 namespace JFrame.Game
 {
-
     /// <summary>
     /// 回合制游戏战报生成
     /// </summary>
@@ -12,18 +11,19 @@ namespace JFrame.Game
         /// <summary>
         /// 负责获取行动单位的接口
         /// </summary>
-        ITurnBasedCombatActionSelector actionSelector;
+        IJCombatTurnBasedActionSelector actionSelector;
 
         /// <summary>
         /// 帧记录器
         /// </summary>
         IJCombatFrameRecorder frameRecorder;
-        public JTurnBasedCombat(ITurnBasedCombatActionSelector actionSelector, IJCombatFrameRecorder frameRecorder, IJCombatQuery jCombatQuery, IJCombatEventRecorder eventRecorder, IJCombatResult jCombatResult) : base(jCombatQuery, eventRecorder, jCombatResult)
+
+        public JTurnBasedCombat(IJCombatTurnBasedActionSelector actionSelector, IJCombatFrameRecorder frameRecorder, IJCombatQuery jCombatQuery, IJCombatEventRecorder eventRecorder, IJCombatResult jCombatResult) : base(jCombatQuery, eventRecorder, jCombatResult)
         {
             this.actionSelector = actionSelector;
             this.frameRecorder = frameRecorder;
 
-            var allUnit = jCombatQuery.GetUnits().OfType<IJTurnBasedCombatUnit>().ToList();
+            var allUnit = jCombatQuery.GetUnits().OfType<IJCombatTurnBasedUnit>().ToList();
             actionSelector.SetUnits(allUnit);
         }
 
@@ -50,8 +50,9 @@ namespace JFrame.Game
         protected void DoUpdate(IJCombatFrameRecorder frameRecorder)
         {
             var actionUnit = actionSelector.PopActionUnit();
-
-            actionUnit.Action(jCombatQuery);
+            actionUnit.Act();
         }
+
+
     }
 }

@@ -21,35 +21,59 @@ namespace JFrame.Game
             this.frameRecorder = frameRecorder;
         }
 
-
         public IJCombatTeam GetTeam(string teamUid)
         {
-            throw new NotImplementedException();
+            return Get(teamUid);
         }
 
         public List<IJCombatTeam> GetTeams()
         {
-            throw new NotImplementedException();
+            return GetAll();
         }
 
         public IJCombatUnit GetUnit(string unitUid)
         {
-            throw new NotImplementedException();
+            var teams = GetTeams();
+            foreach(var team in teams)
+            {
+                var unit = team.GetUnit(unitUid);
+                if (unit != null)
+                    return unit;
+
+            }
+            return null;
         }
 
         public List<IJCombatUnit> GetUnits()
         {
-            throw new NotImplementedException();
+            var result = new List<IJCombatUnit>();
+
+            foreach(var team in GetTeams())
+            {
+                result.AddRange(team.GetAllUnit());
+            }
+
+            return result;
         }
 
-        public List<IJCombatUnit> GetUnits(IJCombatTeam team)
+        public List<IJCombatUnit> GetUnits(string teamUid)
         {
-            throw new NotImplementedException();
+            var team = Get(teamUid);    
+            return team.GetAllUnit();   
         }
 
         public List<IJCombatUnit> GetUnits(Func<IJCombatUnit, bool> func)
         {
-            throw new NotImplementedException();
+            var units = GetUnits();
+            var result = new List<IJCombatUnit>();
+
+            foreach (var item in units)
+            {
+                if(func(item))
+                    result.Add(item);
+            }
+
+            return result;
         }
 
         /// <summary>

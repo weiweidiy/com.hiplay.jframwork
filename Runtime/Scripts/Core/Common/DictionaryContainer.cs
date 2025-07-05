@@ -12,7 +12,7 @@ namespace JFramework
         public event Action<T> onItemUpdated;
 
         private readonly Dictionary<string, T> _dictionary = new Dictionary<string, T>();
-        private readonly Func<T, string> _keySelector;
+        protected readonly Func<T, string> _keySelector;
 
         /// <summary>
         /// 构造函数，需要指定如何从T获取键
@@ -94,7 +94,7 @@ namespace JFramework
 
             return _dictionary.TryGetValue(uid, out var item)
                 ? item
-                : throw new KeyNotFoundException($"Item with key '{uid}' not found");
+                : default;
         }
 
         /// <summary>

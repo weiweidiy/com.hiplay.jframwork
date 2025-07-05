@@ -1,10 +1,10 @@
 ﻿namespace JFrame.Game
 {
-    public class JCombatFrameRecorder : IJCombatFrameRecorder
+    public class JCombatTurnBasedFrameRecorder : IJCombatFrameRecorder
     {
         int curFrame;
         int maxFrame;
-        public JCombatFrameRecorder(int maxFrame)
+        public JCombatTurnBasedFrameRecorder(int maxFrame)
         {
             this.maxFrame = maxFrame;
         }
