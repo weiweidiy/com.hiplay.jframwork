@@ -143,8 +143,13 @@ namespace JFramework
             }
             catch (Exception ex)
             {
-                GetTaskManager().SetException(pMsg.Uid, ex);
-                throw ;
+                if (!tcs.Task.IsCompleted)
+                {
+                    GetTaskManager().SetException(pMsg.Uid, ex);
+                    throw;
+                }             
+                else
+                    throw;
             }
             finally
             {
