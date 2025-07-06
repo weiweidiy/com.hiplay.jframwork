@@ -43,11 +43,9 @@ namespace JFramework.Game
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="arg"></param>
-        protected void SendEvent<T>(object arg) where T : Event
+        protected void SendEvent<T>(object arg) where T : Event, new() 
         {
-            var e = default(T);
-            e.Body = arg;
-            eventManager.Raise(e);
+            eventManager.Raise<T>(arg);
         }
     }
 }
