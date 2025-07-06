@@ -139,7 +139,7 @@ namespace JFramework
         /// 返还事件对象
         /// </summary>
         /// <param name="e"></param>
-        void ReturnEvent(Event e)
+        void ReturnEvent<T>(T e)
         {
             if (eventsPool != null)
                 eventsPool.Return(e);
