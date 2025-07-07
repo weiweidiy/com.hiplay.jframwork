@@ -20,6 +20,14 @@ namespace JFrame.Game
 
         IJCombatTeam GetTeam(string teamUid);
 
+        /// <summary>
+        /// 获取单位的敌对队伍
+        /// </summary>
+        /// <param name="unitUid"></param>
+        /// <returns></returns>
+        List<IJCombatTeam> GetOppoTeams(string unitUid);
+
+
         IJCombatUnit GetUnit(string unitUid);
 
         List<IJCombatUnit> GetUnits();
@@ -47,6 +55,7 @@ namespace JFrame.Game
         /// </summary>
         /// <returns></returns>
         bool IsMaxFrame();
+
         #endregion
 
     }

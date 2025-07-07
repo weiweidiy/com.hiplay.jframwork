@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace JFramework
 {
-    public interface INetMessageRegister
+    public interface ITypeRegister
     {
-        Dictionary<int, Type> GetAllTables();
+        Dictionary<int, Type> GetTypes();
     }
 }

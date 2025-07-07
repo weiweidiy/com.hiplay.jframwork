@@ -35,7 +35,8 @@
             if (IsMaxFrame())
                 return GetMaxFrame();
 
-            return ++curFrame;
+            curFrame += 1;
+            return curFrame;
         }
 
         public void ResetFrame() => curFrame = 0;

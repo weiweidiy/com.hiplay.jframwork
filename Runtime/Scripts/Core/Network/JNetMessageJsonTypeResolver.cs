@@ -14,13 +14,13 @@ namespace JFramework
         IDeserializer deserializer;
 
         public JNetMessageJsonTypeResolver(IDeserializer deserializer) : this(deserializer, null) { }
-        public JNetMessageJsonTypeResolver(IDeserializer deserializer, INetMessageRegister register)
+        public JNetMessageJsonTypeResolver(IDeserializer deserializer, ITypeRegister register)
         {
             this.deserializer = deserializer;
 
             if (register != null)
             {
-                var dic = register.GetAllTables();
+                var dic = register.GetTypes();
                 foreach (var table in dic)
                 {
                     RegisterMessageType(table.Key, table.Value);

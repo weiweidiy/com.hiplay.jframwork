@@ -8,5 +8,14 @@ namespace JFrame.Game
     public interface IJCombatSeatBasedQuery
     {
         int GetSeat(string unitUid);
+
+        ///// <summary>
+        ///// 根据座位列表，返回存在的unit列表
+        ///// </summary>
+        ///// <param name="seats"></param>
+        ///// <returns></returns>
+        //List<IJCombatUnit> GetUnits(IJCombatTeam team, List<int> seats);
+
+        IJCombatUnit GetUnit(IJCombatTeam team, int seat);
     }
 }

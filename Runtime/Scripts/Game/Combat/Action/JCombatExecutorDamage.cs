@@ -16,7 +16,7 @@ namespace JFrame.Game
                 {
                     var sourceUnitUid = GetOwner().GetCaster();
                     var sourceActionUid = GetOwner().Uid;
-                    var data = new JCombatDamageData(sourceUnitUid, sourceActionUid, 5, 0);
+                    var data = new JCombatDamageData(sourceUnitUid, sourceActionUid, 20, 0);
                     target.OnDamage(data);
                 }
             }
