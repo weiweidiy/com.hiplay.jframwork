@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace JFrame.Game
+namespace JFramework.Game
 {
     /// <summary>
     /// 战斗行为基类，触发器触发执行，
@@ -16,11 +16,13 @@ namespace JFrame.Game
         List<IJCombatExecutor> executors;
 
         IJcombatUnitCasterQuery casterQuery;
-        public JCombatActionBase(string uid, List<IJCombatTrigger> triggers,  List<IJCombatExecutor> executors)
+        public JCombatActionBase(IJCombatQuery query, string uid, List<IJCombatTrigger> triggers,  List<IJCombatExecutor> executors)
         {
             this.Uid = uid;
             this.triggers = triggers;
             this.executors = executors;
+            this.query = query;
+
             if (triggers != null)
             {
                 foreach (IJCombatTrigger trigger in triggers)
@@ -41,15 +43,15 @@ namespace JFrame.Game
 
         }
 
-        public void Start(IJCombatQuery query)
+        public void OnStart(/*IJCombatQuery query*/)
         {
-            this.query = query;
+            //this.query = query;
 
             if (triggers != null)
             {
                 foreach (var trigger in triggers)
                 {
-                    trigger.OnStart(query);
+                    trigger.OnStart(/*query*/);
                     trigger.onTriggerOn += Trigger_onTriggerOn;
                 }
             }
@@ -58,12 +60,17 @@ namespace JFrame.Game
             {
                 foreach(var executor in executors)
                 {
-                    executor.OnStart(query);
+                    executor.OnStart(/*query*/);
                 }
             }
         }
 
-        public void Stop()
+        public void OnUpdate()
+        {
+            Execute(null);
+        }
+
+        public void OnStop()
         {
             if (triggers != null)
             {
@@ -89,10 +96,10 @@ namespace JFrame.Game
             Execute(targets);
         }
 
-        public void Act()
-        {
-            Execute(null);
-        }
+        //public void Act()
+        //{
+            
+        //}
 
         public void Execute(List<IJCombatUnit> targets)
         {

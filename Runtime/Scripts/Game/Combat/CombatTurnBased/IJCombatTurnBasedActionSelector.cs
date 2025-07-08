@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace JFrame.Game
+namespace JFramework.Game
 {
     /// <summary>
     /// 战斗行动的选择器 

@@ -1,4 +1,4 @@
-﻿namespace JFrame.Game
+﻿namespace JFramework.Game
 {
     /// <summary>
     /// 战斗数据源

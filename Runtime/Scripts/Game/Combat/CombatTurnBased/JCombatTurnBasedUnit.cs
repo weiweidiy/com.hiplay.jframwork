@@ -4,12 +4,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace JFrame.Game
+namespace JFramework.Game
 {
     public class JCombatTurnBasedUnit : JCombatUnit, IJCombatTurnBasedUnit
     {
         List<IJCombatAction> actions;
-        public JCombatTurnBasedUnit(string uid, List<IUnique> attrList, Func<IUnique, string> keySelector, IJCombatTurnBasedAttrNameQuery combatAttrNameQuery, List<IJCombatAction> actions) : base(uid, attrList, keySelector, combatAttrNameQuery)
+        public JCombatTurnBasedUnit(string uid, List<IUnique> attrList, Func<IUnique, string> keySelector, IJCombatTurnBasedAttrNameQuery combatAttrNameQuery, IJCombatQuery query, List<IJCombatAction> actions) : base(uid, attrList, keySelector, combatAttrNameQuery, query)
         {
             this.actions = actions;
             if(this.actions != null)
@@ -19,39 +19,42 @@ namespace JFrame.Game
             }
         }
 
-        public override void Start(IJCombatQuery query)
+        public override void OnStart()
         {
+            base.OnStart();
             if (actions != null)
             {
                 foreach (var action in actions)
                 {
                     
-                    action.Start(query);
+                    action.OnStart(/*query*/);
                 }
             }
 
         }
 
-        public override void Stop()
+        public override void OnUpdate()
         {
-            if (actions != null)
-            {
-                foreach (var action in actions)
-                {
-                    action.Stop();
-                }
-            }
-        }
+            base.OnUpdate();
 
-
-        public void Act()
-        {
             if (actions == null)
                 return;
 
             foreach (var action in actions)
             {
-                action.Act();
+                action.OnUpdate();
+            }
+        }
+
+        public override void OnStop()
+        {
+            base.OnStop();
+            if (actions != null)
+            {
+                foreach (var action in actions)
+                {
+                    action.OnStop();
+                }
             }
         }
 

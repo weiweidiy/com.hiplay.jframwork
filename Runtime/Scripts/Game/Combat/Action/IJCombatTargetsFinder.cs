@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace JFrame.Game
+namespace JFramework.Game
 {
     public interface IJCombatTargetsFinder : IJCombatActionComponent
     {
-        List<IJCombatUnit> GetTargets(IJCombatQuery query);
+        List<IJCombatUnit> GetTargets(/*IJCombatQuery query*/);
     }
 }

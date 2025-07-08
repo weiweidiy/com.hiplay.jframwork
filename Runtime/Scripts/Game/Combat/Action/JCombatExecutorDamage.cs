@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 
-namespace JFrame.Game
+namespace JFramework.Game
 {
     public class JCombatExecutorDamage : JCombatExecutorBase
     {
-        public JCombatExecutorDamage(IJCombatTargetsFinder finder) : base(finder)
+        public JCombatExecutorDamage(IJCombatQuery query, IJCombatTargetsFinder finder) : base(query, finder)
         {
         }
 

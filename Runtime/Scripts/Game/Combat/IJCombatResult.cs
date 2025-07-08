@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace JFrame.Game
+namespace JFramework.Game
 {
     /// <summary>
     /// 战斗结果，player就是读取这个对象

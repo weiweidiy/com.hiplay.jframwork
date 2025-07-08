@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Xml;
 
-namespace JFrame.Game
+namespace JFramework.Game
 {
     /// <summary>
     /// 判断战斗是否结束
@@ -15,11 +15,14 @@ namespace JFrame.Game
 
         IJCombatTeam winner;
 
-        public JCombatQuery(List<IJCombatTeam> teams, Func<IJCombatTeam, string> keySelector, IJCombatFrameRecorder frameRecorder) : base(keySelector)
+        public JCombatQuery( Func<IJCombatTeam, string> keySelector, IJCombatFrameRecorder frameRecorder) : base(keySelector)
+        {
+            this.frameRecorder = frameRecorder;
+        }
+
+        public JCombatQuery(List<IJCombatTeam> teams, Func<IJCombatTeam, string> keySelector, IJCombatFrameRecorder frameRecorder) : this(keySelector, frameRecorder) 
         {
             AddRange(teams);
-
-            this.frameRecorder = frameRecorder;
         }
 
         #region 查找战斗结果

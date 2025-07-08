@@ -1,26 +1,16 @@
 ﻿using System.Collections.Generic;
 
-namespace JFrame.Game
+namespace JFramework.Game
 {
 
     public abstract class JCombatExecutorBase : JCombatActionComponent, IJCombatExecutor
     {
         IJCombatTargetsFinder finder;
 
-        IJCombatQuery query;
-        public JCombatExecutorBase(IJCombatTargetsFinder finder)
+        public JCombatExecutorBase(IJCombatQuery query, IJCombatTargetsFinder finder) : base(query) 
         {
             this.finder = finder;
-        }
 
-        public virtual void OnStart(IJCombatQuery query)
-        {
-            this.query = query; 
-        }
-
-        public virtual void OnStop()
-        {
-            //throw new System.NotImplementedException();
         }
 
         public void Execute(List<IJCombatUnit> targets)
@@ -28,7 +18,7 @@ namespace JFrame.Game
             var finalTargets = targets;
             if(finder != null)
             {
-                finalTargets = finder.GetTargets(query);
+                finalTargets = finder.GetTargets(/*query*/);
             }
 
             DoExecute(finalTargets);

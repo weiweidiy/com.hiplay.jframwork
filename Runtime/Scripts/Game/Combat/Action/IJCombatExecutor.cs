@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace JFrame.Game
+namespace JFramework.Game
 {
-    public interface IJCombatExecutor : IJCombatActionComponent, IJCombatLifeCycle
+    public interface IJCombatExecutor : IJCombatActionComponent /*IJCombatLifeCycle*/
     {
         void Execute( List<IJCombatUnit> targets);
     }

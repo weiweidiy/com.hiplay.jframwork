@@ -1,4 +1,4 @@
-﻿namespace JFrame.Game
+﻿namespace JFramework.Game
 {
     public class JCombatTurnBasedFrameRecorder : IJCombatFrameRecorder
     {

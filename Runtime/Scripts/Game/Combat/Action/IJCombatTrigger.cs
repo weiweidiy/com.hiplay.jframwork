@@ -2,10 +2,10 @@
 using System;
 using System.Collections.Generic;
 
-namespace JFrame.Game
+namespace JFramework.Game
 {
 
-    public interface IJCombatTrigger : IJCombatActionComponent, IJCombatLifeCycle
+    public interface IJCombatTrigger : IJCombatActionComponent/*, IJCombatLifeCycle*/
     {
         event Action<List<IJCombatUnit>> onTriggerOn;
 

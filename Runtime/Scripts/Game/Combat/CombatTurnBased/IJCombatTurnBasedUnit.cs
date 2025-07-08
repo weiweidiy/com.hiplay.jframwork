@@ -1,4 +1,4 @@
-﻿namespace JFrame.Game
+﻿namespace JFramework.Game
 {
     public interface IJCombatTurnBasedUnit : IJCombatUnit
     {
@@ -14,10 +14,10 @@
         /// <returns></returns>
         int GetActionPoint();
 
-        /// <summary>
-        /// 开始行动
-        /// </summary>
-        /// <param name="jCombatQuery"></param>
-        void Act();
+        ///// <summary>
+        ///// 开始行动
+        ///// </summary>
+        ///// <param name="jCombatQuery"></param>
+        //void Act();
     }
 }

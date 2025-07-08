@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace JFrame.Game
+namespace JFramework.Game
 {
     public class JCombatTeam : DictionaryContainer<IJCombatUnit>, IJCombatTeam
     {

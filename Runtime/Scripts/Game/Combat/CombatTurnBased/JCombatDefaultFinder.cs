@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace JFrame.Game
+namespace JFramework.Game
 {
     /// <summary>
     /// 基于战位的查找器, 基础查找器，深度找
@@ -16,7 +16,11 @@ namespace JFrame.Game
            { 7,8,9 }
         };
 
-        public virtual List<IJCombatUnit> GetTargets(IJCombatQuery query)
+        public JCombatDefaultFinder(IJCombatQuery query) : base(query)
+        {
+        }
+
+        public virtual List<IJCombatUnit> GetTargets(/*IJCombatQuery query*/)
         {
             var result = new List<IJCombatUnit>();
 

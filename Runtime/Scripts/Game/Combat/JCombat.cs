@@ -1,23 +1,19 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace JFrame.Game
+namespace JFramework.Game
 {
 
     public abstract class JCombat : IJCombat
     {
         protected IJCombatQuery jCombatQuery;
 
-        IJCombatEventRecorder eventRecorder;
-
-        IJCombatResult jCombatResult;//
-
-
-        public JCombat(IJCombatQuery jCombatQuery, IJCombatEventRecorder eventRecorder, IJCombatResult jCombatResult)
+        IJCombatRunner jCombatRunner;
+        public JCombat(IJCombatQuery jCombatQuery, IJCombatRunner jCombatRunner)
         {
-            this.jCombatQuery = jCombatQuery ?? throw new ArgumentNullException("jCombatJudger is null");
-            this.eventRecorder = eventRecorder ?? throw new ArgumentNullException("eventRecorder is null");
-            this.jCombatResult = jCombatResult ?? throw new ArgumentNullException("jCombatResult is null");
+            this.jCombatQuery = jCombatQuery;
+            this.jCombatRunner = jCombatRunner;
+            jCombatRunner.SetCombat(this);
         }
 
         /// <summary>
@@ -25,56 +21,37 @@ namespace JFrame.Game
         /// </summary>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<IJCombatResult> GetResult()
+        public Task<IJCombatResult> GetResult()
         {
-            IJCombatResult r = await Task.Run(() =>
-            {
-                //开始战斗
-                Start();
-
-                Update();
-
-                //获取胜利者
-                var winner = jCombatQuery.GetWinner();
-
-                //设置结果
-                jCombatResult.SetCombatEvents(eventRecorder.GetAllCombatEvents());
-                jCombatResult.SetCombatWinner(winner);
-
-                Stop();
-
-                return jCombatResult;
-            });
-
-            return r;
+            return jCombatRunner.RunCombat();
         }
 
 
 
-        protected abstract void Update();
 
-        protected virtual void Start()
-        {
-            var units = jCombatQuery.GetUnits();
-            if(units != null)
-            {
-                foreach (var unit in units)
-                {
-                    unit.Start(jCombatQuery);
-                }
-            }
-
-        }
-
-
-        protected virtual void Stop()
+        public virtual void OnStart()
         {
             var units = jCombatQuery.GetUnits();
             if (units != null)
             {
                 foreach (var unit in units)
                 {
-                    unit.Stop();
+                    unit.OnStart();
+                }
+            }
+
+        }
+
+        public abstract void OnUpdate();
+
+        public virtual void OnStop()
+        {
+            var units = jCombatQuery.GetUnits();
+            if (units != null)
+            {
+                foreach (var unit in units)
+                {
+                    unit.OnStop();
                 }
             }
 

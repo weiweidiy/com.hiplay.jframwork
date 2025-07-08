@@ -1,4 +1,6 @@
-﻿namespace JFrame.Game
+﻿using JFramework.Game;
+
+namespace JFramework.Game
 {
     public class JCombatExtraData : IJCombatExtraData
     {

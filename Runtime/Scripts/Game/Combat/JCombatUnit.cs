@@ -3,7 +3,7 @@ using JFramework.Game;
 using System;
 using System.Collections.Generic;
 
-namespace JFrame.Game
+namespace JFramework.Game
 {
     public class JCombatUnit : DictionaryContainer<IUnique>, IJCombatUnit
     {
@@ -11,13 +11,20 @@ namespace JFrame.Game
 
         protected IJCombatAttrNameQuery combatAttrNameQuery;
 
-        public JCombatUnit(string uid, List<IUnique> attrList,  Func<IUnique, string> keySelector, IJCombatAttrNameQuery combatAttrNameQuery) : base(keySelector)
+        protected IJCombatQuery query;
+
+        public JCombatUnit(string uid, List<IUnique> attrList,  Func<IUnique, string> keySelector, IJCombatAttrNameQuery combatAttrNameQuery, IJCombatQuery query) : this(uid, attrList,keySelector, combatAttrNameQuery)
+        {
+            this.query = query;
+        }
+
+        public JCombatUnit(string uid, List<IUnique> attrList, Func<IUnique, string> keySelector, IJCombatAttrNameQuery combatAttrNameQuery) : base(keySelector)
         {
             AddRange(attrList);
 
             this.combatAttrNameQuery = combatAttrNameQuery;
             this.Uid = uid;
-        }    
+        }
 
         public IUnique GetAttribute(string uid)
         {
@@ -35,10 +42,11 @@ namespace JFrame.Game
             return attr.CurValue <= 0;
         }
 
-        public virtual void Start(IJCombatQuery query) { }
+        public virtual void OnStart() { }
 
+        public virtual void OnUpdate() { }
 
-        public virtual void Stop() { }
+        public virtual void OnStop() { }
 
 
         public int OnDamage(IJCombatDamageData damageData)
