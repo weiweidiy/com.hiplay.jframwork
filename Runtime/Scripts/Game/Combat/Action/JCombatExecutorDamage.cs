@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace JFramework.Game
 {
@@ -8,15 +9,16 @@ namespace JFramework.Game
         {
         }
 
-        protected override void DoExecute(List<IJCombatUnit> finalTargets)
+        protected override void DoExecute(List<IJCombatCasterTargetableUnit> finalTargets)
         {
             if(finalTargets != null)
             {
+                var uid = Guid.NewGuid().ToString();
                 foreach(var target in finalTargets)
                 {
                     var sourceUnitUid = GetOwner().GetCaster();
                     var sourceActionUid = GetOwner().Uid;
-                    var data = new JCombatDamageData(sourceUnitUid, sourceActionUid, 20, 0);
+                    var data = new JCombatDamageData(uid, sourceUnitUid, sourceActionUid, 50, 0, target.Uid);
                     target.OnDamage(data);
                 }
             }

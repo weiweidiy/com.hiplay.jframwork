@@ -2,7 +2,7 @@
 
 namespace JFramework.Game
 {
-    public interface IJCombatActionComponent : IJCombatLifeCycle
+    public interface IJCombatActionComponent : IRunable
     {
         void SetOwner(IJCombatAction owner);
 

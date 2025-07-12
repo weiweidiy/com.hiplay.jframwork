@@ -6,7 +6,7 @@ namespace JFramework.Game
     /// <summary>
     /// 战斗行为基类，触发器触发执行，
     /// </summary>
-    public abstract class JCombatActionBase : IJCombatAction
+    public abstract class JCombatActionBase : BaseRunable, IJCombatAction
     {
         public string Uid { get; private set; }
 
@@ -15,7 +15,7 @@ namespace JFramework.Game
         List<IJCombatTrigger> triggers;
         List<IJCombatExecutor> executors;
 
-        IJcombatUnitCasterQuery casterQuery;
+        IJCombatCaster casterQuery;
         public JCombatActionBase(IJCombatQuery query, string uid, List<IJCombatTrigger> triggers,  List<IJCombatExecutor> executors)
         {
             this.Uid = uid;
@@ -43,15 +43,15 @@ namespace JFramework.Game
 
         }
 
-        public void OnStart(/*IJCombatQuery query*/)
+        protected override void OnStart(RunableExtraData extraData)
         {
-            //this.query = query;
+            base.OnStart(extraData);
 
             if (triggers != null)
             {
                 foreach (var trigger in triggers)
                 {
-                    trigger.OnStart(/*query*/);
+                    trigger.Start(extraData);
                     trigger.onTriggerOn += Trigger_onTriggerOn;
                 }
             }
@@ -60,23 +60,20 @@ namespace JFramework.Game
             {
                 foreach(var executor in executors)
                 {
-                    executor.OnStart(/*query*/);
+                    executor.Start(extraData);
                 }
             }
         }
 
-        public void OnUpdate()
+        protected override void OnStop()
         {
-            Execute(null);
-        }
+            base.OnStop();
 
-        public void OnStop()
-        {
             if (triggers != null)
             {
                 foreach (IJCombatTrigger trigger in triggers)
                 {
-                    trigger.OnStop();
+                    trigger.Stop();
                     trigger.onTriggerOn -= Trigger_onTriggerOn;
                 }
             }
@@ -85,23 +82,18 @@ namespace JFramework.Game
             {
                 foreach (var executor in executors)
                 {
-                    executor.OnStop();
+                    executor.Stop();
                 }
             }
-
         }
 
-        private void Trigger_onTriggerOn(List<IJCombatUnit> targets)
+        private void Trigger_onTriggerOn(List<IJCombatCasterTargetableUnit> targets)
         {
             Execute(targets);
         }
 
-        //public void Act()
-        //{
-            
-        //}
 
-        public void Execute(List<IJCombatUnit> targets)
+        public void Execute(List<IJCombatCasterTargetableUnit> targets)
         {
             if (executors != null)
             {
@@ -116,12 +108,22 @@ namespace JFramework.Game
         /// 设置actin释放者查询器
         /// </summary>
         /// <param name="casterQuery"></param>
-        public void SetCaster(IJcombatUnitCasterQuery casterQuery) => this.casterQuery = casterQuery;
+        public void SetCaster(IJCombatCaster casterQuery) => this.casterQuery = casterQuery;
 
         /// <summary>
         /// 获取action释放者uid
         /// </summary>
         /// <returns></returns>
-        public string GetCaster() => casterQuery.GetUnitUid();
+        public string GetCaster() => casterQuery.Uid;
+
+        public bool CanCast()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Cast()
+        {
+            Execute(null);
+        }
     }
 }

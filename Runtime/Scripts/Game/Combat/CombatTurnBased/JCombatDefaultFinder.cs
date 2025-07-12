@@ -20,9 +20,9 @@ namespace JFramework.Game
         {
         }
 
-        public virtual List<IJCombatUnit> GetTargets(/*IJCombatQuery query*/)
+        public virtual List<IJCombatCasterTargetableUnit> GetTargets(/*IJCombatQuery query*/)
         {
-            var result = new List<IJCombatUnit>();
+            var result = new List<IJCombatCasterTargetableUnit>();
 
             var myUnitUid = GetOwner().GetCaster();
             var targetTeams = query.GetOppoTeams(myUnitUid);
@@ -37,7 +37,7 @@ namespace JFramework.Game
                 foreach(var seat in targetsSeats)
                 {
                     var targetsUnit = q.GetUnit(targetTeam, seat);
-                    if(targetsUnit != null)
+                    if(targetsUnit != null && !targetsUnit.IsDead())
                     {
                         result.Add(targetsUnit);
                         return result;

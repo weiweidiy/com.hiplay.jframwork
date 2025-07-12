@@ -13,7 +13,7 @@ namespace JFramework.Game
 
         }
 
-        public void Execute(List<IJCombatUnit> targets)
+        public void Execute(List<IJCombatCasterTargetableUnit> targets)
         {
             var finalTargets = targets;
             if(finder != null)
@@ -24,7 +24,7 @@ namespace JFramework.Game
             DoExecute(finalTargets);
         }
 
-        protected abstract void DoExecute(List<IJCombatUnit> finalTargets);
+        protected abstract void DoExecute(List<IJCombatCasterTargetableUnit> finalTargets);
 
         public override void SetOwner(IJCombatAction owner)
         {

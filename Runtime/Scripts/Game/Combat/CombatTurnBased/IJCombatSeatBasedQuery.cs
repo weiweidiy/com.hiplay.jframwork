@@ -14,8 +14,8 @@ namespace JFramework.Game
         ///// </summary>
         ///// <param name="seats"></param>
         ///// <returns></returns>
-        //List<IJCombatUnit> GetUnits(IJCombatTeam team, List<int> seats);
+        //List<IJCombatCasterTargetableUnit> GetUnits(IJCombatTeam team, List<int> seats);
 
-        IJCombatUnit GetUnit(IJCombatTeam team, int seat);
+        IJCombatCasterTargetableUnit GetUnit(IJCombatTeam team, int seat);
     }
 }

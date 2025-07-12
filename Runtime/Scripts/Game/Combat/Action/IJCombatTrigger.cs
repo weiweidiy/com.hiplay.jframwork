@@ -7,9 +7,9 @@ namespace JFramework.Game
 
     public interface IJCombatTrigger : IJCombatActionComponent/*, IJCombatLifeCycle*/
     {
-        event Action<List<IJCombatUnit>> onTriggerOn;
+        event Action<List<IJCombatCasterTargetableUnit>> onTriggerOn;
 
-        bool IsTriggerOn(IJCombatQuery query, out List<IJCombatUnit> targets);
+        bool IsTriggerOn(IJCombatQuery query, out List<IJCombatCasterTargetableUnit> targets);
 
         
     }

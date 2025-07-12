@@ -1,6 +1,6 @@
 ﻿namespace JFramework.Game
 {
-    public abstract class JCombatActionComponent : IJCombatActionComponent
+    public abstract class JCombatActionComponent : BaseRunable, IJCombatActionComponent
     {
         IJCombatAction owner;
 
@@ -14,9 +14,5 @@
         public IJCombatAction GetOwner() => owner;
 
         public virtual void SetOwner(IJCombatAction owner) => this.owner = owner;
-        public virtual void OnStart() { }
-        public virtual void OnStop() { }
-
-        public virtual void OnUpdate() { }
     }
 }

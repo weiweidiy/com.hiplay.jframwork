@@ -23,14 +23,14 @@ namespace JFramework.Game
             return seatSelector(unitUid);
         }
 
-        public IJCombatUnit GetUnit(IJCombatTeam team, int seat)
+        public IJCombatCasterTargetableUnit GetUnit(IJCombatTeam team, int seat)
         {
             var units = GetUnits(_keySelector(team));
             foreach (var unit in units)
             {
                 var uSeat = seatSelector(unitSelector(unit));
                 if (uSeat == seat)
-                    return unit;
+                    return unit as IJCombatCasterTargetableUnit;
             }
 
             return null;
