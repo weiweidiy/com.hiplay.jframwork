@@ -46,12 +46,12 @@ namespace JFramework
                 throw new Exception(this.GetType().ToString() + " is running , can't run again! ");
             }
 
+            this.tcs = tcs == null ? new TaskCompletionSource<bool>() : tcs;
+
             this.ExtraData = extraData;
             this.IsRunning = true;
 
-            OnStart(extraData);
-
-            this.tcs = tcs == null ? new TaskCompletionSource<bool>() : tcs;
+            OnStart(extraData);         
             await this.tcs.Task;
         }
 
