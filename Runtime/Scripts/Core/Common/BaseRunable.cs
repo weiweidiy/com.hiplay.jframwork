@@ -30,6 +30,11 @@ namespace JFramework
         TaskCompletionSource<bool> tcs = null;
 
         /// <summary>
+        /// 
+        /// </summary>
+        protected void SetStartComplete() => tcs.SetResult(true);
+
+        /// <summary>
         /// 运行
         /// </summary>
         /// <param name="extraData"></param>
@@ -66,8 +71,8 @@ namespace JFramework
 
             IsRunning = false;
             OnStop();
-
-            tcs.SetResult(true);
+             
+            tcs.TrySetResult(true);
             onComplete?.Invoke(this);
         }
 
