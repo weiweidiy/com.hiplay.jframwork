@@ -2,14 +2,14 @@
 
 namespace JFramework.Game
 {
-    public class JCombatTurnBasedPlayer : JCombatPlayer
+    public class JCombatTurnBasedPlayer : JCombatBasePlayer
     {
         public JCombatTurnBasedPlayer() : base() { }
         public JCombatTurnBasedPlayer(IObjectPool objPool) : base(objPool) { }
 
-        protected override async void OnStartPlay(List<CombatEvent> events)
+        protected override async void OnStartPlay(List<JCombatTurnBasedEvent> events)
         {
-            var que = new Queue<CombatEvent>(events);
+            var que = new Queue<JCombatTurnBasedEvent>(events);
 
             while (que.Count > 0)
             {

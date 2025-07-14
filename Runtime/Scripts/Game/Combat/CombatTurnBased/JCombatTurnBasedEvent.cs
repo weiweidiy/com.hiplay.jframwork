@@ -10,7 +10,7 @@ namespace JFramework.Game
     /// <summary>
     /// 战斗事件
     /// </summary>
-    public struct CombatEvent : IUnique
+    public struct JCombatTurnBasedEvent : IUnique
     {
         public string Uid { get; set; }
 

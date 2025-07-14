@@ -4,15 +4,15 @@ using System.Collections.Generic;
 
 namespace JFramework.Game
 {
-    public abstract class JCombatEventRecorder : DictionaryContainer<CombatEvent>, IJCombatEventRecorder , IJCombatEventListener
+    public abstract class JCombatTurnBasedEventRecorder : DictionaryContainer<JCombatTurnBasedEvent>, IJCombatTurnBasedEventRecorder , IJCombatEventListener
     {
         IJCombatFrameRecorder frameRecorder;
-        public JCombatEventRecorder(IJCombatFrameRecorder frameRecorder,  Func<CombatEvent,string> keySelector):base(keySelector)
+        public JCombatTurnBasedEventRecorder(IJCombatFrameRecorder frameRecorder,  Func<JCombatTurnBasedEvent,string> keySelector):base(keySelector)
         { 
             this.frameRecorder = frameRecorder;
         }
 
-        public List<CombatEvent> GetAllCombatEvents() => GetAll();
+        public List<JCombatTurnBasedEvent> GetAllCombatEvents() => GetAll();
 
         public void OnDamage(IJCombatDamageData damageData)
         {
@@ -29,7 +29,7 @@ namespace JFramework.Game
             }
             else
             {
-                combatEvent = new CombatEvent();
+                combatEvent = new JCombatTurnBasedEvent();
                 combatEvent.Uid = dataUid;
                 combatEvent.CurFrame = frameRecorder.GetCurFrame();
                 combatEvent.CasterUid = damageData.GetCasterUid();

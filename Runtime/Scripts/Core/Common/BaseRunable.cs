@@ -32,7 +32,7 @@ namespace JFramework
         /// <summary>
         /// 
         /// </summary>
-        protected void SetStartComplete() => tcs.SetResult(true);
+        //protected void SetStartComplete() => tcs.SetResult(true);
 
         /// <summary>
         /// 运行
@@ -52,6 +52,7 @@ namespace JFramework
             this.IsRunning = true;
 
             OnStart(extraData);         
+
             await this.tcs.Task;
         }
 

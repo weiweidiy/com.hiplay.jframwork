@@ -4,19 +4,19 @@ using System.Runtime.InteropServices;
 
 namespace JFramework.Game
 {
-    public abstract class JCombatPlayer : BaseRunable, IJCombatPlayer
+    public abstract class JCombatBasePlayer : BaseRunable, IJCombatTurnBasedPlayer
     {
-        protected JCombatReportData reportData;
+        protected JCombatTurnBasedReportData reportData;
 
         float scale = 1f;
 
         protected IObjectPool pool;
 
-        public JCombatPlayer() : this(null) { }
+        public JCombatBasePlayer() : this(null) { }
 
-        public JCombatPlayer(IObjectPool objPool) => this.pool = objPool;
+        public JCombatBasePlayer(IObjectPool objPool) => this.pool = objPool;
 
-        public virtual void Play(JCombatReportData report)
+        public virtual void Play(JCombatTurnBasedReportData report)
         {
             this.reportData = report;
 
@@ -26,7 +26,12 @@ namespace JFramework.Game
             OnStartPlay(events);
         }
 
-        protected abstract void OnStartPlay(List<CombatEvent> events);
+        public void Play()
+        {
+            Play(reportData);
+        }
+
+        protected abstract void OnStartPlay(List<JCombatTurnBasedEvent> events);
 
         protected virtual RunableExtraData GetRunableData()
         {
@@ -72,7 +77,7 @@ namespace JFramework.Game
         {
             base.OnStart(extraData);
 
-            var reportData = extraData.Data as JCombatReportData;
+            var reportData = extraData.Data as JCombatTurnBasedReportData;
 
             if (reportData == null)
                 throw new ArgumentException("无效的 JCombatReportData ");
@@ -84,5 +89,7 @@ namespace JFramework.Game
         {
             base.OnStop();
         }
+
+
     }
 }

@@ -5,13 +5,13 @@ namespace JFramework.Game
     /// <summary>
     /// 战斗结果，player就是读取这个对象
     /// </summary>
-    public interface IJCombatReport
+    public interface IJCombatTurnBasedReport
     {
         /// <summary>
         /// 设置所有战斗事件
         /// </summary>
         /// <param name="events"></param>
-        void SetCombatEvents(List<CombatEvent> events);
+        void SetCombatEvents(List<JCombatTurnBasedEvent> events);
 
         /// <summary>
         /// 设置胜利队伍
@@ -23,6 +23,6 @@ namespace JFramework.Game
         /// 获取战报
         /// </summary>
         /// <returns></returns>
-        JCombatReportData GetCombatReportData();
+        JCombatTurnBasedReportData GetCombatReportData();
     }
 }
