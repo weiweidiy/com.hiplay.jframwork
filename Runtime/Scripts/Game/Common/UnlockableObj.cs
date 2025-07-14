@@ -10,6 +10,8 @@ namespace JFramework.Game
 
         public bool IsUnLocked { get; set; }
 
+        public bool IsLocked() => !IsUnLocked;
+
         public void Lock() => IsUnLocked = false;
 
         public void Unlock() => IsUnLocked = true;

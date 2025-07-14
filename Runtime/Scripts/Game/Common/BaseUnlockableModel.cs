@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Xml.Linq;
 
 namespace JFramework.Game
@@ -24,26 +26,48 @@ namespace JFramework.Game
             this.eventManager = eventManager;
         }
 
+        protected abstract void OnUpdateTData(List<TUnlockableData> unlockableDatas);
+
         /// <summary>
         /// 加锁
         /// </summary>
         /// <param name="uid"></param>
-        public virtual void Lock(string uid)
+        public virtual bool Lock(string uid)
         {
             var data = Get(uid);
+            if (data.IsLocked()) return false;
+
             data.Lock();
             Update(data);
+            OnUpdateTData(GetAll());
+            return true;
+
         }
+
 
         /// <summary>
         /// 解锁指定对象
         /// </summary>
         /// <param name="uid"></param>
-        public virtual void Unlock(string uid)
+        public virtual bool Unlock(string uid)
         {
             var data = Get(uid);
+            if (!data.IsLocked()) return false;
             data.Unlock();
             Update(data);
+            OnUpdateTData(GetAll());
+            return true;
+        }
+
+        /// <summary>
+        /// 是否是锁的状态
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        public bool IsLocked(string uid)
+        {
+            var data = Get(uid);
+            return data.IsLocked();
         }
 
         /// <summary>
@@ -64,5 +88,7 @@ namespace JFramework.Game
         {
             eventManager.Raise<T>(arg);
         }
+
+
     }
 }

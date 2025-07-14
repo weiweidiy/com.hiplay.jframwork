@@ -12,12 +12,16 @@ namespace JFramework.Game
         void Unlock();
 
         void Lock();
+
+        bool IsLocked();
     }
 
     public interface IUnlockableContainer
     {
-        void Unlock(string uid);
+        bool Unlock(string uid);
 
-        void Lock(string uid);
+        bool Lock(string uid);
+
+        bool IsLocked(string uid);
     }
 }
