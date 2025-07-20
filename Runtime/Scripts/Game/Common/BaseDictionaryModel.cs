@@ -8,6 +8,7 @@ namespace JFramework.Game
 
         protected BaseDictionaryModel(Func<TData, string> keySelector, EventManager eventManager) : base(keySelector)
         {
+            this.eventManager = eventManager;
         }
 
 
