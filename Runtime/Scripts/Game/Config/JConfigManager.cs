@@ -10,6 +10,8 @@ namespace JFramework.Game
 {
     public class JConfigManager : IJConfigManager, IDisposable
     {
+        string basePath = "";
+        string extend = "";
         private readonly Dictionary<Type, object> _tables = new Dictionary<Type, object>();
         private readonly IConfigLoader loader;
         private readonly Dictionary<Type, Dictionary<string, IUnique>> _uidMaps = new Dictionary<Type, Dictionary<string, IUnique>>();
@@ -55,8 +57,10 @@ namespace JFramework.Game
         /// <summary>
         /// 预加载所有注册的配置表
         /// </summary>
-        public async Task PreloadAllAsync(IProgress<LoadProgress> progress = null)
+        public async Task PreloadAllAsync(string basePath = "" , string extend = "" , IProgress<LoadProgress> progress = null)
         {
+            this.basePath = basePath;
+            this.extend = extend;
             var tables = _registrations.Values.ToArray();
             int totalCount = tables.Length;
             int completed = 0;
@@ -96,7 +100,7 @@ namespace JFramework.Game
             var table = Activator.CreateInstance(tableInfo.TableType);
 
             // 2. 加载原始数据
-            var data = await loader.LoadBytesAsync(tableInfo.Path);
+            var data = await loader.LoadBytesAsync(basePath + tableInfo.Path + extend);
 
             object itemList = null;
             try

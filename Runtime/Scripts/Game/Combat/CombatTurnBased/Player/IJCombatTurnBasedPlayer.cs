@@ -1,7 +1,7 @@
 ﻿namespace JFramework.Game
 {
-    public interface IJCombatTurnBasedPlayer : IJCombatPlayer
+    public interface IJCombatTurnBasedPlayer<T> : IJCombatPlayer where T : IJCombatUnitData
     {
-        void Play(JCombatTurnBasedReportData reportData);
+        void Play(JCombatTurnBasedReportData<T> reportData);
     }
 }

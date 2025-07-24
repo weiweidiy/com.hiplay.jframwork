@@ -6,5 +6,6 @@ namespace JFramework.Game
 {
     public interface ISDK
     {
+
     }
 }

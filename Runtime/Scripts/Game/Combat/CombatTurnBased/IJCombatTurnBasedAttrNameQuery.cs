@@ -3,5 +3,11 @@
     public interface IJCombatTurnBasedAttrNameQuery : IJCombatAttrNameQuery
     {
         string GetActionPointName();
+
+        //string GetAtkAttrName();
+
+        //string GetDefAttrName();
+
+        //string GetSpeedAttrName();
     }
 }

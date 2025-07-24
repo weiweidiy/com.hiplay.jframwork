@@ -10,6 +10,7 @@ namespace JFramework.Game
         IJCombatUnit GetUnit(string uid);
 
         bool IsAllDead();
+        void SetQuery(IJCombatQuery jCombatQuery);
     }
 
 }

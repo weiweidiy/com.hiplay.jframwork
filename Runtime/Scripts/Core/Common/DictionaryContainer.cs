@@ -231,12 +231,12 @@ namespace JFramework
 //        /// <summary>
 //        /// 根据键获取项
 //        /// </summary>
-//        public T Get(string uid)
+//        public T Get(string Uid)
 //        {
-//            if (string.IsNullOrWhiteSpace(uid))
-//                throw new ArgumentNullException(nameof(uid));
+//            if (string.IsNullOrWhiteSpace(Uid))
+//                throw new ArgumentNullException(nameof(Uid));
 
-//            return _dictionary.TryGetValue(uid, out var item)
+//            return _dictionary.TryGetValue(Uid, out var item)
 //                ? item
 //                : default;
 //        }
@@ -259,15 +259,15 @@ namespace JFramework
 //        /// <summary>
 //        /// 移除指定项
 //        /// </summary>
-//        public bool Remove(string uid)
+//        public bool Remove(string Uid)
 //        {
-//            if (string.IsNullOrWhiteSpace(uid))
-//                throw new ArgumentNullException(nameof(uid));
+//            if (string.IsNullOrWhiteSpace(Uid))
+//                throw new ArgumentNullException(nameof(Uid));
 
-//            if (!_dictionary.TryGetValue(uid, out var item))
+//            if (!_dictionary.TryGetValue(Uid, out var item))
 //                return false;
 
-//            _dictionary.Remove(uid);
+//            _dictionary.Remove(Uid);
 //            onItemRemoved?.Invoke(item);
 //            return true;
 //        }
@@ -293,15 +293,15 @@ namespace JFramework
 //        /// <summary>
 //        /// 尝试获取项
 //        /// </summary>
-//        public bool TryGet(string uid, out T item)
+//        public bool TryGet(string Uid, out T item)
 //        {
-//            if (string.IsNullOrWhiteSpace(uid))
+//            if (string.IsNullOrWhiteSpace(Uid))
 //            {
 //                item = default;
 //                return false;
 //            }
 
-//            return _dictionary.TryGetValue(uid, out item);
+//            return _dictionary.TryGetValue(Uid, out item);
 //        }
 
 

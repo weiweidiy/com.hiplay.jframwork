@@ -14,10 +14,22 @@ namespace JFramework.Game
         /// <param name="uid"></param>
         /// <param name="units"></param>
         /// <param name="keySelector"></param>
-        public JCombatTeam(string uid, List<IJCombatCasterTargetableUnit> units,  Func<IJCombatUnit, string> keySelector) : base(keySelector)
+        public JCombatTeam(string uid, List<IJCombatUnit> units,  Func<IJCombatUnit, string> keySelector) : base(keySelector)
         {
             AddRange(units);
             this.Uid = uid;
+        }
+
+        public JCombatTeam(string uid, List<IJCombatUnit> units) : this(uid, units, (u) => u.Uid)
+        {
+        }
+
+        public void SetQuery(IJCombatQuery jCombatQuery)
+        {
+            foreach (var unit in GetAll())
+            {
+                unit.SetQuery(jCombatQuery);
+            }
         }
 
 

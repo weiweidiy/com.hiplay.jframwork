@@ -5,6 +5,6 @@
     /// </summary>
     public interface IJCombatUnit : IJAttributeableUnit, IRunable
     {
-
+        void SetQuery(IJCombatQuery jCombatQuery);
     }
 }

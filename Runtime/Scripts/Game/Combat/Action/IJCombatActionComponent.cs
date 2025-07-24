@@ -7,5 +7,7 @@ namespace JFramework.Game
         void SetOwner(IJCombatAction owner);
 
         IJCombatAction GetOwner();
+
+        void SetQuery(IJCombatQuery query);
     }
 }

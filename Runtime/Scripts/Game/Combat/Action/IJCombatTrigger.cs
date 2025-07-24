@@ -10,7 +10,5 @@ namespace JFramework.Game
         event Action<List<IJCombatCasterTargetableUnit>> onTriggerOn;
 
         bool IsTriggerOn(IJCombatQuery query, out List<IJCombatCasterTargetableUnit> targets);
-
-        
     }
 }

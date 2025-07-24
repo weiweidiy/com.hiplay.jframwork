@@ -16,7 +16,7 @@ namespace JFramework.Game
            { 7,8,9 }
         };
 
-        public JCombatDefaultFinder(IJCombatQuery query) : base(query)
+        public JCombatDefaultFinder(/*IJCombatQuery query*/)// : base(query)
         {
         }
 

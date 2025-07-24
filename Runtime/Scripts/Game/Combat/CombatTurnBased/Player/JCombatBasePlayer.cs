@@ -4,9 +4,9 @@ using System.Runtime.InteropServices;
 
 namespace JFramework.Game
 {
-    public abstract class JCombatBasePlayer : BaseRunable, IJCombatTurnBasedPlayer
+    public abstract class JCombatBasePlayer<T> : BaseRunable, IJCombatTurnBasedPlayer<T> where T : IJCombatUnitData
     {
-        protected JCombatTurnBasedReportData reportData;
+        protected JCombatTurnBasedReportData<T> reportData;
 
         float scale = 1f;
 
@@ -16,9 +16,9 @@ namespace JFramework.Game
 
         public JCombatBasePlayer(IObjectPool objPool) => this.pool = objPool;
 
-        public virtual void Play(JCombatTurnBasedReportData report)
+        public virtual void Play(JCombatTurnBasedReportData<T> reportData) 
         {
-            this.reportData = report;
+            this.reportData = reportData;
 
             string winner = reportData.winnerTeamUid;
             var events = reportData.events;
@@ -77,7 +77,7 @@ namespace JFramework.Game
         {
             base.OnStart(extraData);
 
-            var reportData = extraData.Data as JCombatTurnBasedReportData;
+            var reportData = extraData.Data as JCombatTurnBasedReportData<T>;
 
             if (reportData == null)
                 throw new ArgumentException("无效的 JCombatReportData ");

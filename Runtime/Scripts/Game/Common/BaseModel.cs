@@ -26,7 +26,7 @@ namespace JFramework.Game
                 throw new Exception(this.GetType().ToString() + "inject eventManager failed, it is null !");
 
             this.eventManager = eventManager;
-            //uid = Guid.NewGuid().ToString();
+            //Uid = Guid.NewGuid().ToString();
         }
 
         /// <summary>

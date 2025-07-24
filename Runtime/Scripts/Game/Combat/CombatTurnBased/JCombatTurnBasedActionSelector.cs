@@ -18,6 +18,10 @@ namespace JFramework.Game
             ResetActionUnits();
         }
 
+        public JCombatTurnBasedActionSelector(List<IJCombatTurnBasedUnit> units) : this(units, (u) => u.Uid)
+        {
+        }
+
         public List<IJCombatTurnBasedUnit> GetActionUnits()
         {
             return actionList;

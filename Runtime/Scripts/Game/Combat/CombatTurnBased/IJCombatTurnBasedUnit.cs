@@ -8,6 +8,6 @@
         /// <returns></returns>
         int GetActionPoint();
 
-
+        IJCombatUnitInfo GetUnitInfo();
     }
 }

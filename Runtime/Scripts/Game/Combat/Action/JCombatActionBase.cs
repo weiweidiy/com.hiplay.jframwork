@@ -6,7 +6,7 @@ namespace JFramework.Game
     /// <summary>
     /// 战斗行为基类，触发器触发执行，
     /// </summary>
-    public abstract class JCombatActionBase : BaseRunable, IJCombatAction
+    public class JCombatActionBase : BaseRunable, IJCombatAction
     {
         public string Uid { get; private set; }
 
@@ -16,12 +16,12 @@ namespace JFramework.Game
         List<IJCombatExecutor> executors;
 
         IJCombatCaster casterQuery;
-        public JCombatActionBase(IJCombatQuery query, string uid, List<IJCombatTrigger> triggers,  List<IJCombatExecutor> executors)
+        public JCombatActionBase(/*IJCombatQuery query, */string uid, List<IJCombatTrigger> triggers,  List<IJCombatExecutor> executors)
         {
             this.Uid = uid;
             this.triggers = triggers;
             this.executors = executors;
-            this.query = query;
+            //this.query = query;
 
             if (triggers != null)
             {
@@ -40,7 +40,29 @@ namespace JFramework.Game
                     executor.SetOwner(this);
                 }
             }
+        }
 
+        public void SetQuery(IJCombatQuery query)
+        {
+            this.query = query;
+
+            if (triggers != null)
+            {
+                foreach (IJCombatTrigger trigger in triggers)
+                {
+           
+                    trigger.SetQuery(query);
+                }
+            }
+
+            if (executors != null)
+            {
+                foreach (IJCombatExecutor executor in executors)
+                {
+                    
+                    executor.SetQuery(query);
+                }
+            }
         }
 
         protected override void OnStart(RunableExtraData extraData)
@@ -118,7 +140,10 @@ namespace JFramework.Game
 
         public bool CanCast()
         {
-            throw new NotImplementedException();
+            // 这里可以添加一些逻辑来判断是否可以施放，比如检查是否有足够的资源，或者是否满足某些条件
+            return true;
+
+            //throw new NotImplementedException();
         }
 
         public void Cast()

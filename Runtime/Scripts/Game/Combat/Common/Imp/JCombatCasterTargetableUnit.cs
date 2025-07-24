@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace JFramework.Game
 {
-
     public class JCombatCasterTargetableUnit : RunableDictionaryContainer<IUnique>, IJCombatCasterTargetableUnit
     {
         public string Uid { get; private set; }
@@ -31,7 +30,18 @@ namespace JFramework.Game
                     action.SetCaster(this);
             }
         }
+        //public JCombatCasterTargetableUnit(JCombatUnitInfo unitInfo,  Func<IUnique, string> keySelector, IJCombatAttrNameQuery combatAttrNameQuery, List<IJCombatAction> actions, IJCombatEventListener eventListener) 
+        //    : this(unitInfo.Uid, unitInfo.AttrList, keySelector, combatAttrNameQuery, actions, eventListener)
+        //{
+        //}
 
+        public void SetQuery(IJCombatQuery jCombatQuery)
+        {
+            foreach(var action in actions)
+            {
+                action.SetQuery(jCombatQuery);
+            }
+        }
 
         protected override void OnStart(RunableExtraData extraData)
         {
@@ -102,6 +112,8 @@ namespace JFramework.Game
         {
             return !IsDead();
         }
+
+
         #endregion
     }
 }
