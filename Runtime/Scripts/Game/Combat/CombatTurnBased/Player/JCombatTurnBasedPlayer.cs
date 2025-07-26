@@ -15,6 +15,7 @@ namespace JFramework.Game
             while (que.Count > 0)
             {
                 var runner = GetEventRunner();
+                runner.AnimationPlayer = animationPlayer;
                 var combatEvent = que.Dequeue();
                 var runableData = GetRunableData();
                 runableData.Data = combatEvent;
