@@ -19,6 +19,7 @@ namespace JFramework.Game
         {
             this.pool = objPool;
             this.reportData = reportData;
+            this.animationPlayer = animationPlayer;
         }
         
 
