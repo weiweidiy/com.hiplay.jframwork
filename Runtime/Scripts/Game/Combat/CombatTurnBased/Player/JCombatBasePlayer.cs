@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace JFramework.Game
 {
@@ -12,25 +13,35 @@ namespace JFramework.Game
 
         protected IObjectPool pool;
 
-        public JCombatBasePlayer() : this(null) { }
+        ICombatAnimationPlayer animationPlayer;
 
-        public JCombatBasePlayer(IObjectPool objPool) => this.pool = objPool;
+        public JCombatBasePlayer( JCombatTurnBasedReportData<T> reportData, ICombatAnimationPlayer animationPlayer, IObjectPool objPool = null)
+        {
+            this.pool = objPool;
+            this.reportData = reportData;
+        }
+        
 
-        public virtual void Play(JCombatTurnBasedReportData<T> reportData) 
+        public virtual async Task Play(JCombatTurnBasedReportData<T> reportData) 
         {
             this.reportData = reportData;
 
             string winner = reportData.winnerTeamUid;
             var events = reportData.events;
+            var teams = reportData.FormationData;
+
+            //根据战报数据中的队伍信息，初始化游戏对象
+            await animationPlayer.InitCombatFormation(teams);
+
             //用event中的SortIndex字段做升序排序
             events.Sort((x, y) => x.SortIndex.CompareTo(y.SortIndex));
 
             OnStartPlay(events);
         }
 
-        public void Play()
+        public async Task Play()
         {
-            Play(reportData);
+            await Play(reportData);
         }
 
         protected abstract void OnStartPlay(List<JCombatTurnBasedEvent> events);

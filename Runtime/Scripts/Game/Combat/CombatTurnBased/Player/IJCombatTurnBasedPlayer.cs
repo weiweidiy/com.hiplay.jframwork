@@ -1,7 +1,10 @@
-﻿namespace JFramework.Game
+﻿using System.Threading.Tasks;
+
+namespace JFramework.Game
 {
+
     public interface IJCombatTurnBasedPlayer<T> : IJCombatPlayer where T : IJCombatUnitData
     {
-        void Play(JCombatTurnBasedReportData<T> reportData);
+        Task Play(JCombatTurnBasedReportData<T> reportData);
     }
 }

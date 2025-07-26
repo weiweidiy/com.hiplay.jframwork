@@ -1,8 +1,10 @@
-﻿namespace JFramework.Game
+﻿using System.Threading.Tasks;
+
+namespace JFramework.Game
 {
     public interface IJCombatPlayer
     {
-        void Play();
+        Task Play();
 
         void RePlay();
 
