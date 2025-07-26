@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
+using System.Linq;
 
 namespace JFramework.Game
 {
@@ -10,36 +12,47 @@ namespace JFramework.Game
         protected IJCombatAttrNameQuery combatAttrNameQuery;
 
 
-        protected IJCombatEventListener eventListener;
+        protected List<IJCombatUnitEventListener> eventListeners;
 
         protected List<IJCombatAction> actions;
 
-        public JCombatCasterTargetableUnit(string uid, List<IUnique> attrList,  Func<IUnique, string> keySelector, IJCombatAttrNameQuery combatAttrNameQuery, List<IJCombatAction> actions,  IJCombatEventListener eventListener) : base(keySelector)
+        public JCombatCasterTargetableUnit(string uid, List<IUnique> attrList,  Func<IUnique, string> keySelector, IJCombatAttrNameQuery combatAttrNameQuery, List<IJCombatAction> actions, List<IJCombatUnitEventListener> eventListeners) : base(keySelector)
         {
-            this.eventListener = eventListener;
+            this.eventListeners = eventListeners;
 
             AddRange(attrList);
 
             this.combatAttrNameQuery = combatAttrNameQuery;
             this.Uid = uid;
 
+            if (eventListeners == null)
+            {
+                eventListeners = new List<IJCombatUnitEventListener>();
+            }
+
             this.actions = actions;
             if (this.actions != null)
             {
                 foreach (var action in actions)
+                {
                     action.SetCaster(this);
+                }
+                    
             }
         }
-        //public JCombatCasterTargetableUnit(JCombatUnitInfo unitInfo,  Func<IUnique, string> keySelector, IJCombatAttrNameQuery combatAttrNameQuery, List<IJCombatAction> actions, IJCombatEventListener eventListener) 
-        //    : this(unitInfo.Uid, unitInfo.AttrList, keySelector, combatAttrNameQuery, actions, eventListener)
-        //{
-        //}
+
 
         public void SetQuery(IJCombatQuery jCombatQuery)
         {
             foreach(var action in actions)
             {
                 action.SetQuery(jCombatQuery);
+
+                var triggers = action.GetTriggers();
+                if (triggers != null)
+                {
+                    eventListeners.InsertRange(0, triggers.OfType<IJCombatUnitEventListener>());
+                }
             }
         }
 
@@ -92,15 +105,30 @@ namespace JFramework.Game
 
         public int OnDamage(IJCombatDamageData damageData)
         {
+            //通知监听器
+            if(eventListeners !=null)
+            {
+                foreach (var listener in eventListeners)
+                {
+                    listener.OnBeforeDamage(damageData); // 触发事件监听器的伤害前事件，可以在这里处理一些逻辑，比如触发其他技能伤害加成、减免等。
+                }
+            }
+
+           
             var attrHp = Get(combatAttrNameQuery.GetHpAttrName()) as GameAttributeInt;
             var preValue = attrHp.CurValue;
-
             var damage = damageData.GetDamage();
-
             var curValue = attrHp.Minus(damage);
 
-            eventListener?.OnDamage(damageData);
-
+            //通知监听器
+            if (eventListeners != null)
+            {
+                foreach (var listener in eventListeners)
+                {
+                    listener.OnAfterDamage(damageData); // 触发事件监听器的伤害后事件，可以在这里处理一些逻辑，比如触发其他技能或效果。
+                }
+            }
+            
             return preValue - curValue;
         }
         #endregion

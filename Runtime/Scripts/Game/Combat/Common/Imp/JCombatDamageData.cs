@@ -15,9 +15,19 @@
             return damage;
         }
 
+        public void SetDamage(int damage)
+        {
+            this.damage = damage;
+        }
+
         public int GetDamageType()
         {
             return (int)damageType;
+        }
+
+        public void SetDamageType(int damageType)
+        {
+            this.damageType = damageType;
         }
     }
 }

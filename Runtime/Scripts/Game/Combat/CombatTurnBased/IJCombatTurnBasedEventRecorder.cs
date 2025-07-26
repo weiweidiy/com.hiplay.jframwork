@@ -8,5 +8,17 @@ namespace JFramework.Game
     public interface IJCombatTurnBasedEventRecorder
     {
         List<JCombatTurnBasedEvent> GetAllCombatEvents();
+
+        /// <summary>
+        /// 创建一个新的战斗事件
+        /// </summary>
+        /// <returns></returns>
+        JCombatTurnBasedEvent CreateActionEvent(string ownerUid, string actionUid);
+
+        /// <summary>
+        /// 添加一个战斗事件
+        /// </summary>
+        /// <param name="combatEvent"></param>
+        void AddEvent(JCombatTurnBasedEvent combatEvent);
     }
 }

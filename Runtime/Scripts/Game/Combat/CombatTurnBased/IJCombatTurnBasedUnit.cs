@@ -1,4 +1,6 @@
-﻿namespace JFramework.Game
+﻿using System.Collections.Generic;
+
+namespace JFramework.Game
 {
     public interface IJCombatTurnBasedUnit : IJCombatCasterTargetableUnit, IJCombatCaster
     {
@@ -9,5 +11,7 @@
         int GetActionPoint();
 
         IJCombatUnitInfo GetUnitInfo();
+
+        List<IJCombatAcionInfo> GetActionInfos();
     }
 }

@@ -73,7 +73,7 @@ namespace JFramework
             IsRunning = false;
             OnStop();
              
-            tcs.TrySetResult(true);
+            tcs?.TrySetResult(true);
             onComplete?.Invoke(this);
         }
 

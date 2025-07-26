@@ -5,10 +5,11 @@ using System.Collections.Generic;
 namespace JFramework.Game
 {
 
-    public interface IJCombatTrigger : IJCombatActionComponent/*, IJCombatLifeCycle*/
+    public interface IJCombatTrigger : IJCombatActionComponent
     {
-        event Action<List<IJCombatCasterTargetableUnit>> onTriggerOn;
+        event Action<IJCombatTrigger, object> onTriggerOn;
+        bool IsTriggerOn();
 
-        bool IsTriggerOn(IJCombatQuery query, out List<IJCombatCasterTargetableUnit> targets);
+        void Reset();
     }
 }

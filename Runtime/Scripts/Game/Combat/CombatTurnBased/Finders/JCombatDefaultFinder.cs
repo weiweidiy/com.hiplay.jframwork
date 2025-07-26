@@ -11,41 +11,71 @@ namespace JFramework.Game
 
         protected int[,] seats = new int[3, 3]
         {
-           { 1,2,3 },
-           { 4,5,6 },
-           { 7,8,9 }
+           { 0,1,2 },
+           { 3,4,5 },
+           { 6,7,8 }
         };
 
-        public JCombatDefaultFinder(/*IJCombatQuery query*/)// : base(query)
+        public JCombatDefaultFinder()
         {
         }
 
-        public virtual List<IJCombatCasterTargetableUnit> GetTargets(/*IJCombatQuery query*/)
+        public virtual List<IJCombatCasterTargetableUnit> GetTargets()
         {
             var result = new List<IJCombatCasterTargetableUnit>();
 
+            var primaryTarget = FindPrimaryTarget();
+
+            if(primaryTarget != null)
+            {
+                result.Add(primaryTarget);
+            }
+            else
+            {
+                // 如果没有找到主目标，则返回空列表
+                return result;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 查找主目标
+        /// </summary>
+        /// <returns></returns>
+        IJCombatCasterTargetableUnit FindPrimaryTarget()
+        {
             var myUnitUid = GetOwner().GetCaster();
-            var targetTeams = query.GetOppoTeams(myUnitUid);
-            var targetTeam = targetTeams[0];
+            var targetTeam = GetTargetTeam();
 
             var q = query as IJCombatSeatBasedQuery;
             if (q != null)
             {
                 var mySeat = q.GetSeat(myUnitUid);
-                var targetsSeats = FindTargetsSeat(mySeat);      
-                
-                foreach(var seat in targetsSeats)
+                var targetsSeats = FindTargetsSeat(mySeat);
+
+                foreach (var seat in targetsSeats)
                 {
                     var targetsUnit = q.GetUnit(targetTeam, seat);
-                    if(targetsUnit != null && !targetsUnit.IsDead())
+                    if (targetsUnit != null && !targetsUnit.IsDead())
                     {
-                        result.Add(targetsUnit);
-                        return result;
+                        return targetsUnit;
                     }
                 }
             }
-            return result;
+
+            return null;
         }
+
+        protected virtual IJCombatTeam GetTargetTeam()
+        {
+            var myUnitUid = GetOwner().GetCaster();
+            var targetTeams = query.GetOppoTeams(myUnitUid);
+            var targetTeam = targetTeams[0];
+            return targetTeam;
+        }
+
+        
 
         /// <summary>
         /// 根据自己的位置获取目标位置

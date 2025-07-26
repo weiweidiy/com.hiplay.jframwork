@@ -22,6 +22,8 @@ namespace JFramework.Game
 
             string winner = reportData.winnerTeamUid;
             var events = reportData.events;
+            //用event中的SortIndex字段做升序排序
+            events.Sort((x, y) => x.SortIndex.CompareTo(y.SortIndex));
 
             OnStartPlay(events);
         }

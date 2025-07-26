@@ -4,6 +4,6 @@ namespace JFramework.Game
 {
     public interface IJCombatAttrBuilder
     {
-        List<IUnique> Create(int key);
+        List<IUnique> Create();
     }
 }

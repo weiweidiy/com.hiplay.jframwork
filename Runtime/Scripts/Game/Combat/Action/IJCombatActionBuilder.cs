@@ -4,6 +4,6 @@ namespace JFramework.Game
 {
     public interface  IJCombatActionBuilder
     {
-        List<IJCombatAction> Create(int key);
+        List<IJCombatAction> Create();
     }
 }
