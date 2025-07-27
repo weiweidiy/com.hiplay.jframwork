@@ -13,9 +13,9 @@ namespace JFramework.Game
 
         protected IObjectPool pool;
 
-        protected ICombatAnimationPlayer animationPlayer;
+        protected IJCombatAnimationPlayer animationPlayer;
 
-        public JCombatBasePlayer( JCombatTurnBasedReportData<T> reportData, ICombatAnimationPlayer animationPlayer, IObjectPool objPool = null)
+        public JCombatBasePlayer( JCombatTurnBasedReportData<T> reportData, IJCombatAnimationPlayer animationPlayer, IObjectPool objPool = null)
         {
             this.pool = objPool;
             this.reportData = reportData;

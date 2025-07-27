@@ -7,7 +7,7 @@ namespace JFramework.Game
 
     public class JCombatTurnBasedEventRunner : BaseRunable, IDisposable
     {
-        public ICombatAnimationPlayer AnimationPlayer { get; set; }
+        public IJCombatAnimationPlayer AnimationPlayer { get; set; }
 
         public virtual void Dispose()
         {

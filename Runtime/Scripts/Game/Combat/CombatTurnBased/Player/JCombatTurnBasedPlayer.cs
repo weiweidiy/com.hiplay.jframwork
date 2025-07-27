@@ -5,7 +5,7 @@ namespace JFramework.Game
 {
     public class JCombatTurnBasedPlayer<T> : JCombatBasePlayer<T> where T : IJCombatUnitData
     {
-        public JCombatTurnBasedPlayer(JCombatTurnBasedReportData<T> reportData, ICombatAnimationPlayer animationPlayer, IObjectPool objPool = null) : base(reportData, animationPlayer,objPool)
+        public JCombatTurnBasedPlayer(JCombatTurnBasedReportData<T> reportData, IJCombatAnimationPlayer animationPlayer, IObjectPool objPool = null) : base(reportData, animationPlayer,objPool)
         {
         }
 

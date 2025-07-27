@@ -7,9 +7,9 @@ namespace JFramework.Game
     /// 具体创建游戏对象的接口
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface ICombatAnimationPlayer
+    public interface IJCombatAnimationPlayer
     {
-        Task Initialize<T>(JCombatTurnBasedReportData<T> reportData, params object[] args ) where T : IJCombatUnitData;
+        Task Initialize<T>(JCombatTurnBasedReportData<T> reportData) where T : IJCombatUnitData;
         Task PlayAcion( string casterUid, string actionUid, Dictionary<string, List<ActionEffectInfo>> effect);
 
     }
