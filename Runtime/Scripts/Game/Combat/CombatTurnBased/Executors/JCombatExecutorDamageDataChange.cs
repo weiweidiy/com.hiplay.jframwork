@@ -23,7 +23,7 @@ namespace JFramework.Game
             var damageData = triggerArgs as IJCombatDamageData;
             if (damageData == null)
             {
-                throw new Exception("JCombatExecutorDamageUp: triggerArgs is not a valid IJCombatDamageData.");
+                return;
             }
 
             var value = damageData.GetDamage();

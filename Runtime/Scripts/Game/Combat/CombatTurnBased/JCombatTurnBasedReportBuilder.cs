@@ -22,11 +22,7 @@ namespace JFramework.Game
         public string winnerTeamUid { get; set; }
         public List<JCombatTurnBasedEvent> events { get; set; }
     }
-    //{
-    //    public Dictionary<string, List<JCombatUnitData>> FormationData { get; set; }
-    //    public string winnerTeamUid { get; set; }
-    //    public List<JCombatTurnBasedEvent> events { get; set; }
-    //}
+
 
 
     public abstract class JCombatTurnBasedReportBuilder : IJCombatTurnBasedReportBuilder
@@ -52,7 +48,7 @@ namespace JFramework.Game
 
         public JCombatTurnBasedReportData<T> GetCombatReportData<T>() where T : class, IJCombatUnitData
         {
-            var data = new JCombatTurnBasedReportData<T>();
+            var data = CreateReportData<T>();
 
             data.FormationData = GetFormationData<T>();
             data.winnerTeamUid = winner?.Uid ?? null;
@@ -80,13 +76,8 @@ namespace JFramework.Game
 
         protected abstract T CreateUnitData<T>(IJCombatUnit unit) where T : class, IJCombatUnitData;
 
-        //{
-        //    return new T
-        //    {
-        //        Uid = unit.Uid,
-        //        Seat = seatQuery.GetSeat(unit.Uid)
-        //    };
-        //}
+        protected abstract JCombatTurnBasedReportData<T> CreateReportData<T>() where T : class, IJCombatUnitData;
+
     }
 
 
