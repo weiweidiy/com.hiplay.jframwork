@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace JFramework.Game
 {
@@ -10,11 +11,15 @@ namespace JFramework.Game
 
         protected JCombatTurnBasedEvent objEvent;
 
-        public JCombatExecutorBase(IJCombatTargetsFinder finder, IJCombatFormula formulua)
+
+        public JCombatExecutorBase(IJCombatTargetsFinder finder, IJCombatFormula formulua, float[] args = null):base(args)
         {
             this.finder = finder;
-            this.formulua = formulua;
+            this.formulua = formulua;    
         }
+
+        
+
 
         public void Execute(object triggerArgs)
         {

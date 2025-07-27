@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace JFramework.Game
 {
+
     /// <summary>
     /// 基于战位的查找器, 基础查找器，深度找
     /// </summary>
@@ -16,8 +17,13 @@ namespace JFramework.Game
            { 6,7,8 }
         };
 
-        public JCombatDefaultFinder()
+        public JCombatDefaultFinder(float[] args) : base(args)
         {
+        }
+
+        protected override int GetValidArgsCount()
+        {
+            return 0;
         }
 
         public virtual List<IJCombatCasterTargetableUnit> GetTargets()
@@ -132,5 +138,7 @@ namespace JFramework.Game
 
             return result;
         }
+
+
     }
 }

@@ -4,6 +4,10 @@ namespace JFramework.Game
 {
     public class JCombatColFinder : JCombatRowFinder
     {
+        public JCombatColFinder(float[] args) : base(args)
+        {
+        }
+
         public override List<int> GetOtherSeats(int seat)
         {
             return GetOtherSeatsInColumn(seat);

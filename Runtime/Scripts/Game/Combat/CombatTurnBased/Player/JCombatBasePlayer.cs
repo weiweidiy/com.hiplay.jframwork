@@ -21,31 +21,34 @@ namespace JFramework.Game
             this.reportData = reportData;
             this.animationPlayer = animationPlayer;
         }
-        
 
-        public virtual async Task Play(JCombatTurnBasedReportData<T> reportData) 
+        /// <summary>
+        /// 初始化战报数据
+        /// </summary>
+        /// <param name="reportData"></param>
+        /// <returns></returns>
+        public void LoadReportData(JCombatTurnBasedReportData<T> reportData) 
         {
             this.reportData = reportData;
+        }
 
+        /// <summary>
+        /// 播放战报
+        /// </summary>
+        /// <returns></returns>
+        public async Task Play()
+        {
             string winner = reportData.winnerTeamUid;
             var events = reportData.events;
             var teams = reportData.FormationData;
-
             //根据战报数据中的队伍信息，初始化游戏对象
-            await animationPlayer.InitCombatFormation(teams);
-
+            await animationPlayer.Initialize(reportData);
             //用event中的SortIndex字段做升序排序
             events.Sort((x, y) => x.SortIndex.CompareTo(y.SortIndex));
-
-            OnStartPlay(events);
+            await OnStartPlayActionEvents(events);
         }
 
-        public async Task Play()
-        {
-            await Play(reportData);
-        }
-
-        protected abstract void OnStartPlay(List<JCombatTurnBasedEvent> events);
+        protected abstract Task OnStartPlayActionEvents(List<JCombatTurnBasedEvent> events);
 
         protected virtual RunableExtraData GetRunableData()
         {
@@ -80,7 +83,7 @@ namespace JFramework.Game
 
         public void RePlay()
         {
-            Play(reportData);
+            LoadReportData(reportData);
         }
 
         public void SetScale(float scale)=> this.scale = scale;
@@ -96,7 +99,7 @@ namespace JFramework.Game
             if (reportData == null)
                 throw new ArgumentException("无效的 JCombatReportData ");
 
-            Play(reportData);
+            LoadReportData(reportData);
         }
 
         protected override void OnStop()

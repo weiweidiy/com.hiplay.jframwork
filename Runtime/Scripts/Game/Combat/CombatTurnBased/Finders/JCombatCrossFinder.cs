@@ -4,6 +4,10 @@ namespace JFramework.Game
 {
     public class JCombatCrossFinder : JCombatRowFinder
     {
+        public JCombatCrossFinder(float[] args) : base(args)
+        {
+        }
+
         public override List<int> GetOtherSeats(int seat)
         {
             return GetOtherSeatsInCross(seat);

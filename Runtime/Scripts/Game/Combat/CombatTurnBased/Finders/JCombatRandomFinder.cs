@@ -5,10 +5,11 @@ namespace JFramework.Game
     public class JCombatRandomFinder : JCombatRowFinder
     {
         int count;
-        public JCombatRandomFinder(int count)
+        public JCombatRandomFinder(float[] args) : base(args)
         {
-            this.count = count;
+            count = (int)GetArg(0);
         }
+
         public override List<int> GetOtherSeats(int seat)
         {
             return GetOtherSeatsInRandom(seat,count);

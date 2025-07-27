@@ -7,6 +7,10 @@ namespace JFramework.Game
     /// </summary>
     public class JCombatRowFinder : JCombatDefaultFinder
     {
+        public JCombatRowFinder(float[] args) : base(args)
+        {
+        }
+
         public override List<IJCombatCasterTargetableUnit> GetTargets()
         {
             var targetTeam = GetTargetTeam();

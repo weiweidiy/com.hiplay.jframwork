@@ -1,10 +1,47 @@
-﻿namespace JFramework.Game
+﻿using System;
+
+namespace JFramework.Game
 {
     public abstract class JCombatActionComponent : BaseRunable, IJCombatActionComponent
     {
         IJCombatAction owner;
 
         protected IJCombatQuery query;
+
+        float[] args;
+
+        public JCombatActionComponent(float[] args)
+        {
+            this.args = args;
+
+            var validArgsCount = GetValidArgsCount();
+            if (args != null && args.Length != validArgsCount)
+            {
+                throw new ArgumentException($"Invalid number of arguments. Expected {validArgsCount}, but got {args.Length}.");
+            }
+
+            if (args == null && validArgsCount > 0)
+            {
+                throw new ArgumentException($"Arguments cannot be null. Expected {validArgsCount} arguments.");
+            }
+        }
+
+        protected float GetArg(int index)
+        {
+            if (args == null || index < 0 || index >= args.Length)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range for the provided arguments.");
+            }
+            return args[index];
+        }
+
+        /// <summary>
+        /// 有效参数的数量
+        /// </summary>
+        /// <returns></returns>
+        protected abstract int GetValidArgsCount();
+
+
 
         public IJCombatAction GetOwner() => owner;
 

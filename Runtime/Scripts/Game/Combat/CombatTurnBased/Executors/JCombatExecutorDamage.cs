@@ -8,8 +8,12 @@ namespace JFramework.Game
     /// </summary>
     public class JCombatExecutorDamage : JCombatExecutorBase
     {
-        public JCombatExecutorDamage(IJCombatTargetsFinder finder, IJCombatFormula formulua) : base(finder, formulua)
+        public JCombatExecutorDamage(IJCombatTargetsFinder finder, IJCombatFormula formulua, float[] args) : base(finder, formulua, args)
         {
+        }
+        protected override int GetValidArgsCount()
+        {
+            return 0; // 只需要一个参数，通常是伤害值或相关系数
         }
 
         protected override void DoExecute(object triggerArgs, List<IJCombatCasterTargetableUnit> FinderTargets)
@@ -32,6 +36,8 @@ namespace JFramework.Game
             throw new Exception("JCombatExecutorDamage: No targets found for damage execution.");
         }
 
+
+
         void DoDamage(List<IJCombatCasterTargetableUnit> finalTargets)
         {
             var uid = Guid.NewGuid().ToString();
@@ -48,7 +54,7 @@ namespace JFramework.Game
                 var hitValue = formulua.CalcHitValue(target);
                 var sourceUnitUid = GetOwner().GetCaster();
                 var sourceActionUid = GetOwner().Uid;
-                var data = new JCombatDamageData(uid, sourceUnitUid, sourceActionUid, hitValue, 0, target.Uid);
+                var data = new JCombatDamageData(uid, sourceUnitUid, sourceActionUid, (int)hitValue, 0, target.Uid);
                 var minusHp = target.OnDamage(data);
 
 

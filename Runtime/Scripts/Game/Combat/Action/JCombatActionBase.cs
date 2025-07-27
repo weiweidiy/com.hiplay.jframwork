@@ -123,7 +123,6 @@ namespace JFramework.Game
         private void Trigger_onTriggerOn(IJCombatTrigger trigger, object triggerArgs)
         {
             Execute(triggerArgs);
-
             trigger.Reset(); // 重置触发器状态
         }
 

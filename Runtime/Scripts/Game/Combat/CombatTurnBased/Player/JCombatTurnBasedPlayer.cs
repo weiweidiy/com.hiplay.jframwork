@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace JFramework.Game
 {
@@ -8,7 +9,7 @@ namespace JFramework.Game
         {
         }
 
-        protected override async void OnStartPlay(List<JCombatTurnBasedEvent> events)
+        protected override async Task OnStartPlayActionEvents(List<JCombatTurnBasedEvent> events)
         {
             var que = new Queue<JCombatTurnBasedEvent>(events);
 

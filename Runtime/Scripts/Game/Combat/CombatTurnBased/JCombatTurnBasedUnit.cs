@@ -10,14 +10,14 @@ namespace JFramework.Game
     public class JCombatTurnBasedUnit : JCombatCasterTargetableUnit, IJCombatTurnBasedUnit
     {
         IJCombatUnitInfo unitInfo;
-        public JCombatTurnBasedUnit(string uid, List<IUnique> attrList, Func<IUnique, string> keySelector, IJCombatTurnBasedAttrNameQuery combatAttrNameQuery,  List<IJCombatAction> actions, List<IJCombatUnitEventListener> eventListeners = null) 
-            : base(uid, attrList, keySelector, combatAttrNameQuery, actions,eventListeners)
+        public JCombatTurnBasedUnit(string uid, List<IUnique> attrList, Func<IUnique, string> keySelector, IJCombatTurnBasedAttrNameQuery combatAttrNameQuery,  List<IJCombatAction> actions/*, List<IJCombatUnitEventListener> eventListeners = null*/) 
+            : base(uid, attrList, keySelector, combatAttrNameQuery, actions/*,eventListeners*/)
         {
 
         }
 
-        public JCombatTurnBasedUnit(IJCombatUnitInfo unitInfo, IJCombatTurnBasedAttrNameQuery combatAttrNameQuery, List<IJCombatUnitEventListener> eventListeners = null) 
-            : this(unitInfo.Uid, unitInfo.AttrList, (u)=>u.Uid, combatAttrNameQuery, unitInfo.Actions, eventListeners)
+        public JCombatTurnBasedUnit(IJCombatUnitInfo unitInfo, IJCombatTurnBasedAttrNameQuery combatAttrNameQuery/*, List<IJCombatUnitEventListener> eventListeners = null*/) 
+            : this(unitInfo.Uid, unitInfo.AttrList, (u)=>u.Uid, combatAttrNameQuery, unitInfo.Actions/*, eventListeners*/)
         {
             this.unitInfo = unitInfo;
         }
@@ -51,18 +51,7 @@ namespace JFramework.Game
             return attrInt.CurValue;
         }
 
-        public override void Cast()
-        {
-            base.Cast();
 
-            if (actions == null)
-                return;
-
-            foreach (var action in actions)
-            {
-                action.Cast();
-            }
-        }
 
 
     }
