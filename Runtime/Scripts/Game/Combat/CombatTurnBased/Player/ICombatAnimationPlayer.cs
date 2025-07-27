@@ -9,7 +9,7 @@ namespace JFramework.Game
     /// <typeparam name="T"></typeparam>
     public interface ICombatAnimationPlayer
     {
-        Task Initialize<T>(JCombatTurnBasedReportData<T> reportData) where T : IJCombatUnitData;
+        Task Initialize<T>(JCombatTurnBasedReportData<T> reportData, params object[] args ) where T : IJCombatUnitData;
         Task PlayAcion( string casterUid, string actionUid, Dictionary<string, List<ActionEffectInfo>> effect);
 
     }
