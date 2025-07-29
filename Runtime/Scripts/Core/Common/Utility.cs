@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Runtime.Serialization;
 using System.Globalization;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
 
 namespace JFramework
@@ -165,13 +166,16 @@ namespace JFramework
         /// <returns></returns>
         public T DeepClone<T>(T obj)
         {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                IFormatter formatter = new BinaryFormatter();
-                formatter.Serialize(ms, obj);
-                ms.Seek(0, SeekOrigin.Begin);
-                return (T)formatter.Deserialize(ms);
-            }
+            //using (MemoryStream ms = new MemoryStream())
+            //{
+            //    IFormatter formatter = new BinaryFormatter();
+            //    formatter.Serialize(ms, obj);
+            //    ms.Seek(0, SeekOrigin.Begin);
+            //    return (T)formatter.Deserialize(ms);
+            //}
+            if (obj == null) return default(T);
+            var json = JsonConvert.SerializeObject(obj);
+            return JsonConvert.DeserializeObject<T>(json);
         }
 
         /// <summary>

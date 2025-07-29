@@ -16,24 +16,28 @@ namespace JFramework.Game
 
         protected IJCombatAttrNameQuery combatAttrNameQuery;
 
-       // protected List<IJCombatUnitEventListener> eventListeners;
-
         protected List<IJCombatAction> actions;
 
+        protected List<IUnique> originAttrs;
 
-        public JCombatCasterTargetableUnit(string uid, List<IUnique> attrList,  Func<IUnique, string> keySelector, IJCombatAttrNameQuery combatAttrNameQuery, List<IJCombatAction> actions/*, List<IJCombatUnitEventListener> eventListeners*/) : base(keySelector)
+        public JCombatCasterTargetableUnit(string uid, List<IUnique> attrList,  Func<IUnique, string> keySelector, IJCombatAttrNameQuery combatAttrNameQuery, List<IJCombatAction> actions) : base(keySelector)
         {
-           // this.eventListeners = eventListeners;
+            Utility utility = new Utility();
+            try
+            {
+                originAttrs = utility.DeepClone(attrList);
+            }
+            catch(Exception ex)
+            {
+                originAttrs = new List<IUnique>();
+            }
+  
 
             AddRange(attrList);
 
             this.combatAttrNameQuery = combatAttrNameQuery;
             this.Uid = uid;
 
-            //if (eventListeners == null)
-            //{
-            //    eventListeners = new List<IJCombatUnitEventListener>();
-            //}
 
             this.actions = actions;
             if (this.actions != null)
@@ -43,7 +47,7 @@ namespace JFramework.Game
                     action.SetCaster(this);
                 }
                     
-            }
+            }        
         }
 
 
@@ -98,6 +102,14 @@ namespace JFramework.Game
             return attr;
         }
 
+        public IUnique GetOriginAttribute(string uid)
+        {
+            return originAttrs.Where(attr => attr.Uid == uid).FirstOrDefault();
+        }
+
+        
+
+
         public bool IsDead()
         {
             var attr = GetAttribute(combatAttrNameQuery.GetHpAttrName()) as GameAttributeInt;
@@ -140,6 +152,7 @@ namespace JFramework.Game
         {
             return !IsDead();
         }
+
 
 
         #endregion

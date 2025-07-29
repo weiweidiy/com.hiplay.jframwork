@@ -92,6 +92,7 @@ namespace JFramework.Game
             //设置结果
             jCombatReport.SetCombatEvents(eventRecorder.GetAllCombatEvents());
             jCombatReport.SetCombatWinner(winner);
+            
         }
 
 

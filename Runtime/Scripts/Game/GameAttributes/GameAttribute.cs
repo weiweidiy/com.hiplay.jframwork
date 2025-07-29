@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace JFramework.Game
 {
@@ -7,6 +8,7 @@ namespace JFramework.Game
     /// 屬性抽象類
     /// </summary>
     /// <typeparam name="T"></typeparam>
+
     public abstract class GameAttribute<T> : IUnique where T : struct
     {
         /// <summary>

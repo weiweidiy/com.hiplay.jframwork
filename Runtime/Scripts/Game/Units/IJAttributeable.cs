@@ -20,5 +20,12 @@ namespace JFramework.Game
         /// <param name="uid"></param>
         /// <returns></returns>
         IUnique GetAttribute(string uid);
+
+        /// <summary>
+        /// 获取原始属性对象
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        IUnique GetOriginAttribute(string uid);
     }
 }
