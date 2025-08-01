@@ -4,11 +4,12 @@ using System.Collections.Generic;
 namespace JFramework.Game
 {
     /// <summary>
-    /// 伤害提升执行器
+    /// 伤害提升执行器，一定是JCombatBeforeDamageTrigger触发的
     /// </summary>
     public class JCombatExecutorDamageDataChange : JCombatExecutorBase
     {
-        public JCombatExecutorDamageDataChange(IJCombatTargetsFinder finder, IJCombatFormula formulua, float[] args) : base(finder, formulua, args)
+
+        public JCombatExecutorDamageDataChange(IJCombatFilter filter, IJCombatTargetsFinder finder, IJCombatFormula formulua, float[] args) : base(filter,finder, formulua, args)
         {
         }
 
@@ -18,17 +19,18 @@ namespace JFramework.Game
         }
 
 
-        protected override void DoExecute(object triggerArgs, List<IJCombatCasterTargetableUnit> finderTargets)
+        protected override IJCobmatExecuteArgsHistroy DoExecute(IJCombatExecutorExecuteArgs executeArgs, IJCombatCasterTargetableUnit target)
         {
-            var damageData = triggerArgs as IJCombatDamageData;
+            var damageData = executeArgs.DamageData;
             if (damageData == null)
             {
-                return;
+                return new JCombatExecutorExecuteArgsHistroy();
             }
 
-            var value = damageData.GetDamage();
-            var newValue = value * formulua.CalcHitValue(null); // 假设伤害提升20%
-            damageData.SetDamage((int)newValue);
+            var value = (float)damageData.GetDamage();
+            formulua.CalcHitValue(null, ref value); // 假设伤害提升20%
+            damageData.SetDamage((int)value);
+            return new JCombatExecutorExecuteArgsHistroy() { DamageData = damageData};
         }
     }
 }

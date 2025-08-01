@@ -14,25 +14,30 @@ namespace JFramework.Game
         IJCombatQuery query;
 
         List<IJCombatTrigger> triggers;
+        IJCombatTargetsFinder finder;
         List<IJCombatExecutor> executors;
 
         IJCombatCaster caster;
 
         IJCombatTurnBasedEventRecorder eventRecorder;
 
+        IJCombatContext context;
+
         IJCombatAcionInfo actionInfo;
 
-        public JCombatActionBase(IJCombatAcionInfo actionInfo, IJCombatTurnBasedEventRecorder eventRecorder): this(actionInfo.Uid, actionInfo.Triggers, actionInfo.Executors, eventRecorder){
+        public JCombatActionBase(IJCombatAcionInfo actionInfo, IJCombatContext context) : this(actionInfo.Uid, actionInfo.Triggers, actionInfo.Finder, actionInfo.Executors, context.EventRecorder)
+        {
             this.actionInfo = actionInfo;
+            this.context = context;
         }
 
-        public JCombatActionBase(string uid, List<IJCombatTrigger> triggers,  List<IJCombatExecutor> executors, IJCombatTurnBasedEventRecorder eventRecorder)
+        public JCombatActionBase(string uid, List<IJCombatTrigger> triggers, IJCombatTargetsFinder finder, List<IJCombatExecutor> executors, IJCombatTurnBasedEventRecorder eventRecorder)
         {
             this.Uid = uid;
             this.triggers = triggers;
             this.executors = executors;
             this.eventRecorder = eventRecorder;
-            //this.query = query;
+            this.finder = finder;
 
             if (triggers != null)
             {
@@ -43,9 +48,15 @@ namespace JFramework.Game
                 }
             }
 
-            if(executors != null)
+            if (finder != null)
             {
-                foreach(IJCombatExecutor executor in executors)
+                //设置父节点
+                finder.SetOwner(this);
+            }
+
+            if (executors != null)
+            {
+                foreach (IJCombatExecutor executor in executors)
                 {
                     //设置父节点
                     executor.SetOwner(this);
@@ -61,16 +72,21 @@ namespace JFramework.Game
             {
                 foreach (IJCombatTrigger trigger in triggers)
                 {
-           
+
                     trigger.SetQuery(query);
                 }
+            }
+
+            if (finder != null)
+            {
+                finder.SetQuery(query);
             }
 
             if (executors != null)
             {
                 foreach (IJCombatExecutor executor in executors)
                 {
-                    
+
                     executor.SetQuery(query);
                 }
             }
@@ -89,9 +105,14 @@ namespace JFramework.Game
                 }
             }
 
-            if(executors != null)
+            if (finder != null)
             {
-                foreach(var executor in executors)
+                finder.Start(extraData);
+            }
+
+            if (executors != null)
+            {
+                foreach (var executor in executors)
                 {
                     executor.Start(extraData);
                 }
@@ -111,6 +132,11 @@ namespace JFramework.Game
                 }
             }
 
+            if (finder != null)
+            {
+                finder.Stop();
+            }
+
             if (executors != null)
             {
                 foreach (var executor in executors)
@@ -120,28 +146,63 @@ namespace JFramework.Game
             }
         }
 
-        private void Trigger_onTriggerOn(IJCombatTrigger trigger, object triggerArgs)
+        private void Trigger_onTriggerOn(IJCombatTrigger trigger, IJCombatExecutorExecuteArgs executeArgs)
         {
-            Execute(triggerArgs);
+            Execute(executeArgs);
             trigger.Reset(); // 重置触发器状态
         }
 
 
-        public void Execute(object triggerArgs)
+        public void Execute(IJCombatExecutorExecuteArgs executeArgs = null)
         {
             if (executors != null)
             {
-                //创建一个空的执行日志对象，用来记录执行日志
-                var newEvent = eventRecorder.CreateActionEvent(GetCaster(), Uid);
-                
-
-                foreach (var executor in executors)
+                if (finder != null)
                 {
-                    executor.AddCombatEvent(newEvent);
-                    executor.Execute(triggerArgs);
+                    //使用查找器找到的目标
+                    executeArgs = finder.GetTargetsData();
+                }      
+
+                if(executeArgs == null)
+                {
+                    return;
                 }
 
-                
+                //创建一个空的执行日志对象，用来记录执行日志
+                var newActionEvent = eventRecorder.CreateActionEvent(GetCaster(), Uid);
+                foreach (var executor in executors)
+                {
+                    if(context != null && context.Logger != null)
+                    {
+                        // 记录执行日志
+                        context.Logger.Log($"{caster.Uid} Executing action {Uid} with executor {executor.GetType().Name}");
+                    }
+                    
+                    executor.AddCombatEvent(newActionEvent);
+                    executeArgs = executor.Execute(executeArgs);
+                }
+
+                //if (targets != null)
+                //{
+                //    foreach (var target in targets)
+                //    {
+                //        IJCombatExecutorExecuteArgs args = null;
+                //        foreach (var executor in executors)
+                //        {
+                //            args = executor.Execute(executeArgs, args, target);
+                //        }
+                //    }
+                //}
+                //else
+                //{
+                //    IJCombatExecutorExecuteArgs args = null;
+                //    foreach (var executor in executors)
+                //    {
+                //        args = executor.Execute(executeArgs, args, null);
+                //    }
+                //}
+
+
             }
         }
 
@@ -170,7 +231,7 @@ namespace JFramework.Game
         /// </summary>
         public void Cast()
         {
-            Execute(null);
+            Execute();
         }
 
         /// <summary>

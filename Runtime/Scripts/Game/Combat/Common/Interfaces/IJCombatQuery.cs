@@ -7,7 +7,7 @@ namespace JFramework.Game
     /// <summary>
     /// 战斗
     /// </summary>
-    public interface IJCombatQuery
+    public interface IJCombatQuery : IJCombatAttrNameQuery
     {
         #region 查询状态
         bool IsCombatOver();
@@ -25,7 +25,14 @@ namespace JFramework.Game
         /// </summary>
         /// <param name="unitUid"></param>
         /// <returns></returns>
-        List<IJCombatTeam> GetOppoTeams(string unitUid);
+        List<IJCombatTeam> GetOppoTeamsByUnit(string unitUid);
+
+        /// <summary>
+        /// 获取单位的友方队伍
+        /// </summary>
+        /// <param name="unitUid"></param>
+        /// <returns></returns>
+        IJCombatTeam GetTeamByUnit(string unitUid);
 
 
         IJCombatUnit GetUnit(string unitUid);
@@ -57,6 +64,9 @@ namespace JFramework.Game
         bool IsMaxFrame();
 
         #endregion
+
+        void SetCombat(JCombat combat);
+        JCombat GetCombat();
 
     }
 }

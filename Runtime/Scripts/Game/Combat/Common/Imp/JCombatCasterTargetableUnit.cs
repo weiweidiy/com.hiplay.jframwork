@@ -8,8 +8,30 @@ namespace JFramework.Game
     public class JCombatCasterTargetableUnit : RunableDictionaryContainer<IUnique>, IJCombatCasterTargetableUnit
     {
         public event Action<IJCombatCasterUnit, IJCombatAction> onCast;
-        public event Action<IJCombatTargetable, IJCombatDamageData> onBeforeDamage;
-        public event Action<IJCombatTargetable, IJCombatDamageData> onAfterDamage;
+        public event Action<IJCombatTargetable, IJCombatDamageData> onBeforeHurt;
+        public event Action<IJCombatTargetable, IJCombatDamageData> onAfterHurt;
+        public event Action<IJCombatCasterUnit, IJCombatDamageData> onBeforeHitting;
+        public event Action<IJCombatCasterUnit, IJCombatDamageData> onAfterHitted;
+
+        public void NotifyBeforeHitting( IJCombatDamageData data)
+        {
+            onBeforeHitting?.Invoke(this, data);
+        }
+
+        public void NotifyAfterHitted(IJCombatDamageData data)
+        {
+            onAfterHitted?.Invoke(this, data);
+        }
+
+        public void NotifyBeforeHurt( IJCombatDamageData data)
+        {
+            onBeforeHurt?.Invoke(this, data);
+        }
+
+        public void NotifyAfterHurt( IJCombatDamageData data)
+        {
+            onAfterHurt?.Invoke(this, data);
+        }
 
 
         public string Uid { get; private set; }
@@ -18,18 +40,18 @@ namespace JFramework.Game
 
         protected List<IJCombatAction> actions;
 
-        protected List<IUnique> originAttrs;
+        protected List<GameAttributeInt> originAttrs;
 
         public JCombatCasterTargetableUnit(string uid, List<IUnique> attrList,  Func<IUnique, string> keySelector, IJCombatAttrNameQuery combatAttrNameQuery, List<IJCombatAction> actions) : base(keySelector)
         {
             Utility utility = new Utility();
             try
             {
-                originAttrs = utility.DeepClone(attrList);
+                originAttrs = utility.DeepClone(attrList.OfType<GameAttributeInt>().ToList());
             }
             catch(Exception ex)
             {
-                originAttrs = new List<IUnique>();
+                originAttrs = new List<GameAttributeInt>();
             }
   
 
@@ -107,7 +129,19 @@ namespace JFramework.Game
             return originAttrs.Where(attr => attr.Uid == uid).FirstOrDefault();
         }
 
-        
+
+        public int GetCurHp()
+        {
+            var attr = GetAttribute(combatAttrNameQuery.GetHpAttrName()) as GameAttributeInt;
+            return attr != null ? attr.CurValue : 0;
+        }
+
+        public int GetMaxHp()
+        {
+            var attr = GetAttribute(combatAttrNameQuery.GetMaxHpAttrName()) as GameAttributeInt;
+            return attr != null ? attr.MaxValue : 0;
+        }
+
 
 
         public bool IsDead()
@@ -120,17 +154,17 @@ namespace JFramework.Game
             return attr.CurValue <= 0;
         }
 
-        public int OnDamage(IJCombatDamageData damageData)
+        public int OnHurt(IJCombatDamageData damageData)
         {
             ////通知监听器
-            onBeforeDamage?.Invoke(this, damageData); // 触发事件监听器的伤害前事件，可以在这里处理一些逻辑，比如触发其他技能或效果。
+            //onBeforeHurt?.Invoke(this, damageData); // 触发事件监听器的伤害前事件，可以在这里处理一些逻辑，比如触发其他技能或效果。
 
             var attrHp = Get(combatAttrNameQuery.GetHpAttrName()) as GameAttributeInt;
             var preValue = attrHp.CurValue;
             var damage = damageData.GetDamage();
             var curValue = attrHp.Minus(damage);
 
-            onAfterDamage?.Invoke(this, damageData); // 触发事件监听器的伤害后事件，可以在这里处理一些逻辑，比如触发其他技能或效果。
+            //onAfterHurt?.Invoke(this, damageData); // 触发事件监听器的伤害后事件，可以在这里处理一些逻辑，比如触发其他技能或效果。
 
             return preValue - curValue;
         }
@@ -152,6 +186,9 @@ namespace JFramework.Game
         {
             return !IsDead();
         }
+
+
+
 
 
 

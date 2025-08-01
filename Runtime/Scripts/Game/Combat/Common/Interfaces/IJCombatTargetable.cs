@@ -7,12 +7,19 @@ namespace JFramework.Game
     /// </summary>
     public interface IJCombatTargetable
     {
-        event Action<IJCombatTargetable, IJCombatDamageData> onBeforeDamage;
-        event Action<IJCombatTargetable, IJCombatDamageData> onAfterDamage;
+        event Action<IJCombatTargetable, IJCombatDamageData> onBeforeHurt;
+        event Action<IJCombatTargetable, IJCombatDamageData> onAfterHurt;
         /// <summary>
         /// 收到伤害
         /// </summary>
         /// <param name="damageData"></param>
-        int OnDamage(IJCombatDamageData damageData);
+        int OnHurt(IJCombatDamageData damageData);
+
+        int GetCurHp();
+
+        int GetMaxHp();
+
+        void NotifyBeforeHurt(IJCombatDamageData data);
+        void NotifyAfterHurt(IJCombatDamageData data);
     }
 }

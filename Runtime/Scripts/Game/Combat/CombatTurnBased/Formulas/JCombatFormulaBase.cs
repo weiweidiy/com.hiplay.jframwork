@@ -12,6 +12,6 @@
             return true;
         }
 
-        public abstract float CalcHitValue(IJAttributeableUnit target);
+        public abstract void CalcHitValue(IJAttributeableUnit target, ref float value);
     }
 }

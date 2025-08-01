@@ -9,6 +9,8 @@ namespace JFramework.Game
     /// </summary>
     public class JCombatTurnBased : JCombat
     {
+        public event Action<int> onCombatTurnStart;
+        public event Action onCombatStart;
         /// <summary>
         /// 负责获取行动单位的接口
         /// </summary>
@@ -21,52 +23,40 @@ namespace JFramework.Game
 
         IJCombatQuery jCombatQuery;
 
-       // List<IJCombatTurnBasedEventListener> listeners;
-
-        bool firstUpdate = true;
+        bool isFirstUpdate = true;
 
         public JCombatTurnBased(IJCombatTurnBasedCasterSelector casterSelector, IJCombatFrameRecorder frameRecorder, IJCombatQuery jCombatQuery, List<IRunable> runables/*, List<IJCombatTurnBasedEventListener> listeners = null*/) : base(runables)
         {
             this.casterSelector = casterSelector;
             this.frameRecorder = frameRecorder;
             this.jCombatQuery = jCombatQuery;
-            //this.listeners = listeners ?? new List<IJCombatTurnBasedEventListener>();
+            this.jCombatQuery.SetCombat(this);
         }
 
-        //public void AddListener(IJCombatTurnBasedEventListener listener)
-        //{
-        //    this.listeners.Add(listener);
-        //}
 
         protected override void OnUpdate(RunableExtraData extraData)
         {
             //更新战斗 如果战斗没有决出胜负，则继续战斗
             while (!jCombatQuery.IsCombatOver())
-            {
-                //if (firstUpdate)
-                //{
-                //    foreach (var listener in listeners)
-                //    {
-                //        listener.OnTurnStart(frameRecorder.GetCurFrame());
-                //    }
+            {    
+                if(isFirstUpdate)
+                {
+                    // 通知战斗开始
+                    onCombatStart?.Invoke();
 
-                //    firstUpdate = false;
-                //}                
+                    //通知回合开始
+                    onCombatTurnStart?.Invoke(frameRecorder.GetCurFrame());
+                    
+                    isFirstUpdate = false;
+                }
+
                 //如果没有行动者了，回合数+1
                 if (casterSelector.IsAllComplete())
                 {
-
-                    //foreach (var listener in listeners)
-                    //{
-                    //    listener.OnTurnEnd(frameRecorder.GetCurFrame());
-                    //}
+                    // 通知回合开始
+                    onCombatTurnStart?.Invoke(frameRecorder.GetCurFrame());
 
                     frameRecorder.NextFrame();
-
-                    //foreach (var listener in listeners)
-                    //{
-                    //    listener.OnTurnStart(frameRecorder.GetCurFrame());
-                    //}
 
                     casterSelector.ResetActionUnits();
                     continue;

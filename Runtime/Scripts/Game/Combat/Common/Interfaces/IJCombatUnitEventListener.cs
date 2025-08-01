@@ -7,7 +7,7 @@
 //    /// </summary>
 //    public interface IJCombatUnitEventListener
 //    {
-//        void OnBeforeDamage(IJCombatDamageData damageData);
+//        void OnBeforeHurt(IJCombatDamageData damageData);
 //        void OnAfterDamage(IJCombatDamageData damageData);
 //    }
 //}

@@ -7,7 +7,7 @@ namespace JFramework.Game
         string Uid { get; set; }
 
         List<IJCombatTrigger> Triggers { get; set; }
-
+        IJCombatTargetsFinder Finder { get; set; }
         List<IJCombatExecutor> Executors { get; set; }
     }
 }

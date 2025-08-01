@@ -44,5 +44,10 @@ namespace JFramework.Game
     {
         public string TargetUid { get; set; }
         public int Value { get; set; }
+        public int TargetHp { get; set; } // 目标当前血量
+        public int TargetMaxHp { get; set; } // 目标最大血量
+
+        public int CasterHp { get; set; } // 施法者当前血量
+        public int CasterMaxHp { get; set; } // 施法者最大血量
     }
 }

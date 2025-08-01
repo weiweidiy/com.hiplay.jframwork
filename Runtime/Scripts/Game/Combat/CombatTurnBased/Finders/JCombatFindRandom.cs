@@ -2,10 +2,10 @@
 
 namespace JFramework.Game
 {
-    public class JCombatRandomFinder : JCombatRowFinder
+    public class JCombatFindRandom : JCombatFindRow
     {
         int count;
-        public JCombatRandomFinder(float[] args) : base(args)
+        public JCombatFindRandom(float[] args) : base(args)
         {
             count = (int)GetArg(0);
         }

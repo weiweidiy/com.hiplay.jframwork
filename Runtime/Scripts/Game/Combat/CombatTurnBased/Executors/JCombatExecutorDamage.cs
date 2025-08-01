@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace JFramework.Game
 {
+
     /// <summary>
     /// 伤害执行器
     /// </summary>
     public class JCombatExecutorDamage : JCombatExecutorBase
     {
-        public JCombatExecutorDamage(IJCombatTargetsFinder finder, IJCombatFormula formulua, float[] args) : base(finder, formulua, args)
+
+
+        public JCombatExecutorDamage(IJCombatFilter filter, IJCombatTargetsFinder finder, IJCombatFormula formulua, float[] args) : base(filter,finder, formulua, args)
         {
         }
         protected override int GetValidArgsCount()
@@ -16,50 +20,69 @@ namespace JFramework.Game
             return 0; // 只需要一个参数，通常是伤害值或相关系数
         }
 
-        protected override void DoExecute(object triggerArgs, List<IJCombatCasterTargetableUnit> FinderTargets)
+        protected override IJCobmatExecuteArgsHistroy DoExecute(IJCombatExecutorExecuteArgs executeArgs, IJCombatCasterTargetableUnit target)
         {          
             //优先使用查找器找到的目标
-            if (FinderTargets != null)
+            if (target != null)
             {
-                DoDamage(FinderTargets);
-                return;
+                return DoDamage(target);              
             }
-
-            //触发器找到的目标
-            var triggerTargets = triggerArgs as List<IJCombatCasterTargetableUnit>;
-            if (triggerTargets != null)
-            {
-                DoDamage(triggerTargets);
-                return;
-            }
-
             throw new Exception("JCombatExecutorDamage: No targets found for damage execution.");
         }
 
-
-
-        void DoDamage(List<IJCombatCasterTargetableUnit> finalTargets)
+        IJCobmatExecuteArgsHistroy DoDamage(IJCombatCasterTargetableUnit target)
         {
+            var executeArgsHistroy = new JCombatExecutorExecuteArgsHistroy();
+
             var uid = Guid.NewGuid().ToString();
             
-            if(!objEvent.ActionEffect.ContainsKey(CombatEventType.Damage.ToString()))
+            if(objEvent != null)
             {
-                objEvent.ActionEffect.Add(CombatEventType.Damage.ToString(), new List<ActionEffectInfo>());
+                if (!objEvent.ActionEffect.ContainsKey(CombatEventType.Damage.ToString()))
+                {
+                    objEvent.ActionEffect.Add(CombatEventType.Damage.ToString(), new List<ActionEffectInfo>());
+                }
             }
 
-            foreach (var target in finalTargets)
+            float hitValue = 0;
+            formulua.CalcHitValue(target, ref hitValue);
+
+            var sourceUnitUid = GetOwner().GetCaster();
+            var sourceActionUid = GetOwner().Uid;
+            var data = new JCombatDamageData(uid, sourceUnitUid, sourceActionUid, (int)hitValue, 0, target.Uid);
+            //设置执行历史记录
+            executeArgsHistroy.DamageData = data;
+
+            var sourceUnit = query.GetUnit(sourceUnitUid);
+            var caster = sourceUnit as IJCombatCasterUnit;
+            caster.NotifyBeforeHitting(data);
+            target.NotifyBeforeHurt(data);
+
+            // 受伤
+            var minusHp = target.OnHurt(data);
+
+            caster.NotifyAfterHitted(data);
+            target.NotifyAfterHurt(data);
+
+            var casterTargetUnit = caster as IJCombatCasterTargetableUnit;
+
+            if (objEvent != null)
             {
                 var actionEffectInfos = objEvent.ActionEffect[CombatEventType.Damage.ToString()];
-
-                var hitValue = formulua.CalcHitValue(target);
-                var sourceUnitUid = GetOwner().GetCaster();
-                var sourceActionUid = GetOwner().Uid;
-                var data = new JCombatDamageData(uid, sourceUnitUid, sourceActionUid, (int)hitValue, 0, target.Uid);
-                var minusHp = target.OnDamage(data);
-
-
-                actionEffectInfos.Add(new ActionEffectInfo() { TargetUid = target.Uid, Value = data.GetDamage() });
+                actionEffectInfos.Add(new ActionEffectInfo()
+                {
+                    TargetUid = target.Uid,
+                    Value = data.GetDamage()
+                    ,
+                    TargetHp = target.GetCurHp(),
+                    TargetMaxHp = target.GetMaxHp()
+                    ,
+                    CasterHp = casterTargetUnit.GetCurHp(),
+                    CasterMaxHp = casterTargetUnit.GetMaxHp()
+                });
             }
+
+            return executeArgsHistroy;
         }
     }
 }

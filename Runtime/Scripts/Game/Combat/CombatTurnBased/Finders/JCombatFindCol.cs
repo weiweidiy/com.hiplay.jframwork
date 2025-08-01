@@ -2,20 +2,21 @@
 
 namespace JFramework.Game
 {
-    public class JCombatCrossFinder : JCombatRowFinder
+    public class JCombatFindCol : JCombatFindRow
     {
-        public JCombatCrossFinder(float[] args) : base(args)
+        public JCombatFindCol(float[] args) : base(args)
         {
         }
 
         public override List<int> GetOtherSeats(int seat)
         {
-            return GetOtherSeatsInCross(seat);
+            return GetOtherSeatsInColumn(seat);
         }
+
         /// <summary>
-        /// 获取同一行和同一列的其他点位（不包含自身）
+        /// 获取同一列的其他点位（不包含自身）
         /// </summary>
-        List<int> GetOtherSeatsInCross(int seat)
+        List<int> GetOtherSeatsInColumn(int seat)
         {
             var result = new List<int>();
             for (int i = 0; i < seats.GetLength(0); i++)
@@ -24,12 +25,6 @@ namespace JFramework.Game
                 {
                     if (seats[i, j] == seat)
                     {
-                        // 找到所在行
-                        for (int col = 0; col < seats.GetLength(1); col++)
-                        {
-                            if (col != j)
-                                result.Add(seats[i, col]);
-                        }
                         // 找到所在列
                         for (int row = 0; row < seats.GetLength(0); row++)
                         {

@@ -47,7 +47,7 @@ namespace JFramework.Game
 }
 
 
-//public void OnBeforeDamage(IJCombatDamageData damageData)
+//public void OnBeforeHurt(IJCombatDamageData damageData)
 //{
 //    //throw new NotImplementedException();
 //}

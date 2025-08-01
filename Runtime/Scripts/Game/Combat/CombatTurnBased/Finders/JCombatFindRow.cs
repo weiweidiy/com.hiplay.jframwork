@@ -5,13 +5,13 @@ namespace JFramework.Game
     /// <summary>
     /// 找主目标同一行的所有活着的单位
     /// </summary>
-    public class JCombatRowFinder : JCombatDefaultFinder
+    public class JCombatFindRow : JCombatFindOppoDefault
     {
-        public JCombatRowFinder(float[] args) : base(args)
+        public JCombatFindRow(float[] args) : base(args)
         {
         }
 
-        public override List<IJCombatCasterTargetableUnit> GetTargets()
+        protected override List<IJCombatCasterTargetableUnit> GetTargets()
         {
             var targetTeam = GetTargetTeam();
             var targets = base.GetTargets(); //这个是只有主目标的

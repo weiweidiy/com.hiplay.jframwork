@@ -17,12 +17,12 @@ namespace JFramework.Game
             var validArgsCount = GetValidArgsCount();
             if (args != null && args.Length != validArgsCount)
             {
-                throw new ArgumentException($"Invalid number of arguments. Expected {validArgsCount}, but got {args.Length}.");
+                throw new ArgumentException($"Invalid number of arguments. Expected {validArgsCount}, but got {args.Length}. {GetType().ToString()}");
             }
 
             if (args == null && validArgsCount > 0)
             {
-                throw new ArgumentException($"Arguments cannot be null. Expected {validArgsCount} arguments.");
+                throw new ArgumentException($"Arguments cannot be null. Expected {validArgsCount} arguments.. {GetType().ToString()}");
             }
         }
 
@@ -30,7 +30,7 @@ namespace JFramework.Game
         {
             if (args == null || index < 0 || index >= args.Length)
             {
-                throw new ArgumentOutOfRangeException(nameof(index), "Index is out of range for the provided arguments.");
+                throw new ArgumentOutOfRangeException(nameof(index), $"Index is out of range for the provided arguments.. {GetType().ToString()}");
             }
             return args[index];
         }
