@@ -9,7 +9,7 @@ namespace JFramework.Game
         {
         }
 
-        protected override async Task OnStartPlayActionEvents(List<JCombatTurnBasedEvent> events)
+        protected override async Task PlayEvents(List<JCombatTurnBasedEvent> events)
         {
             var que = new Queue<JCombatTurnBasedEvent>(events);
 

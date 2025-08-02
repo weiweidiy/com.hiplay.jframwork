@@ -38,11 +38,30 @@ namespace JFramework.Game
         /// <returns></returns>
         public async Task Play()
         {
-            await Start(new RunableExtraData() { Data = reportData });
-           
+            await Start(new RunableExtraData() { Data = reportData });         
         }
 
-        protected abstract Task OnStartPlayActionEvents(List<JCombatTurnBasedEvent> events);
+        protected override async void OnStart(RunableExtraData extraData)
+        {
+            base.OnStart(extraData);
+
+            var reportData = extraData.Data as JCombatTurnBasedReportData<T>;
+            if (reportData == null)
+                throw new ArgumentException("无效的 JCombatReportData ");
+
+            string winner = reportData.winnerTeamUid;
+            var events = reportData.events;
+            var teams = reportData.FormationData;
+            //根据战报数据中的队伍信息，初始化游戏对象
+            await animationPlayer.Initialize(reportData);
+            //用event中的SortIndex字段做升序排序
+            events.Sort((x, y) => x.SortIndex.CompareTo(y.SortIndex));
+
+            await PlayEvents(events);
+        }
+
+        protected abstract Task PlayEvents(List<JCombatTurnBasedEvent> events);
+
 
         protected virtual RunableExtraData GetRunableData()
         {
@@ -73,36 +92,16 @@ namespace JFramework.Game
                 runner.Dispose();        
         }
 
-        
-
+       
         public void RePlay()
         {
             LoadReportData(reportData);
+            Play();
         }
 
         public void SetScale(float scale)=> this.scale = scale;
         public float GetScale() => scale;
 
-
-        protected override async void OnStart(RunableExtraData extraData)
-        {
-            base.OnStart(extraData);
-
-            var reportData = extraData.Data as JCombatTurnBasedReportData<T>;
-
-            if (reportData == null)
-                throw new ArgumentException("无效的 JCombatReportData ");
-
-            string winner = reportData.winnerTeamUid;
-            var events = reportData.events;
-            var teams = reportData.FormationData;
-            //根据战报数据中的队伍信息，初始化游戏对象
-            await animationPlayer.Initialize(reportData);
-            //用event中的SortIndex字段做升序排序
-            events.Sort((x, y) => x.SortIndex.CompareTo(y.SortIndex));
-
-            await OnStartPlayActionEvents(events);
-        }
 
         protected override void OnStop()
         {
