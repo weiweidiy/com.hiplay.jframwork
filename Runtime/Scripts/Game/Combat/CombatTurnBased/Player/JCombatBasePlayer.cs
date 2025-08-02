@@ -38,14 +38,8 @@ namespace JFramework.Game
         /// <returns></returns>
         public async Task Play()
         {
-            string winner = reportData.winnerTeamUid;
-            var events = reportData.events;
-            var teams = reportData.FormationData;
-            //根据战报数据中的队伍信息，初始化游戏对象
-            await animationPlayer.Initialize(reportData);
-            //用event中的SortIndex字段做升序排序
-            events.Sort((x, y) => x.SortIndex.CompareTo(y.SortIndex));
-            await OnStartPlayActionEvents(events);
+            await Start(new RunableExtraData() { Data = reportData });
+           
         }
 
         protected abstract Task OnStartPlayActionEvents(List<JCombatTurnBasedEvent> events);
@@ -90,7 +84,7 @@ namespace JFramework.Game
         public float GetScale() => scale;
 
 
-        protected override void OnStart(RunableExtraData extraData)
+        protected override async void OnStart(RunableExtraData extraData)
         {
             base.OnStart(extraData);
 
@@ -99,7 +93,15 @@ namespace JFramework.Game
             if (reportData == null)
                 throw new ArgumentException("无效的 JCombatReportData ");
 
-            LoadReportData(reportData);
+            string winner = reportData.winnerTeamUid;
+            var events = reportData.events;
+            var teams = reportData.FormationData;
+            //根据战报数据中的队伍信息，初始化游戏对象
+            await animationPlayer.Initialize(reportData);
+            //用event中的SortIndex字段做升序排序
+            events.Sort((x, y) => x.SortIndex.CompareTo(y.SortIndex));
+
+            await OnStartPlayActionEvents(events);
         }
 
         protected override void OnStop()
