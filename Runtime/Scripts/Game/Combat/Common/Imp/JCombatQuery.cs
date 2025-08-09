@@ -19,6 +19,8 @@ namespace JFramework.Game
 
         protected JCombat combat;
 
+        protected ILogger logger;
+
         public JCombatQuery( Func<IJCombatTeam, string> keySelector, IJCombatFrameRecorder frameRecorder, IJCombatAttrNameQuery attrNameQuery) : base(keySelector)
         {
             this.frameRecorder = frameRecorder;
@@ -222,7 +224,14 @@ namespace JFramework.Game
             return combat;
         }
 
+        public void SetLogger(ILogger logger)
+        {
+            this.logger = logger;
+        }
 
-
+        public ILogger GetLogger()
+        {
+            return logger;
+        }
     }
 }

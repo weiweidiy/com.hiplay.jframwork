@@ -66,9 +66,14 @@ namespace JFramework.Game
             }
 
             await PlayEvents(reportData.events);
+
+            //播放战报结果
+            await PlayResult();
         }
 
         protected abstract Task PlayEvents(List<JCombatTurnBasedEvent> events);
+
+        protected abstract Task PlayResult();
 
 
         protected virtual RunableExtraData GetRunableData()

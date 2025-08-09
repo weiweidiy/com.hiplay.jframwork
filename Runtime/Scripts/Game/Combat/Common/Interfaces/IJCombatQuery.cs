@@ -68,5 +68,9 @@ namespace JFramework.Game
         void SetCombat(JCombat combat);
         JCombat GetCombat();
 
+        void SetLogger(ILogger logger);
+
+        ILogger GetLogger();
+
     }
 }

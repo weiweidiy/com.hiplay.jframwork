@@ -21,6 +21,8 @@ namespace JFramework.Game
         public Dictionary<string, List<T>> OriginFormationData { get; set; } // 新增
         public Dictionary<string, List<T>> FormationData { get; set; }
         public string winnerTeamUid { get; set; }
+
+        public int Evaluation { get; set; }
         public List<JCombatTurnBasedEvent> events { get; set; }
     }
 
@@ -33,6 +35,8 @@ namespace JFramework.Game
         IJCombatTeam winner;
 
         List<IJCombatTeam> teams;
+
+        int evaluation;
 
         protected IJCombatSeatBasedQuery seatQuery;
 

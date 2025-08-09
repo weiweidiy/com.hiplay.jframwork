@@ -196,6 +196,38 @@ namespace JFramework
             return list[index];
         }
 
+        public List<T> GetRandomItems<T>(List<T> list, int count)
+        {
+            if (list == null || list.Count == 0 || count <= 0)
+                return new List<T>();
+
+            List<T> result = new List<T>(count);
+            Random random = new Random();
+
+            if (count <= list.Count)
+            {
+                // 无放回抽取
+                List<T> tempList = new List<T>(list);
+                for (int i = 0; i < count; i++)
+                {
+                    int index = random.Next(tempList.Count);
+                    result.Add(tempList[index]);
+                    tempList.RemoveAt(index);
+                }
+            }
+            else
+            {
+                // 有放回抽取
+                for (int i = 0; i < count; i++)
+                {
+                    int index = random.Next(list.Count);
+                    result.Add(list[index]);
+                }
+            }
+
+            return result;
+        }
+
         /// <summary>
         /// 百分比随机是否命中
         /// </summary>

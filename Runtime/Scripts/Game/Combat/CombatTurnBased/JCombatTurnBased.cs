@@ -61,7 +61,6 @@ namespace JFramework.Game
                     casterSelector.ResetActionUnits();
                     continue;
                 }
-
                 DoUpdate();
             }
         }
@@ -74,7 +73,16 @@ namespace JFramework.Game
         {
             //子类重写：可以实现队伍技能更新
             //行动单位
-            var actionUnit = casterSelector.PopActionUnit();
+            IJCombatTurnBasedUnit actionUnit = null;
+            do
+            {
+                actionUnit = casterSelector.PopActionUnit();
+            } while (!actionUnit.CanCast());
+
+            var logger = jCombatQuery.GetLogger();
+            if (logger != null)
+                logger.Log($"PopActionUnit : {actionUnit.Uid}  is casting action at frame {frameRecorder.GetCurFrame()}");
+
             actionUnit.Cast();
         }
 

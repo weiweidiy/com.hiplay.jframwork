@@ -11,6 +11,7 @@ namespace JFramework.Game
     {
         Task Initialize<T>(JCombatTurnBasedReportData<T> reportData) where T : IJCombatUnitData;
         Task PlayAcion( string casterUid, string actionUid, Dictionary<string, List<ActionEffectInfo>> effect);
+        Task PlayTurnStart(int frame);
 
     }
 }
