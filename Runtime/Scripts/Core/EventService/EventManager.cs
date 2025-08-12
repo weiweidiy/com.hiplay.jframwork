@@ -100,21 +100,46 @@ namespace JFramework
         /// <returns></returns>
         public T GetEvent<T>() where T : Event, new()
         {
+            return GetEvent<T>(null);
+        }
+
+        /// <summary>
+        /// 获取带参数的事件
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="arg"></param>
+        /// <returns></returns>
+        public T GetEvent<T>(object arg) where T : Event, new()
+        {
             if (eventsPool != null)
-                return eventsPool.Get<T>((e) => 
-                { 
-                    e.Body = null;
+                return eventsPool.Rent<T>((e) =>
+                {
+                    e.Body = arg;
                     e.Handled = false;
                 });
 
-            return new T();
+            var t = new T();
+            t.Body = arg;
+            return t;
+        }
+
+        /// <summary>
+        /// 发送一个带参数的消息
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="arg"></param>
+        public void Raise<T>(object arg) where T : Event, new()
+        {
+            var e = GetEvent<T>(arg);
+            Raise(e);
+            ReturnEvent(e);
         }
 
         /// <summary>
         /// 返还事件对象
         /// </summary>
         /// <param name="e"></param>
-        void ReturnEvent(Event e)
+        void ReturnEvent<T>(T e)
         {
             if (eventsPool != null)
                 eventsPool.Return(e);
@@ -147,7 +172,7 @@ namespace JFramework
                 }
             }
 
-            ReturnEvent(e);
+            //ReturnEvent(e);
         }
 
         /// <summary>

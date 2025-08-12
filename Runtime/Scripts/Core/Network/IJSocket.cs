@@ -10,7 +10,7 @@ namespace JFramework
         event Action<IJSocket, byte[]> onBinary;
         //event Action<IJFrameworkSocket, string> onMessage;
         bool IsOpen { get; }
-        void Init(string url);
+        void Init(string url, string token = null);
         void Open();
         void Close();
 

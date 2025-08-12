@@ -59,12 +59,12 @@ namespace JFramework
         /// <param name="msgDecode"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public async Task Connect(string url)
+        public async Task Connect(string url, string token = null)
         {
             var tcs = new TaskCompletionSource<bool>();
             try
             {
-                InitSocket(url, tcs);
+                InitSocket(url, tcs, token);
                 GetSocket().Open();
                 await tcs.Task;
             }
@@ -91,7 +91,7 @@ namespace JFramework
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -143,8 +143,13 @@ namespace JFramework
             }
             catch (Exception ex)
             {
-                GetTaskManager().SetException(pMsg.Uid, ex);
-                throw ex;
+                if (!tcs.Task.IsCompleted)
+                {
+                    GetTaskManager().SetException(pMsg.Uid, ex);
+                    throw;
+                }             
+                else
+                    throw;
             }
             finally
             {
@@ -223,10 +228,10 @@ namespace JFramework
         /// <param name="url"></param>
         /// <param name="tcs"></param>
         /// <returns></returns>
-        void InitSocket(string url, TaskCompletionSource<bool> tcs)
+        void InitSocket(string url, TaskCompletionSource<bool> tcs, string token)
         {
             socket = CreateSocket();
-            socket.Init(url);
+            socket.Init(url, token);
 
             //监听事件
             socket.onOpen += (s) => { Socket_OnOpen(s, tcs); };

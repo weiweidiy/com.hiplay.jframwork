@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace JFrame.Game
+namespace JFramework.Game
 {
     public interface ISDK
     {
+
     }
 }

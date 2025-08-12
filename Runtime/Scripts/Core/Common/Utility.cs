@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Runtime.Serialization;
 using System.Globalization;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
 
 namespace JFramework
@@ -165,13 +166,16 @@ namespace JFramework
         /// <returns></returns>
         public T DeepClone<T>(T obj)
         {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                IFormatter formatter = new BinaryFormatter();
-                formatter.Serialize(ms, obj);
-                ms.Seek(0, SeekOrigin.Begin);
-                return (T)formatter.Deserialize(ms);
-            }
+            //using (MemoryStream ms = new MemoryStream())
+            //{
+            //    IFormatter formatter = new BinaryFormatter();
+            //    formatter.Serialize(ms, obj);
+            //    ms.Seek(0, SeekOrigin.Begin);
+            //    return (T)formatter.Deserialize(ms);
+            //}
+            if (obj == null) return default(T);
+            var json = JsonConvert.SerializeObject(obj);
+            return JsonConvert.DeserializeObject<T>(json);
         }
 
         /// <summary>
@@ -190,6 +194,38 @@ namespace JFramework
 
             // 返回列表中对应索引的值
             return list[index];
+        }
+
+        public List<T> GetRandomItems<T>(List<T> list, int count)
+        {
+            if (list == null || list.Count == 0 || count <= 0)
+                return new List<T>();
+
+            List<T> result = new List<T>(count);
+            Random random = new Random();
+
+            if (count <= list.Count)
+            {
+                // 无放回抽取
+                List<T> tempList = new List<T>(list);
+                for (int i = 0; i < count; i++)
+                {
+                    int index = random.Next(tempList.Count);
+                    result.Add(tempList[index]);
+                    tempList.RemoveAt(index);
+                }
+            }
+            else
+            {
+                // 有放回抽取
+                for (int i = 0; i < count; i++)
+                {
+                    int index = random.Next(list.Count);
+                    result.Add(list[index]);
+                }
+            }
+
+            return result;
         }
 
         /// <summary>
