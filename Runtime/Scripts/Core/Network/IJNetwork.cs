@@ -20,7 +20,11 @@ namespace JFramework
 
         IJSocket Socket { get; }
 
+<<<<<<< HEAD
         Task Connect(string url, string token = null);
+=======
+        Task Connect(string url);
+>>>>>>> f8a4427db04b5a612039c0968aacfe5ba3a96f07
 
         void Disconnect();
 
