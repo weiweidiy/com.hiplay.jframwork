@@ -62,7 +62,7 @@ namespace JFramework.Game
 
             if(loger != null)
             {
-                loger.Log($"开始播放战报，胜利队伍: {winner}, 事件数量: {reportData.events.Count} , 第一个战报sortIndex, {reportData.events[0].SortIndex} , 第一个战报castertUid, {reportData.events[0].CastActionUid}");
+                //loger.Log($"开始播放战报，胜利队伍: {winner}, 事件数量: {reportData.events.Count} , 第一个战报sortIndex, {reportData.events[0].SortIndex} , 第一个战报castertUid, {reportData.events[0].CastActionUid}");
             }
 
             await PlayEvents(reportData.events);

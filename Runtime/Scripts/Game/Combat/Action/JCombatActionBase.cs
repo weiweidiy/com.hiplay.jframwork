@@ -169,7 +169,7 @@ namespace JFramework.Game
                 }
 
                 //创建一个空的执行日志对象，用来记录执行日志
-                var newActionEvent = eventRecorder.CreateActionEvent(GetCaster(), Uid);
+                //var newActionEvent = eventRecorder.CreateActionEvent(GetCaster(), Uid);
                 foreach (var executor in executors)
                 {
                     if(context != null && context.Logger != null)
@@ -177,8 +177,7 @@ namespace JFramework.Game
                         // 记录执行日志
                         //context.Logger.Log($"{caster.Uid} Executing action {Uid} with executor {executor.GetType().Name}");
                     }
-                    
-                    executor.AddCombatEvent(newActionEvent);
+                    //executor.AddCombatEvent(newActionEvent);
                     executeArgs = executor.Execute(executeArgs);
                 }
 

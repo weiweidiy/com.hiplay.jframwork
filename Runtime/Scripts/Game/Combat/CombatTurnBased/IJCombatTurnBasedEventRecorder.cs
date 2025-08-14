@@ -13,7 +13,9 @@ namespace JFramework.Game
         /// 创建一个新的战斗事件
         /// </summary>
         /// <returns></returns>
-        JCombatTurnBasedEvent CreateActionEvent(string ownerUid, string actionUid);
+        JCombatTurnBasedEvent CreateActionEvent(string casterUid);
+
+        JCombatTurnBasedEvent GetCurrentActionEvent();
 
         /// <summary>
         /// 添加一个战斗事件

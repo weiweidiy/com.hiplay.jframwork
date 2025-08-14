@@ -30,18 +30,18 @@ namespace JFramework.Game
             base.OnStart(extraData);
 
             var combatEvents = (JCombatTurnBasedEvent)extraData.Data;
-            var casterUid = combatEvents.CasterUid; //实现了icaster接口的对象
+           // var casterUid = combatEvents.CasterUid; //实现了icaster接口的对象
             var curFrame = combatEvents.CurFrame;
-            var actionUid = combatEvents.CastActionUid;
+            //var actionUid = combatEvents.CastActionUid;
             
 
-            var allTargetUids = combatEvents.ActionEffect
-                .SelectMany(effect => effect.Value)
-                .Select(actionEffectInfo => actionEffectInfo.TargetUid)
-                .ToList();
+            //var allTargetUids = combatEvents.ActionEffect
+            //    .SelectMany(effect => effect.Value)
+            //    .Select(actionEffectInfo => actionEffectInfo.TargetUid)
+            //    .ToList();
 
             //播放技能动画等（监听动画命中事件，然后继续）
-            await AnimationPlayer?.PlayAcion(casterUid, actionUid, combatEvents.ActionEffect);
+            await AnimationPlayer?.PlayAcion(combatEvents);
 
             Stop();
         }

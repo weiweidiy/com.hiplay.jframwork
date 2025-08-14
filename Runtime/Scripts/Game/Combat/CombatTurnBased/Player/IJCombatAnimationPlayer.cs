@@ -10,7 +10,7 @@ namespace JFramework.Game
     public interface IJCombatAnimationPlayer
     {
         Task Initialize<T>(JCombatTurnBasedReportData<T> reportData) where T : IJCombatUnitData;
-        Task PlayAcion( string casterUid, string actionUid, Dictionary<string, List<ActionEffectInfo>> effect);
+        Task PlayAcion(JCombatTurnBasedEvent actionEvent);
         Task PlayTurnStart(int frame);
 
     }

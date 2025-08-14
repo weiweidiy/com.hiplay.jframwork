@@ -19,13 +19,13 @@ namespace JFramework.Game
             return 0; // 不需要参数
         }
 
-        public void AddCombatEvent(JCombatTurnBasedEvent combatEvent)
-        {
-            foreach (var executor in executors)
-            {
-                executor.AddCombatEvent(combatEvent);
-            }
-        }
+        //public void AddCombatEvent(JCombatTurnBasedEvent combatEvent)
+        //{
+        //    foreach (var executor in executors)
+        //    {
+        //        executor.AddCombatEvent(combatEvent);
+        //    }
+        //}
 
         public IJCombatExecutorExecuteArgs Execute(IJCombatExecutorExecuteArgs executorArgs)
         {

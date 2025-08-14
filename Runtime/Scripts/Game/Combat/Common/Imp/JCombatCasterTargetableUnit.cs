@@ -42,7 +42,12 @@ namespace JFramework.Game
 
         protected List<GameAttributeInt> originAttrs;
 
-        public JCombatCasterTargetableUnit(string uid, List<IUnique> attrList,  Func<IUnique, string> keySelector, IJCombatAttrNameQuery combatAttrNameQuery, List<IJCombatAction> actions) : base(keySelector)
+        protected IJCombatContext context;
+
+        public JCombatCasterTargetableUnit(string uid, List<IUnique> attrList
+            ,  Func<IUnique, string> keySelector
+            , IJCombatAttrNameQuery combatAttrNameQuery
+            , List<IJCombatAction> actions, IJCombatContext context) : base(keySelector)
         {
             Utility utility = new Utility();
             try
@@ -59,7 +64,7 @@ namespace JFramework.Game
 
             this.combatAttrNameQuery = combatAttrNameQuery;
             this.Uid = uid;
-
+            this.context = context;
 
             this.actions = actions;
             if (this.actions != null)
@@ -172,8 +177,10 @@ namespace JFramework.Game
 
         #region 可释放技能接口
         public virtual void Cast() {
-            if (actions == null)
+            if (actions == null || actions.Count == 0)
                 return;
+
+            context?.EventRecorder.CreateActionEvent(Uid);
 
             foreach (var action in actions)
             {

@@ -12,17 +12,18 @@ namespace JFramework.Game
 
         protected IJCombatFormula formulua;
 
-        protected JCombatTurnBasedEvent objEvent;
+        protected IJCombatFilter filter;
 
-        public IJCombatFilter filter;
+        protected IJCombatContext context;
 
         Dictionary<string, IJCobmatExecuteArgsHistroy> executeArgsHistroy = new Dictionary<string, IJCobmatExecuteArgsHistroy>();
 
-        public JCombatExecutorBase(IJCombatFilter filter, IJCombatTargetsFinder finder, IJCombatFormula formulua, float[] args = null) : base(args)
+        public JCombatExecutorBase(IJCombatContext context, IJCombatFilter filter, IJCombatTargetsFinder finder, IJCombatFormula formulua, float[] args = null) : base(args)
         {
             this.finder = finder;
             this.formulua = formulua;
             this.filter = filter;
+            this.context = context ?? throw new ArgumentNullException(nameof(context), "Combat context cannot be null.");
         }
 
 
@@ -98,10 +99,10 @@ namespace JFramework.Game
                 filter.SetQuery(query);
         }
 
-        public void AddCombatEvent(JCombatTurnBasedEvent combatEvent)
-        {
-            objEvent = combatEvent;
-        }
+        //public void AddCombatEvent(JCombatTurnBasedEvent combatEvent)
+        //{
+        //    objEvent = combatEvent;
+        //}
 
         protected override void OnStart(RunableExtraData extraData)
         {

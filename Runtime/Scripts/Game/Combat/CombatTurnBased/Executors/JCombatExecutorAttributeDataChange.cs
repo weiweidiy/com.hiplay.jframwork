@@ -2,7 +2,7 @@
 {
     public class JCombatExecutorAttributeDataChange : JCombatExecutorBase
     {
-        public JCombatExecutorAttributeDataChange(IJCombatFilter filter, IJCombatTargetsFinder finder, IJCombatFormula formulua, float[] args) : base(filter, finder, formulua, args)
+        public JCombatExecutorAttributeDataChange(IJCombatContext context, IJCombatFilter filter, IJCombatTargetsFinder finder, IJCombatFormula formulua, float[] args) : base(context, filter, finder, formulua, args)
         {
         }
         protected override int GetValidArgsCount()

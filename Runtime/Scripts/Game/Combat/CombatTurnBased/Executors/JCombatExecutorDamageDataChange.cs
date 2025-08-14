@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace JFramework.Game
 {
@@ -9,7 +10,7 @@ namespace JFramework.Game
     public class JCombatExecutorDamageDataChange : JCombatExecutorBase
     {
 
-        public JCombatExecutorDamageDataChange(IJCombatFilter filter, IJCombatTargetsFinder finder, IJCombatFormula formulua, float[] args) : base(filter,finder, formulua, args)
+        public JCombatExecutorDamageDataChange(IJCombatContext context, IJCombatFilter filter, IJCombatTargetsFinder finder, IJCombatFormula formulua, float[] args) : base(context,filter, finder, formulua, args)
         {
         }
 
@@ -30,6 +31,33 @@ namespace JFramework.Game
             var value = (float)damageData.GetDamage();
             formulua.CalcHitValue(null, ref value); // 假设伤害提升20%
             damageData.SetDamage((int)value);
+
+
+            var objEvent = context?.EventRecorder.GetCurrentActionEvent();
+            if (objEvent != null)
+            {
+                var actionEvent = objEvent.ActionEvents.Where(e => e.ActionUid == GetOwner().Uid).SingleOrDefault();
+                if (actionEvent == null)
+                {
+                    actionEvent = new ActionEvent();
+                    actionEvent.CasterUid = GetOwner().GetCaster();
+                    actionEvent.ActionUid = GetOwner().Uid;
+                    objEvent.ActionEvents.Add(actionEvent);
+                }
+                var sourceUnit = query.GetUnit(GetOwner().GetCaster());
+                var casterTargetUnit = sourceUnit as IJCombatCasterTargetableUnit;
+                actionEvent.ActionEffect.Add(new ActionEffectInfo()
+                {
+                    TargetUid = target.Uid,
+                    Value = (int)value,
+                    TargetHp = target.GetCurHp(),
+                    TargetMaxHp = target.GetMaxHp(),
+                    CasterHp = casterTargetUnit.GetCurHp(),
+                    CasterMaxHp = casterTargetUnit.GetMaxHp()
+                });
+            }
+
+
             return new JCombatExecutorExecuteArgsHistroy() { DamageData = damageData};
         }
     }

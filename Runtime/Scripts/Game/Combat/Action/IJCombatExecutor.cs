@@ -6,7 +6,7 @@ namespace JFramework.Game
 {
     public interface IJCombatExecutor : IJCombatActionComponent /*IJCombatLifeCycle*/
     {
-        void AddCombatEvent(JCombatTurnBasedEvent combatEvent);
+        //void AddCombatEvent(JCombatTurnBasedEvent combatEvent);
 
         /// <summary>
         /// 执行战斗行为
