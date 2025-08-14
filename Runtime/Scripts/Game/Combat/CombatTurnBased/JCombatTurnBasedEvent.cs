@@ -7,7 +7,10 @@ namespace JFramework.Game
     /// </summary>
     public enum CombatEventActionType
     {
+        None = 0,
         Damage,
+        Heal,
+        Buff,   
     }
 
     /// <summary>
@@ -67,7 +70,7 @@ namespace JFramework.Game
     {
         public string ActionUid { get; set; }
         public string CasterUid { get; set; }
-        public List<ActionEffectInfo> ActionEffect { get; set; } = new List<ActionEffectInfo>();
+        public Dictionary<CombatEventActionType, List<ActionEffectInfo>> ActionEffect { get; set; } = new Dictionary<CombatEventActionType, List<ActionEffectInfo>>();
     }
 
 

@@ -44,17 +44,17 @@ namespace JFramework.Game
                     actionEvent.ActionUid = GetOwner().Uid;
                     objEvent.ActionEvents.Add(actionEvent);
                 }
-                var sourceUnit = query.GetUnit(GetOwner().GetCaster());
-                var casterTargetUnit = sourceUnit as IJCombatCasterTargetableUnit;
-                actionEvent.ActionEffect.Add(new ActionEffectInfo()
-                {
-                    TargetUid = target.Uid,
-                    Value = (int)value,
-                    TargetHp = target.GetCurHp(),
-                    TargetMaxHp = target.GetMaxHp(),
-                    CasterHp = casterTargetUnit.GetCurHp(),
-                    CasterMaxHp = casterTargetUnit.GetMaxHp()
-                });
+                //var sourceUnit = query.GetUnit(GetOwner().GetCaster());
+                //var casterTargetUnit = sourceUnit as IJCombatCasterTargetableUnit;
+                //actionEvent.ActionEffect.Add(new ActionEffectInfo()
+                //{
+                //    TargetUid = target.Uid,
+                //    Value = (int)value,
+                //    TargetHp = target.GetCurHp(),
+                //    TargetMaxHp = target.GetMaxHp(),
+                //    CasterHp = casterTargetUnit.GetCurHp(),
+                //    CasterMaxHp = casterTargetUnit.GetMaxHp()
+                //});
             }
 
 

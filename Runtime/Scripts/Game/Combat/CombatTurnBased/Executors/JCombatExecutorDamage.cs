@@ -87,7 +87,12 @@ namespace JFramework.Game
                     actionEvent.ActionUid = GetOwner().Uid;
                     objEvent.ActionEvents.Add(actionEvent);
                 }
-                actionEvent.ActionEffect.Add(new ActionEffectInfo()
+                
+                if(!actionEvent.ActionEffect.ContainsKey(CombatEventActionType.Damage))
+                    actionEvent.ActionEffect.Add(CombatEventActionType.Damage, new List<ActionEffectInfo>());
+
+                var actionEffectList = actionEvent.ActionEffect[CombatEventActionType.Damage];
+                actionEffectList.Add(new ActionEffectInfo()
                 {
                     TargetUid = target.Uid,
                     Value = data.GetDamage(),
