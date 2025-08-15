@@ -11,6 +11,8 @@ namespace JFramework
 
         ILanguage curLanguage;
 
+        public string Uid { get; set; }
+
         public JLanguageManager(Func<ILanguage, string> keySelector) : base(keySelector)
         {
         }

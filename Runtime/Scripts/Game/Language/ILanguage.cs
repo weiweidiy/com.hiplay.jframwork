@@ -1,6 +1,6 @@
 ﻿namespace JFramework
 {
-    public interface ILanguage
+    public interface ILanguage : IUnique
     {
         string GetText(string uid);
     }
