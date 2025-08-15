@@ -30,6 +30,7 @@ namespace JFramework.Game
 
             var value = (float)damageData.GetDamage();
             formulua.CalcHitValue(null, ref value); // 假设伤害提升20%
+            value = Math.Max(1, value); // 确保伤害值不为负v0
             damageData.SetDamage((int)value);
 
 
@@ -44,17 +45,6 @@ namespace JFramework.Game
                     actionEvent.ActionUid = GetOwner().Uid;
                     objEvent.ActionEvents.Add(actionEvent);
                 }
-                //var sourceUnit = query.GetUnit(GetOwner().GetCaster());
-                //var casterTargetUnit = sourceUnit as IJCombatCasterTargetableUnit;
-                //actionEvent.ActionEffect.Add(new ActionEffectInfo()
-                //{
-                //    TargetUid = target.Uid,
-                //    Value = (int)value,
-                //    TargetHp = target.GetCurHp(),
-                //    TargetMaxHp = target.GetMaxHp(),
-                //    CasterHp = casterTargetUnit.GetCurHp(),
-                //    CasterMaxHp = casterTargetUnit.GetMaxHp()
-                //});
             }
 
 

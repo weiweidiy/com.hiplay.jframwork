@@ -11,7 +11,15 @@ namespace JFramework
 
         ILanguage curLanguage;
 
-        public JLanguageManager(List<ILanguage> languages, Func<ILanguage, string> keySelector) : base(keySelector)
+        public JLanguageManager(Func<ILanguage, string> keySelector) : base(keySelector)
+        {
+        }
+
+        /// <summary>
+        /// 初始化语言管理器
+        /// </summary>
+        /// <param name="languages"></param>
+        public virtual void Initialize(List<ILanguage> languages)
         {
             AddRange(languages);
         }

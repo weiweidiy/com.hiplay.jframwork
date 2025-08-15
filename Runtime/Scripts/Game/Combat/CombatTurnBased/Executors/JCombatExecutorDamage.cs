@@ -38,17 +38,9 @@ namespace JFramework.Game
 
             var uid = Guid.NewGuid().ToString();
 
-            //if(objEvent != null)
-            //{
-            //    if (!objEvent.ActionEffect.ContainsKey(CombatEventActionType.Damage.ToString()))
-            //    {
-            //        objEvent.ActionEffect.Add(CombatEventActionType.Damage.ToString(), new List<ActionEffectInfo>());
-            //    }
-            //}
-            
-
             float hitValue = 0;
             formulua.CalcHitValue(target, ref hitValue);
+            hitValue = Math.Max(1, hitValue); // 确保伤害值不为负
 
             var sourceUnitUid = GetOwner().GetCaster();
             var sourceActionUid = GetOwner().Uid;
