@@ -19,7 +19,7 @@ namespace JFramework
         /// 初始化语言管理器
         /// </summary>
         /// <param name="languages"></param>
-        public virtual void Initialize(List<ILanguage> languages)
+        public virtual void Initialize(ILanguage[] languages)
         {
             AddRange(languages);
         }
