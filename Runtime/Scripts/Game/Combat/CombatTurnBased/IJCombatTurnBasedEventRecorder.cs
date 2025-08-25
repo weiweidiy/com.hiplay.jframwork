@@ -13,7 +13,7 @@ namespace JFramework.Game
         /// 创建一个新的战斗事件
         /// </summary>
         /// <returns></returns>
-        JCombatTurnBasedEvent CreateActionEvent(string casterUid);
+        JCombatTurnBasedEvent CreateActionEvent(string casterUid, int curHp, int maxHp);
 
         JCombatTurnBasedEvent GetCurrentActionEvent();
 

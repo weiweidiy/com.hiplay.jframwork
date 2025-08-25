@@ -13,38 +13,6 @@ namespace JFramework.Game
         Buff,   
     }
 
-    /// <summary>
-    /// 战斗事件
-    /// </summary>
-    //public class JCombatTurnBasedEvent : IUnique
-    //{
-    //    public string Uid { get; set; }
-
-    //    /// <summary>
-    //    /// 索引，用来排序事件
-    //    /// </summary>
-    //    public int SortIndex { get; set; }
-    //    /// <summary>
-    //    /// 当前逻辑帧
-    //    /// </summary>
-    //    public int CurFrame { get; set; }
-
-    //    /// <summary>
-    //    /// 释放者uid: 可能是unit也可能是team , buffer等 , to do: 必须是ICombatCaster接口（可行动的接口）
-    //    /// </summary>
-    //    public string CasterUid { get; set; }
-
-    //    /// <summary>
-    //    /// 技能uid
-    //    /// </summary>
-    //    public string CastActionUid { get; set; }
-
-    //    /// <summary>
-    //    /// 行为效果, string=效果类型（伤害，加血等CombatEventType）, int=值
-    //    /// </summary>
-    //    public Dictionary<string, List<ActionEffectInfo>> ActionEffect { get; set; }
-
-    //}
 
     public class JCombatTurnBasedEvent : IUnique
     {
@@ -58,6 +26,15 @@ namespace JFramework.Game
         /// 当前逻辑帧
         /// </summary>
         public int CurFrame { get; set; }
+
+        /// <summary>
+        /// 释放者当前血量
+        /// </summary>
+        public int CurHp { get; set; }
+        /// <summary>
+        /// 释放者最大血量
+        /// </summary>
+        public int MaxHp { get; set; }
 
         /// <summary>
         /// 触发的所有行为事件

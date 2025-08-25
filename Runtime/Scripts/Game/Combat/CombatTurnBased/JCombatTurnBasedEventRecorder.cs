@@ -27,12 +27,14 @@ namespace JFramework.Game
         /// </summary>
         /// <param name="casterUid"></param>
         /// <returns></returns>
-        public JCombatTurnBasedEvent CreateActionEvent(string casterUid)
+        public JCombatTurnBasedEvent CreateActionEvent(string casterUid, int curHp, int maxHp)
         {
             combatEvent = new JCombatTurnBasedEvent();
             combatEvent.Uid = Guid.NewGuid().ToString();
             combatEvent.SortIndex = GetIndex();
             combatEvent.CurFrame = frameRecorder.GetCurFrame();
+            combatEvent.CurHp = curHp;
+            combatEvent.MaxHp = maxHp;
             Add(combatEvent);
             return combatEvent;
         }

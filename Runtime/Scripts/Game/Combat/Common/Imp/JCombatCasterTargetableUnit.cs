@@ -36,12 +36,24 @@ namespace JFramework.Game
 
         public string Uid { get; private set; }
 
+        /// <summary>
+        /// 属性查询接口
+        /// </summary>
         protected IJCombatAttrNameQuery combatAttrNameQuery;
 
+        /// <summary>
+        /// 所有技能
+        /// </summary>
         protected List<IJCombatAction> actions;
 
+        /// <summary>
+        /// 原始属性
+        /// </summary>
         protected List<GameAttributeInt> originAttrs;
 
+        /// <summary>
+        /// 上下文
+        /// </summary>
         protected IJCombatContext context;
 
         public JCombatCasterTargetableUnit(string uid, List<IUnique> attrList
@@ -83,12 +95,6 @@ namespace JFramework.Game
             foreach(var action in actions)
             {
                 action.SetQuery(jCombatQuery);
-
-                //var triggers = action.GetTriggers();
-                //if (triggers != null)
-                //{
-                //    eventListeners.InsertRange(0, triggers.OfType<IJCombatUnitEventListener>());
-                //}
             }
         }
 
@@ -180,7 +186,7 @@ namespace JFramework.Game
             if (actions == null || actions.Count == 0)
                 return;
 
-            context?.EventRecorder.CreateActionEvent(Uid);
+            context?.EventRecorder.CreateActionEvent(Uid, GetCurHp(), GetMaxHp());
 
             foreach (var action in actions)
             {
