@@ -27,7 +27,7 @@ namespace JFramework
         /// <summary>
         /// 运行结束
         /// </summary>
-        TaskCompletionSource<bool> tcs = null;
+        protected TaskCompletionSource<bool> tcs = null;
 
         /// <summary>
         /// 
