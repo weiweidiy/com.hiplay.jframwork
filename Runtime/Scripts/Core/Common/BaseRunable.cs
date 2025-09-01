@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 namespace JFramework
 {
-
     /// <summary>
     /// 抽象可运行对象
     /// </summary>
