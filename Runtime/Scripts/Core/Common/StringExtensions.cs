@@ -40,5 +40,15 @@ namespace JFramework
             result += format.Substring(lastIndex);
             return result;
         }
+
+        /// <summary>
+        /// 将 long 型秒数格式化为倒计时时间字符串（xx小时xx分钟xx秒）
+        /// 用法: 3661L.ToCountdownString() // "1小时1分钟1秒"
+        /// </summary>
+        public static string ToCountdownString(this long seconds, string hourUnit = "小时", string minuteUnit = "分钟", string secondUnit = "秒")
+        {
+            var ts = TimeSpan.FromSeconds(seconds);
+            return $"{(int)ts.TotalHours}{hourUnit}{ts.Minutes}{minuteUnit}{ts.Seconds}{secondUnit}";
+        }
     }
 }
