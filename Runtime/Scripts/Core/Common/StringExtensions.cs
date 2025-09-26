@@ -48,7 +48,36 @@ namespace JFramework
         public static string ToCountdownString(this long seconds, string hourUnit = "小时", string minuteUnit = "分钟", string secondUnit = "秒")
         {
             var ts = TimeSpan.FromSeconds(seconds);
-            return $"{(int)ts.TotalHours}{hourUnit}{ts.Minutes}{minuteUnit}{ts.Seconds}{secondUnit}";
+            string result = "";
+
+            if ((int)ts.TotalHours > 0)
+                result += $"{(int)ts.TotalHours}{hourUnit}";
+            if (ts.Minutes > 0)
+                result += $"{ts.Minutes}{minuteUnit}";
+            if (ts.Seconds > 0 || result == "") // 保证至少显示秒
+                result += $"{ts.Seconds}{secondUnit}";
+
+            return result;
+        }
+
+        /// <summary>
+        /// 倒计时，格式为 xx:xx:xx 或 xx:xx 或 xx
+        /// </summary>
+        /// <param name="seconds"></param>
+        /// <returns></returns>
+        public static string ToCountdownString(this long seconds)
+        {
+            var ts = TimeSpan.FromSeconds(seconds);
+            int hours = (int)ts.TotalHours;
+            int minutes = ts.Minutes;
+            int secs = ts.Seconds;
+
+            if (hours > 0)
+                return $"{hours:D2}:{minutes:D2}:{secs:D2}";
+            if (minutes > 0)
+                return $"{minutes:D2}:{secs:D2}";
+            // 只显示秒
+            return $"{secs:D2}";
         }
     }
 }
